@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path'); // CommonJS
 
 module.exports = {
   mode: 'production',
@@ -17,9 +17,6 @@ module.exports = {
           presets: ['@babel/env']
         }
       }
-    }, {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader']
     }]
   },
   devtool: 'source-map'
