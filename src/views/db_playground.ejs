@@ -12,20 +12,20 @@
       <form>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrfTokenCreate">
         <div class="mb-3">
-          <label for="createBook_Title" class="form-label">Title</label>
-          <input type="text" class="form-control" id="createBook_Title" required>
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="createBook_Title" name="title" required>
         </div>
         <div class="mb-3">
-          <label for="createBook_Book_id" class="form-label">Book ID</label>
-          <input type="number" class="form-control" id="createBook_Book_id" required>
+          <label for="book_id" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="createBook_Book_id" name="book_id" required>
         </div>
         <div class="mb-3">
-          <label for="createBook_Similar_books" class="form-label">Similar Books (IDs separated by commas)</label>
-          <input type="text" class="form-control" id="createBook_Similar_books">
+          <label for="similar_books" class="form-label">Similar Books (IDs separated by commas)</label>
+          <input type="text" class="form-control" id="createBook_Similar_books" name="similar_books">
         </div>
         <div class="mb-3">
-          <label for="createBook_Genre" class="form-label">Genre</label>
-          <select class="form-select" id="createBook_Genre" required>
+          <label for="genre" class="form-label">Genre</label>
+          <select class="form-select" id="createBook_Genre" name="genre" required>
             <option value="Children">Children</option>
             <option value="Comics & Graphic">Comics & Graphic</option>
             <option value="Fantasy & Paranormal">Fantasy & Paranormal</option>
@@ -44,15 +44,15 @@
 
   <script>
     document.getElementById('createBookBtn').addEventListener('click', async () => {
+      const book_id = document.getElementById('createBook_Book_id').value;
       const title = document.getElementById('createBook_Title').value;
       const genre = document.getElementById('createBook_Genre').value;
-      const csrfToken = document.getElementById('csrfTokenCreate').value;
-      const book_id = document.getElementById('createBook_Book_id').value;
-      const messageContainer = document.getElementById('createBookMessage');
       const similar_books = document.getElementById('createBook_Similar_books').value
         .split(',')
         .map((id) => Number(id.trim()))
         .filter((id) => !isNaN(id));
+      const csrfToken = document.getElementById('csrfTokenCreate').value;
+      const messageContainer = document.getElementById('createBookMessage');
 
       try {
         const response = await fetch('/books', {
@@ -70,7 +70,7 @@
           throw new Error(errorDetails.message || 'Falha ao criar livro.');
         }
 
-        messageContainer.innerHTML = '<p class="text-success">Book created successfully!</p>';
+        messageContainer.innerHTML = '<p class="text-success">Livro criado com sucesso!</p>';
       } catch (error) {
         messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
       }
@@ -82,9 +82,10 @@
     <div class="card-header">Find Books by Genre</div>
     <div class="card-body">
       <form>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrfToken">
         <div class="mb-3">
-          <label for="findBooksByGenre_Genre" class="form-label">Genre</label>
-          <select class="form-select" id="findBooksByGenre_Genre" required>
+          <label for="genre" class="form-label">Genre</label>
+          <select class="form-select" id="findBooksByGenre_Genre" name="genre" required>
             <option value="Children">Children</option>
             <option value="Comics & Graphic">Comics & Graphic</option>
             <option value="Fantasy & Paranormal">Fantasy & Paranormal</option>
@@ -96,12 +97,12 @@
           </select>
         </div>
         <div class="mb-3">
-          <label for="findBooksByGenre_Page" class="form-label">Page</label>
-          <input type="number" class="form-control" id="findBooksByGenre_Page" value="1">
+          <label for="page" class="form-label">Page</label>
+          <input type="number" class="form-control" id="findBooksByGenre_Page" name="page" value="1">
         </div>
         <div class="mb-3">
-          <label for="findBooksByGenre_Limit" class="form-label">Limit</label>
-          <input type="number" class="form-control" id="findBooksByGenre_Limit" value="10">
+          <label for="limit" class="form-label">Limit</label>
+          <input type="number" class="form-control" id="findBooksByGenre_Limit" name="limit" value="10">
         </div>
         <button type="button" id="findBooksByGenreBtn" class="btn btn-primary">Find Books</button>
       </form>
@@ -131,7 +132,7 @@
         if (!response.ok) {
           const errorDetails = await response.json();
           console.error('Erro ao buscar livros:', errorDetails);
-          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros por genero.'}`);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros'}`);
         }
   
         const books = await response.json();
@@ -162,10 +163,10 @@
   <div class="card mb-4">
     <div class="card-header">Find Book by ID</div>
     <div class="card-body">
-      <form>
+      <form id="findBookByIdForm">
         <div class="mb-3">
-          <label for="findBookByIdId" class="form-label">Book ID</label>
-          <input type="number" class="form-control" id="findBookByIdId" required>
+          <label for="bookId" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="findBookByIdId" name="book_id" value="1" required>
         </div>
         <button type="button" id="findBookByIdBtn" class="btn btn-primary">Find Book</button>
       </form>
@@ -175,11 +176,12 @@
   
   <script>
     document.getElementById('findBookByIdBtn').addEventListener('click', async () => {
-      const resultsContainer = document.getElementById('findBookByIdResults');
       const bookId = document.getElementById('findBookByIdId').value;
       const csrfToken = document.getElementById('csrfToken').value;
-
+      const resultsContainer = document.getElementById('findBookByIdResults');
+  
       resultsContainer.innerHTML = '';
+  
       try {
         const response = await fetch(`/books/${bookId}`, {
           method: 'GET',
@@ -192,10 +194,11 @@
         if (!response.ok) {
           const errorDetails = await response.json();
           console.error('Erro ao buscar livro por ID:', errorDetails);
-          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro por ID.'}`);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro por ID'}`);
         }
   
         const book = await response.json();
+  
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
@@ -219,17 +222,17 @@
     <div class="card-body">
       <form>
         <div class="mb-3">
-          <label for="searchBooksByTitle_Title" class="form-label">Title</label>
-          <input type="text" class="form-control" id="searchBooksByTitle_Title" required>
+          <label for="title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="searchBooksByTitle_Title" name="title" value="The" required>
         </div>
         <button type="button" id="searchBooksByTitleBtn" class="btn btn-primary">Search</button>
         <div class="mb-3">
-          <label for="searchBooksByTitle_Page" class="form-label">Page</label>
-          <input type="number" class="form-control" id="searchBooksByTitle_Page" value="1">
+          <label for="page" class="form-label">Page</label>
+          <input type="number" class="form-control" id="searchBooksByTitle_Page" name="page" value="1">
         </div>
         <div class="mb-3">
-          <label for="searchBooksByTitle_Limit" class="form-label">Limit</label>
-          <input type="number" class="form-control" id="searchBooksByTitle_Limit" value="10">
+          <label for="limit" class="form-label">Limit</label>
+          <input type="number" class="form-control" id="searchBooksByTitle_Limit" name="limit" value="10">
         </div>
       </form>
       <div id="searchBooksByTitleResults" class="mt-4"></div>
@@ -240,11 +243,11 @@
     document.getElementById('searchBooksByTitleBtn').addEventListener('click', async () => {
       const resultsContainer = document.getElementById('searchBooksByTitleResults');
       const title = document.getElementById('searchBooksByTitle_Title').value;
-      const limit = document.getElementById('findBooksByGenre_Limit').value;
-      const page = document.getElementById('findBooksByGenre_Page').value;
+      const limit = document.getElementById('searchBooksByTitle_Limit').value;
+      const page = document.getElementById('searchBooksByTitle_Page').value;
       const csrfToken = document.getElementById('csrfToken').value;
-
       resultsContainer.innerHTML = '';
+      
       try {
         const query = new URLSearchParams({ page, limit });
         const response = await fetch(`/books/search/${title}?${query}`, {
@@ -258,10 +261,11 @@
         if (!response.ok) {
           const errorDetails = await response.json();
           console.error('Erro ao buscar livros por título:', errorDetails);
-          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros por título.'}`);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros por título'}`);
         }
   
         const books = await response.json();
+  
         if (books.length === 0) {
           resultsContainer.innerHTML = '<p>No books found for this title.</p>';
         } else {
@@ -291,8 +295,8 @@
     <div class="card-body">
       <form>
         <div class="mb-3">
-          <label for="findSimilarBooks_Id" class="form-label">Book ID</label>
-          <input type="number" class="form-control" id="findSimilarBooks_Id" required>
+          <label for="bookId" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="findSimilarBooks_Id" name="book_id" value="1" required>
         </div>
         <button type="button" id="findSimilarBooksBtn" class="btn btn-primary">Find Similar Books</button>
       </form>
@@ -302,11 +306,11 @@
   
   <script>
     document.getElementById('findSimilarBooksBtn').addEventListener('click', async () => {
-      const resultsContainer = document.getElementById('findSimilarBooksResults');
       const bookId = document.getElementById('findSimilarBooks_Id').value;
       const csrfToken = document.getElementById('csrfToken').value;
-      
+      const resultsContainer = document.getElementById('findSimilarBooksResults');
       resultsContainer.innerHTML = '';
+  
       try {
         const response = await fetch(`/books/${bookId}/similar`, {
           method: 'GET',
@@ -319,7 +323,7 @@
         if (!response.ok) {
           const errorDetails = await response.json();
           console.error('Erro ao buscar livros similares:', errorDetails);
-          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro similares por ID.'}`);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro por ID'}`);
         }
   
         const book = await response.json();
@@ -338,10 +342,10 @@
             resultsContainer.appendChild(card);
           });
         } else {
-          resultsContainer.innerHTML = `<p class="text-info">This book has no similar books.</p>`;
+          resultsContainer.innerHTML = `<p class="text-info">Este livro não têm livros similares.</p>`;
         }
       } catch (error) {
-        resultsContainer.innerHTML = `<p class="text-danger">An error occurred: ${error.message}</p>`;
+        resultsContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
       }
     });
   </script> 
