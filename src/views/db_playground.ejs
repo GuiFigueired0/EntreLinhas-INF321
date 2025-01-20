@@ -1,0 +1,350 @@
+<%- include('includes/head') %>
+
+<div class="container my-5">
+  <h1 class="text-center mb-4">DB Playground: Books API</h1>
+  
+  <h2 class="text-center mb-4">Books:</h1>
+
+  <!-- Create Book -->
+  <div class="card mb-4">
+    <div class="card-header">Create Book</div>
+    <div class="card-body">
+      <form>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrfTokenCreate">
+        <div class="mb-3">
+          <label for="createBook_Title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="createBook_Title" required>
+        </div>
+        <div class="mb-3">
+          <label for="createBook_Book_id" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="createBook_Book_id" required>
+        </div>
+        <div class="mb-3">
+          <label for="createBook_Similar_books" class="form-label">Similar Books (IDs separated by commas)</label>
+          <input type="text" class="form-control" id="createBook_Similar_books">
+        </div>
+        <div class="mb-3">
+          <label for="createBook_Genre" class="form-label">Genre</label>
+          <select class="form-select" id="createBook_Genre" required>
+            <option value="Children">Children</option>
+            <option value="Comics & Graphic">Comics & Graphic</option>
+            <option value="Fantasy & Paranormal">Fantasy & Paranormal</option>
+            <option value="History & Biography">History & Biography</option>
+            <option value="Mystery, Thriller & Crime">Mystery, Thriller & Crime</option>
+            <option value="Poetry">Poetry</option>
+            <option value="Romance">Romance</option>
+            <option value="Young Adult">Young Adult</option>
+          </select>
+        </div>
+        <button type="button" id="createBookBtn" class="btn btn-primary">Create Book</button>
+      </form>
+      <div id="createBookMessage" class="mt-3"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('createBookBtn').addEventListener('click', async () => {
+      const title = document.getElementById('createBook_Title').value;
+      const genre = document.getElementById('createBook_Genre').value;
+      const csrfToken = document.getElementById('csrfTokenCreate').value;
+      const book_id = document.getElementById('createBook_Book_id').value;
+      const messageContainer = document.getElementById('createBookMessage');
+      const similar_books = document.getElementById('createBook_Similar_books').value
+        .split(',')
+        .map((id) => Number(id.trim()))
+        .filter((id) => !isNaN(id));
+
+      try {
+        const response = await fetch('/books', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+          body: JSON.stringify({ title, book_id, genre, similar_books }),
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao criar livro:', errorDetails);
+          throw new Error(errorDetails.message || 'Falha ao criar livro.');
+        }
+
+        messageContainer.innerHTML = '<p class="text-success">Book created successfully!</p>';
+      } catch (error) {
+        messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script>
+
+  <!-- Find by Genre -->
+  <div class="card mb-4">
+    <div class="card-header">Find Books by Genre</div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="findBooksByGenre_Genre" class="form-label">Genre</label>
+          <select class="form-select" id="findBooksByGenre_Genre" required>
+            <option value="Children">Children</option>
+            <option value="Comics & Graphic">Comics & Graphic</option>
+            <option value="Fantasy & Paranormal">Fantasy & Paranormal</option>
+            <option value="History & Biography">History & Biography</option>
+            <option value="Mystery, Thriller & Crime">Mystery, Thriller & Crime</option>
+            <option value="Poetry">Poetry</option>
+            <option value="Romance">Romance</option>
+            <option value="Young Adult">Young Adult</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="findBooksByGenre_Page" class="form-label">Page</label>
+          <input type="number" class="form-control" id="findBooksByGenre_Page" value="1">
+        </div>
+        <div class="mb-3">
+          <label for="findBooksByGenre_Limit" class="form-label">Limit</label>
+          <input type="number" class="form-control" id="findBooksByGenre_Limit" value="10">
+        </div>
+        <button type="button" id="findBooksByGenreBtn" class="btn btn-primary">Find Books</button>
+      </form>
+      <div id="findBooksByGenreResults" class="mt-4"></div>
+    </div>
+  </div>  
+
+  <script>
+    document.getElementById('findBooksByGenreBtn').addEventListener('click', async () => {
+      const resultsContainer = document.getElementById('findBooksByGenreResults');
+      const genre = document.getElementById('findBooksByGenre_Genre').value;
+      const limit = document.getElementById('findBooksByGenre_Limit').value;
+      const page = document.getElementById('findBooksByGenre_Page').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+      resultsContainer.innerHTML = '';
+  
+      try {
+        const query = new URLSearchParams({ page, limit });
+        const response = await fetch(`/books/genre/${genre}?${query}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar livros:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros por genero.'}`);
+        }
+  
+        const books = await response.json();
+        if (books.length === 0) {
+          resultsContainer.innerHTML = '<p class="text-info">No books found for this genre.</p>';
+        } else {
+          books.forEach((book) => {
+            const card = document.createElement('div');
+            card.className = 'card mb-2';
+            card.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${book.title}</h5>
+                <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+                <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+                <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+              </div>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        }
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script>
+
+  <!-- Find by ID -->
+  <div class="card mb-4">
+    <div class="card-header">Find Book by ID</div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="findBookByIdId" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="findBookByIdId" required>
+        </div>
+        <button type="button" id="findBookByIdBtn" class="btn btn-primary">Find Book</button>
+      </form>
+      <div id="findBookByIdResults" class="mt-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('findBookByIdBtn').addEventListener('click', async () => {
+      const resultsContainer = document.getElementById('findBookByIdResults');
+      const bookId = document.getElementById('findBookByIdId').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+
+      resultsContainer.innerHTML = '';
+      try {
+        const response = await fetch(`/books/${bookId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar livro por ID:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro por ID.'}`);
+        }
+  
+        const book = await response.json();
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">${book.title}</h5>
+            <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+            <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+            <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script>  
+
+  <!-- Search by Title -->
+  <div class="card mb-4">
+    <div class="card-header">Search Books by Title</div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="searchBooksByTitle_Title" class="form-label">Title</label>
+          <input type="text" class="form-control" id="searchBooksByTitle_Title" required>
+        </div>
+        <button type="button" id="searchBooksByTitleBtn" class="btn btn-primary">Search</button>
+        <div class="mb-3">
+          <label for="searchBooksByTitle_Page" class="form-label">Page</label>
+          <input type="number" class="form-control" id="searchBooksByTitle_Page" value="1">
+        </div>
+        <div class="mb-3">
+          <label for="searchBooksByTitle_Limit" class="form-label">Limit</label>
+          <input type="number" class="form-control" id="searchBooksByTitle_Limit" value="10">
+        </div>
+      </form>
+      <div id="searchBooksByTitleResults" class="mt-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('searchBooksByTitleBtn').addEventListener('click', async () => {
+      const resultsContainer = document.getElementById('searchBooksByTitleResults');
+      const title = document.getElementById('searchBooksByTitle_Title').value;
+      const limit = document.getElementById('findBooksByGenre_Limit').value;
+      const page = document.getElementById('findBooksByGenre_Page').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+
+      resultsContainer.innerHTML = '';
+      try {
+        const query = new URLSearchParams({ page, limit });
+        const response = await fetch(`/books/search/${title}?${query}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar livros por título:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livros por título.'}`);
+        }
+  
+        const books = await response.json();
+        if (books.length === 0) {
+          resultsContainer.innerHTML = '<p>No books found for this title.</p>';
+        } else {
+          books.forEach((book) => {
+            const card = document.createElement('div');
+            card.className = 'card mb-2';
+            card.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${book.title}</h5>
+                <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+                <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+                <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+              </div>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        }
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">An error occurred: ${error.message}</p>`;
+      }
+    });
+  </script>  
+
+  <!-- Find Similar Books -->
+  <div class="card mb-4">
+    <div class="card-header">Find Similar Books</div>
+    <div class="card-body">
+      <form>
+        <div class="mb-3">
+          <label for="findSimilarBooks_Id" class="form-label">Book ID</label>
+          <input type="number" class="form-control" id="findSimilarBooks_Id" required>
+        </div>
+        <button type="button" id="findSimilarBooksBtn" class="btn btn-primary">Find Similar Books</button>
+      </form>
+      <div id="findSimilarBooksResults" class="mt-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('findSimilarBooksBtn').addEventListener('click', async () => {
+      const resultsContainer = document.getElementById('findSimilarBooksResults');
+      const bookId = document.getElementById('findSimilarBooks_Id').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+      
+      resultsContainer.innerHTML = '';
+      try {
+        const response = await fetch(`/books/${bookId}/similar`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar livros similares:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar livro similares por ID.'}`);
+        }
+  
+        const book = await response.json();
+        if (book.length > 0 ){
+          book.forEach((book) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${book.title}</h5>
+                <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+                <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+                <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+              </div>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        } else {
+          resultsContainer.innerHTML = `<p class="text-info">This book has no similar books.</p>`;
+        }
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">An error occurred: ${error.message}</p>`;
+      }
+    });
+  </script> 
+</div>
+
+<%- include('includes/footer') %>
