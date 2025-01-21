@@ -349,6 +349,160 @@
       }
     });
   </script> 
+
+  <h2 class="text-center mb-4">Series:</h1>
+
+  <!-- Create Series -->
+  <div class="card mb-4">
+    <div class="card-header">Create Series</div>
+    <div class="card-body">
+      <form>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrfTokenCreate">
+        <div class="mb-3">
+          <label for="series_name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="createSeries_Name" name="series_name" required>
+        </div>
+        <div class="mb-3">
+          <label for="series_id" class="form-label">Série ID</label>
+          <input type="number" class="form-control" id="createSeries_Series_id" name="series_id" required>
+        </div>
+        <div class="mb-3">
+          <label for="series_description" class="form-label">Description</label>
+          <input type="text" class="form-control" id="createSeries_Description" name="series_description" required>
+        </div>
+        <div class="mb-3">
+          <label for="series_books" class="form-label">Books (IDs separated by commas)</label>
+          <input type="text" class="form-control" id="createSeries_Books" name="series_books">
+        </div>
+        <button type="button" id="createSeriesBtn" class="btn btn-primary">Create Series</button>
+      </form>
+      <div id="createSeriesMessage" class="mt-3"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('createSeriesBtn').addEventListener('click', async () => {
+      const name = document.getElementById('createSeries_Name').value;
+      const series_id = document.getElementById('createSeries_Series_id').value;
+      const description = document.getElementById('createSeries_Description').value;
+      const books = document.getElementById('createSeries_Books').value
+        .split(',')
+        .map((id) => Number(id.trim()))
+        .filter((id) => !isNaN(id));
+      const csrfToken = document.getElementById('csrfTokenCreate').value;
+      const messageContainer = document.getElementById('createSeriesMessage');
+
+      try {
+        const response = await fetch('/series', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+          body: JSON.stringify({ series_id, name, description, books }),
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao criar série:', errorDetails);
+          throw new Error(errorDetails.message || 'Falha ao criar série.');
+        }
+
+        messageContainer.innerHTML = '<p class="text-success">Série criada com sucesso!</p>';
+      } catch (error) {
+        messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script>
+
+  <!-- Find Series and its Books by ID -->
+  <div class="card mb-4">
+    <div class="card-header">Find Series and its Books by ID</div>
+    <div class="card-body">
+      <form id="findSeriesByIdForm">
+        <div class="mb-3">
+          <label for="series_id" class="form-label">Série ID</label>
+          <input type="number" class="form-control" id="findSeriesById_Series_id" name="series_id" value="1" required>
+        </div>
+        <button type="button" id="findSeriesByIdBtn" class="btn btn-primary">Find Série</button>
+      </form>
+      <div id="findSeriesByIdResults" class="mt-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('findSeriesByIdBtn').addEventListener('click', async () => {
+      const series_id = document.getElementById('findSeriesById_Series_id').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+      const resultsContainer = document.getElementById('findSeriesByIdResults');
+  
+      resultsContainer.innerHTML = '';
+  
+      try {
+        let response = await fetch(`/series/${series_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar série por ID:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar série por ID'}`);
+        }
+  
+        const series = await response.json();
+  
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">${series.name}</h5>
+            <p class="card-text"><strong>Series ID:</strong> ${series.series_id}</p>
+            <p class="card-text"><strong>Description:</strong> ${series.description}</p>
+            <p class="card-text"><strong>Books:</strong></p>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+
+        response = await fetch(`/series/books/${series_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar os livros da série:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar ao livros da série.'}`);
+        }
+  
+        const books = await response.json();
+        const books_card = document.createElement('div');
+
+        books.forEach((book) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-body">
+              <h5 class="card-title">${book.title}</h5>
+              <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+              <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+              <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+            </div>
+          `;
+          books_card.appendChild(card);
+        });
+        resultsContainer.appendChild(books_card);
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script> 
 </div>
 
 <%- include('includes/footer') %>
