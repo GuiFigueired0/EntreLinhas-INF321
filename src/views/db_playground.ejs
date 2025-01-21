@@ -363,7 +363,7 @@
           <input type="text" class="form-control" id="createSeries_Name" name="series_name" required>
         </div>
         <div class="mb-3">
-          <label for="series_id" class="form-label">Série ID</label>
+          <label for="series_id" class="form-label">Series ID</label>
           <input type="number" class="form-control" id="createSeries_Series_id" name="series_id" required>
         </div>
         <div class="mb-3">
@@ -421,10 +421,10 @@
     <div class="card-body">
       <form id="findSeriesByIdForm">
         <div class="mb-3">
-          <label for="series_id" class="form-label">Série ID</label>
+          <label for="series_id" class="form-label">Series ID</label>
           <input type="number" class="form-control" id="findSeriesById_Series_id" name="series_id" value="1" required>
         </div>
-        <button type="button" id="findSeriesByIdBtn" class="btn btn-primary">Find Série</button>
+        <button type="button" id="findSeriesByIdBtn" class="btn btn-primary">Find Series</button>
       </form>
       <div id="findSeriesByIdResults" class="mt-4"></div>
     </div>
@@ -468,6 +468,160 @@
         resultsContainer.appendChild(card);
 
         response = await fetch(`/series/books/${series_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar os livros da série:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar ao livros da série.'}`);
+        }
+  
+        const books = await response.json();
+        const books_card = document.createElement('div');
+
+        books.forEach((book) => {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.innerHTML = `
+            <div class="card-body">
+              <h5 class="card-title">${book.title}</h5>
+              <p class="card-text"><strong>Book ID:</strong> ${book.book_id}</p>
+              <p class="card-text"><strong>Genre:</strong> ${book.genre}</p>
+              <p class="card-text"><strong>Total Ratings:</strong> ${book.total_ratings}</p>
+            </div>
+          `;
+          books_card.appendChild(card);
+        });
+        resultsContainer.appendChild(books_card);
+      } catch (error) {
+        resultsContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script> 
+
+  <h2 class="text-center mb-4">Author:</h1>
+
+  <!-- Create Author -->
+  <div class="card mb-4">
+    <div class="card-header">Create Author</div>
+    <div class="card-body">
+      <form>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" id="csrfTokenCreate">
+        <div class="mb-3">
+          <label for="author_name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="createAuthor_Name" name="author_name" required>
+        </div>
+        <div class="mb-3">
+          <label for="author_id" class="form-label">Author ID</label>
+          <input type="number" class="form-control" id="createAuthor_Author_id" name="author_id" required>
+        </div>
+        <div class="mb-3">
+          <label for="author_description" class="form-label">Description</label>
+          <input type="text" class="form-control" id="createAuthor_Description" name="author_description" required>
+        </div>
+        <div class="mb-3">
+          <label for="author_books" class="form-label">Books (IDs separated by commas)</label>
+          <input type="text" class="form-control" id="createAuthor_Books" name="author_books">
+        </div>
+        <button type="button" id="createAuthorBtn" class="btn btn-primary">Create Author</button>
+      </form>
+      <div id="createAuthorMessage" class="mt-3"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('createAuthorBtn').addEventListener('click', async () => {
+      const name = document.getElementById('createAuthor_Name').value;
+      const author_id = document.getElementById('createAuthor_Author_id').value;
+      const description = document.getElementById('createAuthor_Description').value;
+      const books = document.getElementById('createAuthor_Books').value
+        .split(',')
+        .map((id) => Number(id.trim()))
+        .filter((id) => !isNaN(id));
+      const csrfToken = document.getElementById('csrfTokenCreate').value;
+      const messageContainer = document.getElementById('createAuthorMessage');
+
+      try {
+        const response = await fetch('/author', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+          body: JSON.stringify({ author_id, name, description, books }),
+        });
+
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao criar série:', errorDetails);
+          throw new Error(errorDetails.message || 'Falha ao criar série.');
+        }
+
+        messageContainer.innerHTML = '<p class="text-success">Author criada com sucesso!</p>';
+      } catch (error) {
+        messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+      }
+    });
+  </script>
+
+  <!-- Find Author and its Books by ID -->
+  <div class="card mb-4">
+    <div class="card-header">Find Author and its Books by ID</div>
+    <div class="card-body">
+      <form id="findAuthorByIdForm">
+        <div class="mb-3">
+          <label for="author_id" class="form-label">Author ID</label>
+          <input type="number" class="form-control" id="findAuthorById_Author_id" name="author_id" value="1" required>
+        </div>
+        <button type="button" id="findAuthorByIdBtn" class="btn btn-primary">Find Author</button>
+      </form>
+      <div id="findAuthorByIdResults" class="mt-4"></div>
+    </div>
+  </div>
+  
+  <script>
+    document.getElementById('findAuthorByIdBtn').addEventListener('click', async () => {
+      const author_id = document.getElementById('findAuthorById_Author_id').value;
+      const csrfToken = document.getElementById('csrfToken').value;
+      const resultsContainer = document.getElementById('findAuthorByIdResults');
+  
+      resultsContainer.innerHTML = '';
+  
+      try {
+        let response = await fetch(`/author/${author_id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'CSRF-Token': csrfToken,
+          },
+        });
+  
+        if (!response.ok) {
+          const errorDetails = await response.json();
+          console.error('Erro ao buscar série por ID:', errorDetails);
+          throw new Error(`Erro ${response.status}: ${errorDetails.message || 'Falha ao buscar série por ID'}`);
+        }
+  
+        const author = await response.json();
+  
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-body">
+            <h5 class="card-title">${author.name}</h5>
+            <p class="card-text"><strong>Author ID:</strong> ${author.author_id}</p>
+            <p class="card-text"><strong>Description:</strong> ${author.description}</p>
+            <p class="card-text"><strong>Books:</strong></p>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+
+        response = await fetch(`/author/books/${author_id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -6,6 +6,7 @@ const loginController = require('./src/controllers/loginController');
 const contatoController = require('./src/controllers/contatoController');
 const bookController = require('./src/controllers/bookController');
 const seriesController = require('./src/controllers/seriesController');
+const authorController = require('./src/controllers/authorController');
 const playgroundController = require('./src/controllers/playgroundController');
 
 const { loginRequired } = require('./src/middlewares/middleware');
@@ -33,6 +34,11 @@ route.get('/books/:id/similar', bookController.findSimilarBooks);
 route.post('/series', seriesController.create); 
 route.get('/series/:id', seriesController.findById); 
 route.get('/series/books/:id', seriesController.findBooksById); 
+
+// Rotas de Autor
+route.post('/author', authorController.create); 
+route.get('/author/:id', authorController.findById); 
+route.get('/author/books/:id', authorController.findBooksById); 
 
 // Rotas de contato
 route.get('/contato/index', loginRequired, contatoController.index);

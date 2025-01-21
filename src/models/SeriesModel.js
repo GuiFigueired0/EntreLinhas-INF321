@@ -28,7 +28,7 @@ class Series {
       const series = await SeriesModel.findOne({ series_id });
   
       if (!series) {
-        throw new Error(`Series with ID ${series_id} not found.`);
+        throw new Error(`Série com ID ${series_id} não foi encontrada.`);
       }
   
       const books = await Promise.all(
@@ -37,7 +37,7 @@ class Series {
   
       return books;
     } catch (error) {
-      console.error(`Error in findBooksById: ${error.message}`);
+      console.error(`Erro em findBooksById: ${error.message}`);
       throw error;
     }
   }  
