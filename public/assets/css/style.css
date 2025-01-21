@@ -1,0 +1,60 @@
+body{
+  --sb-width: 0;
+}
+body.sb-expanded{
+  --sb-width: 10rem;
+}
+.navbar{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+#sidebar{
+  position: fixed;
+  height: 100vh;
+  padding: 1rem;
+  width: var(--sb-width);
+  background-color: aqua;
+  /* overflow: hidden; */
+  transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 0; 
+  visibility: hidden; 
+}
+.sb-expanded #sidebar {
+  opacity: 1; 
+  visibility: visible; 
+}
+main{
+  margin-left: var(--sb-width);
+  transition: margin-left 0.5s ease-in-out;
+}
+
+.horizontal-scrollable {
+  overflow-x: auto;
+} 
+.progress{
+  height: 1.5rem;
+}
+.d-inline-flex{
+  width: 100%;
+}
+#dropdownMenuLink{
+  text-decoration: none;
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block; 
+}
+
+.icon-container .badge {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  transform: translateY(-50%);
+} 
+
+.right-aligned {
+  right: 0;
+  left: auto;
+}
