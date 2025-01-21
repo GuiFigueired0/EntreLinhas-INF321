@@ -15,7 +15,7 @@ body.sb-expanded{
   padding: 1rem;
   width: var(--sb-width);
   background-color: aqua;
-  /* overflow: hidden; */
+  overflow: hidden; 
   transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 0; 
   visibility: hidden; 
