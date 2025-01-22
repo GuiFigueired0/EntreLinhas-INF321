@@ -1,5 +1,6 @@
 body{
   --sb-width: 0;
+  overflow-x: hidden;
 }
 body.sb-expanded{
   --sb-width: 10rem;
@@ -7,7 +8,7 @@ body.sb-expanded{
 .navbar{
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 1;
 }
 #sidebar{
   position: fixed;
@@ -74,4 +75,24 @@ main{
 
 #book-info{
   margin-left: 320px;
+}
+
+.modalDiv {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modalContent{
+  background-color: aliceblue;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Could be more or less, depending on screen size */
 }
