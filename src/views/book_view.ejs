@@ -1,0 +1,29 @@
+<%- include('includes/head') %>
+<body class="">
+<%- include('includes/nav') %>
+<div id="content">
+<%- include('includes/sidebar') %>
+<main>
+    <div id="book-card">
+        <%- include('./includes/card') %>
+    </div>
+    <div id="book-info">
+        <a href="#"><i>Series</i></a>
+        <h1>Book</h1>
+        <h3>Author</h3>
+        <div class="row">
+        <div class="col">
+        <%- include('includes/rating_form') %>
+        <small>Rate this book</small>
+        </div>
+        <div class="col">
+        <%- include('includes/review_form') %>
+        </div>
+        </div>
+        <%- include('includes/rating_display') %>
+        <small>N ratings</small>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</p>
+    </div>
+</main>
+</div>
+<%- include('includes/footer') %>

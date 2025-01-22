@@ -9,7 +9,10 @@ exports.db_playground = async(req, res) => {
     res.render('db_playground');
 };
 
-exports.gallery = async(req, res) => {
-    res.render('gallery');
+exports.series_view = async(req, res) => {
+    res.render('series_view');
 };
   
+exports.book_view = async(req, res) => {
+  res.render('book_view');
+};
