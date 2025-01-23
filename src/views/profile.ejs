@@ -4,55 +4,34 @@
 <div id="content">
 <%- include('includes/sidebar') %>
 <main>
-    <div id="profile-card">
-        <img
-            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-            class="rounded-circle img-fluid"
-            alt="Black and White Portrait of a Man"
-            loading="lazy"
-        />
-        <h2>Username</h2>
-        <a href="#" class="btn btn-primary">Follow</a>
-        <p>N followers</p>
-        <p>N following</p>
-        <div class="stats">
-            <a class="text-center">READ</a>
-            <h5 class="text-center">100</h5>
-        </div>
-        <div class="stats">
-            <a class="text-center">READING</a>
-            <h5 class="text-center">100</h5>
-        </div>
-        <div class="stats">
-            <a class="text-center">WISHLIST</a>
-            <h5 class="text-center">100</h5>
-        </div>
-        <div class="stats">
-            <a class="text-center">REVIEWS</a>
-            <h5 class="text-center">100</h5>
-        </div>
+    
+    <div id="tabInfoDiv">
+        <%- include('includes/tabs/profile_info') %>
+        <%- include('includes/tabs/shelf_info') %>
+        <%- include('includes/tabs/reviews_info') %>
+        <%- include('includes/tabs/social_info') %>
     </div>
-    <div id="profile-info">
+    <div id="tabDiv">
         <div id="profileNav" class="p-3">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-              <a class="nav-link active" href="#tabProfile">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#tabShelf">Shelf</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#tabReviews">Reviews</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#tabSocial">Social</a>
-            </li>
-        </ul>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" target-selector=".tab.profile">Profile</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" target-selector=".tab.shelf">Shelf</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" target-selector=".tab.reviews">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target-selector=".tab.social">Social</a>
+                </li>
+            </ul>
         </div>
-        <%- include('includes/tab_profile') %>
-        <%- include('includes/tab_shelf') %>
-        <%- include('includes/tab_reviews') %>
-        <%- include('includes/tab_social') %>
+        <%- include('includes/tabs/profile') %>
+        <%- include('includes/tabs/shelf') %>
+        <%- include('includes/tabs/reviews') %>
+        <%- include('includes/tabs/social') %>
     </div>
     
 </main>

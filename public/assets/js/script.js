@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
   const navLinks = document.querySelectorAll('.nav-link');
-  const tabContents = document.querySelectorAll('.tab');
+  const tabDivs = document.querySelectorAll('.tab');
 
   navLinks.forEach(link => {
       link.addEventListener('click', function (e) {
@@ -62,14 +62,14 @@ document.addEventListener('DOMContentLoaded', function () {
           this.classList.add('active');
 
           // Hide all tab contents
-          tabContents.forEach(tab => tab.style.display = 'none');
+          tabDivs.forEach(tab => tab.style.display = 'none');
 
-          // Show the corresponding tab content
-          const targetId = this.getAttribute('href').substring(1);
-          const targetTab = document.getElementById(targetId);
-          if (targetTab) {
-              targetTab.style.display = 'block';
-          }
+          // Get the target classes from the data attribute
+          const targetSelector = this.getAttribute('target-selector');
+
+          // Display the elements that match the target selector
+          const elements = document.querySelectorAll(targetSelector);
+          elements.forEach(element => element.style.display = 'block');
       });
   });
 
