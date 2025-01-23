@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
   });
-  const navLinks = document.querySelectorAll('.nav-link');
+  const navLinks = document.querySelectorAll('#profile-nav .nav-link');
   const tabDivs = document.querySelectorAll('.tab');
 
   navLinks.forEach(link => {

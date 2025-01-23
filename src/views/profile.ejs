@@ -1,19 +1,19 @@
 <%- include('includes/head') %>
-<body class="sb sb-expanded">
+<body class="sb-expanded">
 <%- include('includes/nav') %>
 <div id="content">
 <%- include('includes/sidebars/profile') %>
 <main>
     <div id="tabDiv">
-        <div id="profileNav" class="d-flex align-items-center p-3">
+        <div id="profile-nav" class="d-flex align-items-center p-3">
             <img
                 src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="rounded-circle idNav"
+                class="rounded-circle nav-id"
                 alt="Black and White Portrait of a Man"
                 width="50"
                 height="50"
             />
-            <h3 class="ms-3 mb-0 idNav">Username</h3>
+            <h3 class="ms-3 mb-0 nav-id">Username</h3>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                   <a class="nav-link active sb-expanded" target-selector=".tab.profile">Profile</a>
@@ -33,6 +33,7 @@
         <%- include('includes/tabs/shelf') %>
         <%- include('includes/tabs/reviews') %>
         <%- include('includes/tabs/social') %>
+        <%- include('includes/modals/progress') %>
     </div>
     
 </main>

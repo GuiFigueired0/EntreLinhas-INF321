@@ -28,7 +28,7 @@ body.tab-info{
   width: var(--sb-width);
   opacity: 1; 
 }
-.sb-expanded .idNav{
+.sb-expanded .nav-id{
   display: none;
 }
 main{

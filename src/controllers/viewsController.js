@@ -9,8 +9,8 @@ exports.db_playground = async(req, res) => {
     res.render('db_playground');
 };
 
-exports.series = async(req, res) => {
-    res.render('series');
+exports.list = async(req, res) => {
+    res.render('list');
 };
   
 exports.book = async(req, res) => {
@@ -19,4 +19,8 @@ exports.book = async(req, res) => {
 
 exports.profile = async(req, res) => {
   res.render('profile');
+};
+
+exports.list_group = async(req, res) => {
+  res.render('list_group');
 };
