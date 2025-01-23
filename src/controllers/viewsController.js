@@ -16,3 +16,7 @@ exports.series_view = async(req, res) => {
 exports.book_view = async(req, res) => {
   res.render('book_view');
 };
+
+exports.profile = async(req, res) => {
+  res.render('profile');
+};

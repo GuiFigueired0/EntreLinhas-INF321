@@ -77,6 +77,22 @@ main{
   margin-left: 320px;
 }
 
+#profile-card{
+  position: fixed;
+  height: 100vh;
+  width: 300px;
+  padding: 1rem;
+  background-color: #A7C7E7;
+}
+
+#profile-info{
+  margin-left: 300px;
+}
+
+.stats{
+  background-color: #d3d3d3
+}
+
 .modalDiv {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -85,7 +101,6 @@ main{
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 

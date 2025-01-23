@@ -48,6 +48,30 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
   });
+  const navLinks = document.querySelectorAll('.nav-link');
+  const tabContents = document.querySelectorAll('.tab');
+
+  navLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+          e.preventDefault(); // Prevent the default anchor behavior
+
+          // Remove 'active' class from all links
+          navLinks.forEach(link => link.classList.remove('active'));
+
+          // Add 'active' class to the clicked link
+          this.classList.add('active');
+
+          // Hide all tab contents
+          tabContents.forEach(tab => tab.style.display = 'none');
+
+          // Show the corresponding tab content
+          const targetId = this.getAttribute('href').substring(1);
+          const targetTab = document.getElementById(targetId);
+          if (targetTab) {
+              targetTab.style.display = 'block';
+          }
+      });
+  });
 
   const stars = document.querySelectorAll('#starContainer .bx');
   const ratingInput = document.getElementById('ratingInput');

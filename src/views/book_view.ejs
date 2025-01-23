@@ -14,7 +14,9 @@
         <div class="d-flex gap-5">
         <%- include('includes/rating_form') %>
         <small>Rate this book</small>
-        <%- include('includes/review_form') %>
+        <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">
+            Write a review
+        </a>
         </div>
         <div class="d-flex gap-5">
         <%- include('includes/rating_display') %>
@@ -78,6 +80,8 @@
 
         </div>
     </div>
+    <%- include('includes/modal_progress') %>
+    <%- include('includes/modal_review') %>
 </main>
 </div>
 <%- include('includes/footer') %>

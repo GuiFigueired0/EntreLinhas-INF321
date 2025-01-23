@@ -15,6 +15,7 @@ route.get('/', viewsController.index);
 route.get('/db_playground', viewsController.db_playground);
 route.get('/series_view', viewsController.series_view);
 route.get('/book_view', viewsController.book_view);
+route.get('/profile', viewsController.profile);
 
 // Rotas de login
 route.get('/login/index', loginController.index);
