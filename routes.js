@@ -13,8 +13,8 @@ const { loginRequired } = require('./src/middlewares/middleware');
 // Rotas da views
 route.get('/', viewsController.index);
 route.get('/db_playground', viewsController.db_playground);
-route.get('/series_view', viewsController.series_view);
-route.get('/book_view', viewsController.book_view);
+route.get('/series', viewsController.series);
+route.get('/book', viewsController.book);
 route.get('/profile', viewsController.profile);
 
 // Rotas de login
