@@ -1,0 +1,87 @@
+<%- include('includes/head') %>
+<body class="">
+<%- include('includes/nav') %>
+<div id="content">
+<%- include('includes/sidebar') %>
+<main>
+    <div id="book-card">
+        <%- include('./includes/card') %>
+    </div>
+    <div id="book-info">
+        <a href="#"><i>Series</i></a>
+        <h1>Book</h1>
+        <h3>Author</h3>
+        <div class="d-flex gap-5">
+        <%- include('includes/rating_form') %>
+        <small>Rate this book</small>
+        <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">
+            Write a review
+        </a>
+        </div>
+        <div class="d-flex gap-5">
+        <%- include('includes/rating_display') %>
+        <h3>3.7</h3>
+        <small>N ratings</small>
+        </div>
+        <small>333 pages, Kindle Edition</small>
+        <p>First published June 26, 1997</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</p>
+        <h2>Ratings</h2>
+        <div class="d-flex gap-3">
+        <span>5 stars</span>
+        <div class="progress flex-grow-1 align-self-center">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <span>10.000 ratings</span>
+        </div>
+        <div class="d-flex gap-3">
+        <span>4 stars</span>
+        <div class="progress flex-grow-1 align-self-center">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <span>10.000 ratings</span>
+        </div>
+        <div class="d-flex gap-3">
+        <span>3 stars</span>
+        <div class="progress flex-grow-1 align-self-center">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <span>10.000 ratings</span>
+        </div>
+        <div class="d-flex gap-3">
+        <span>2 stars</span>
+        <div class="progress flex-grow-1 align-self-center">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <span>10.000 ratings</span>
+        </div>
+        <div class="d-flex gap-3">
+        <span>1 star</span>
+        <div class="progress flex-grow-1 align-self-center">
+            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+        </div>
+        <span>10.000 ratings</span>
+        </div>
+        <h2>Reviews</h2>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2">
+                    <img
+                        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                        class="rounded-circle img-fluid"
+                        alt="Black and White Portrait of a Man"
+                        loading="lazy"
+                    />
+                    <h5>Reviewer</h5>
+                </div>
+                <div class="col-10">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula
+            </div>
+
+        </div>
+    </div>
+    <%- include('includes/modal_progress') %>
+    <%- include('includes/modal_review') %>
+</main>
+</div>
+<%- include('includes/footer') %>

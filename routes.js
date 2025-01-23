@@ -1,21 +1,21 @@
 const express = require('express');
 const route = express.Router();
 
-const homeController = require('./src/controllers/homeController');
+const viewsController = require('./src/controllers/viewsController');
 const loginController = require('./src/controllers/loginController');
 const contatoController = require('./src/controllers/contatoController');
 const bookController = require('./src/controllers/bookController');
 const seriesController = require('./src/controllers/seriesController');
 const authorController = require('./src/controllers/authorController');
-const playgroundController = require('./src/controllers/playgroundController');
 
 const { loginRequired } = require('./src/middlewares/middleware');
 
-// Rotas da home
-route.get('/', homeController.index);
-
-// Rota do DB Playground
-route.get('/db_playground', playgroundController.index);
+// Rotas da views
+route.get('/', viewsController.index);
+route.get('/db_playground', viewsController.db_playground);
+route.get('/series_view', viewsController.series_view);
+route.get('/book_view', viewsController.book_view);
+route.get('/profile', viewsController.profile);
 
 // Rotas de login
 route.get('/login/index', loginController.index);

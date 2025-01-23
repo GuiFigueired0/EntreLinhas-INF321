@@ -1,0 +1,113 @@
+body{
+  --sb-width: 0;
+  overflow-x: hidden;
+}
+body.sb-expanded{
+  --sb-width: 10rem;
+}
+.navbar{
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+#sidebar{
+  position: fixed;
+  height: 100vh;
+  padding: 1rem;
+  width: var(--sb-width);
+  background-color: aqua;
+  overflow: hidden; 
+  transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  opacity: 0; 
+  visibility: hidden; 
+}
+.sb-expanded #sidebar {
+  opacity: 1; 
+  visibility: visible; 
+}
+main{
+  margin-left: var(--sb-width);
+  transition: margin-left 0.5s ease-in-out;
+}
+
+.horizontal-scrollable {
+  overflow-x: auto;
+} 
+.progress{
+  height: 1.5rem;
+}
+.d-inline-flex{
+  width: 100%;
+}
+#dropdownMenuLink{
+  text-decoration: none;
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block; 
+}
+
+.icon-container .badge {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  transform: translateY(-50%);
+} 
+
+.right-aligned {
+  right: 0;
+  left: auto;
+}
+
+.bxs-star {
+  color: gold;
+}
+.bxs-star-half {
+  color: gold;
+}
+
+#book-card{
+  position: fixed;
+  height: 100vh;
+  padding: 1rem;
+}
+
+#book-info{
+  margin-left: 320px;
+}
+
+#profile-card{
+  position: fixed;
+  height: 100vh;
+  width: 300px;
+  padding: 1rem;
+  background-color: #A7C7E7;
+}
+
+#profile-info{
+  margin-left: 300px;
+}
+
+.stats{
+  background-color: #d3d3d3
+}
+
+.modalDiv {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 2; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modalContent{
+  background-color: aliceblue;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 70%; /* Could be more or less, depending on screen size */
+}
