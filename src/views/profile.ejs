@@ -1,30 +1,31 @@
 <%- include('includes/head') %>
-<body class="">
+<body class="sb sb-expanded">
 <%- include('includes/nav') %>
 <div id="content">
-<%- include('includes/sidebar') %>
+<%- include('includes/sidebars/profile') %>
 <main>
-    
-    <div id="tabInfoDiv">
-        <%- include('includes/tabs/profile_info') %>
-        <%- include('includes/tabs/shelf_info') %>
-        <%- include('includes/tabs/reviews_info') %>
-        <%- include('includes/tabs/social_info') %>
-    </div>
     <div id="tabDiv">
-        <div id="profileNav" class="p-3">
+        <div id="profileNav" class="d-flex align-items-center p-3">
+            <img
+                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                class="rounded-circle idNav"
+                alt="Black and White Portrait of a Man"
+                width="50"
+                height="50"
+            />
+            <h3 class="ms-3 mb-0 idNav">Username</h3>
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                  <a class="nav-link active" target-selector=".tab.profile">Profile</a>
+                  <a class="nav-link active sb-expanded" target-selector=".tab.profile">Profile</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" target-selector=".tab.shelf">Shelf</a>
+                  <a class="nav-link" target-selector=".tab.shelf">Bookshelves</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" target-selector=".tab.reviews">Reviews</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target-selector=".tab.social">Social</a>
+                    <a class="nav-link" target-selector=".tab.social">Following</a>
                 </li>
             </ul>
         </div>

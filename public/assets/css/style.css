@@ -1,34 +1,43 @@
 body{
   --sb-width: 0;
+  --tab-info-width: 0;  
   overflow-x: hidden;
 }
 body.sb-expanded{
-  --sb-width: 10rem;
+  --sb-width: 300px;
+}
+body.tab-info{
+  --tab-info-width: 300px;
 }
 .navbar{
   position: sticky;
   top: 0;
   z-index: 1;
 }
-#sidebar{
+.sidebar{
   position: fixed;
   height: 100vh;
   padding: 1rem;
-  width: var(--sb-width);
-  background-color: aqua;
+  width: 0;
+  background-color: #A7C7E7;
   overflow: hidden; 
   transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 0; 
-  visibility: hidden; 
 }
-.sb-expanded #sidebar {
+.sb-expanded .sidebar {
+  width: var(--sb-width);
   opacity: 1; 
-  visibility: visible; 
+}
+.sb-expanded .idNav{
+  display: none;
 }
 main{
-  margin-left: var(--sb-width);
+  margin-left: 0;
   transition: margin-left 0.5s ease-in-out;
 }
+.sb-expanded main{
+  margin-left: var(--sb-width);
+} 
 
 .horizontal-scrollable {
   overflow-x: auto;
@@ -77,19 +86,19 @@ main{
   margin-left: 320px;
 }
 
-#tabInfoDiv{
+#tabShelfInfo{
   position: fixed;
   height: 100vh;
-  width: 300px;
   padding: 1rem;
+  width: 200px;
 }
-
-.tab.profile.info{
-  background-color: #A7C7E7;
+#tabShelfContent{
+  margin-left: 200px;
 }
 
 #tabDiv{
-  margin-left: 300px;
+  margin-left: var(--tab-info-width);
+  transition: margin-left 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .stats{
