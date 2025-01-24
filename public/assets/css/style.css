@@ -2,9 +2,10 @@ body{
   --sb-width: 0;
   --tab-info-width: 0;  
   overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
 }
 body.sb-expanded{
-  --sb-width: 300px;
+  --sb-width: 250px;
 }
 body.tab-info{
   --tab-info-width: 300px;
@@ -18,8 +19,7 @@ body.tab-info{
   position: fixed;
   height: 100vh;
   padding: 1rem;
-  width: 0;
-  background-color: #A7C7E7;
+  width: 0;  
   overflow: hidden; 
   transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 0; 
@@ -34,14 +34,12 @@ body.tab-info{
 main{
   margin-left: 0;
   transition: margin-left 0.5s ease-in-out;
+  background-color:#dddddd;
 }
 .sb-expanded main{
   margin-left: var(--sb-width);
 } 
 
-.horizontal-scrollable {
-  overflow-x: auto;
-} 
 .progress{
   height: 1.5rem;
 }

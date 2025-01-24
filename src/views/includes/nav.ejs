@@ -1,29 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <div class="navbar-nav">
-      <a id="sidebarBtn" class="btn btn-primary d-none" href="#">Bar</a>
-      <h1>EntreLinhas</h1>
-      <!-- Left links -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="">Home</a>
-        </li>
-        <li class="nav-item">
-          <div class="dropdown">
-            <a class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Explore
-            </a>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="list">Romance</a>
-              <a class="dropdown-item" href="list">Thriller</a>
-              <a class="dropdown-item" href="list">Non-fiction</a>
-            </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid gap-3">
+    <a id="sidebarBtn" class="btn btn-primary d-none" href="#">
+      <i class='bx bx-menu'></i>
+    </a>
+    <h1 class="text-light my-0">EntreLinhas</h1>
+    <!-- Left links -->
+    <ul class="navbar-nav me-auto gap-2">
+      <li class="nav-item">
+        <a class="nav-link" href="">Home</a>
+      </li>
+      <li class="nav-item mt-2">
+        <div class="dropdown">
+          <a class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Explore
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="list">Romance</a>
+            <a class="dropdown-item" href="list">Thriller</a>
+            <a class="dropdown-item" href="list">Non-fiction</a>
           </div>
-        </li>
-      </ul>
-      <!-- Left links -->
-      
-    </div>
+        </div>
+      </li>
+    </ul>
+    <!-- Left links -->
     <form class="d-flex">
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
@@ -31,7 +30,7 @@
     <!-- Right elements -->
     <div class="d-flex gap-3 me-2">
       <!-- Notifications -->
-      <div class="dropdown">
+      <div class="dropdown mt-1">
         <a class="dropdown-toggle icon-container" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <i class='bx bxs-bell bx-sm'></i>
           <span class="badge rounded-pill badge-notification bg-danger">1</span>
@@ -44,7 +43,7 @@
       </div>
       
       <!-- Avatar -->
-      <div class="dropdown">
+      <div class="dropdown mt-1">
         <a class="dropdown-toggle icon-container" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <img
             src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
