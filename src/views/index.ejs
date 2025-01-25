@@ -29,21 +29,41 @@
   </div>
   <h2>Activity</h2>
   <div class="container-fluid">
-    <div class="w-100">
-      <div class="d-flex">
-        <img
-            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-            class="rounded-circle"
-            height="25"
-            alt="Black and White Portrait of a Man"
-            loading="lazy"
-        />
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
-      </div>
-      <div class="d-flex">
-        <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</span>
+    <div class="accordion shadow" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <a href="profile"><img
+              src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+              class="icon-sm rounded-circle me-2"
+              alt="Black and White Portrait of a Man"
+              loading="lazy"
+            /></a>
+            <span>Username left a review for <a href="book">book</a>.</span>
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <div class="d-flex justify-content-between p-2">
+              <%- include('includes/rating_display') %>
+              <i>January 1, 2025</i>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum
+              tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices,
+              diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus.
+              Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem,
+              condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus
+              magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at,
+              consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui,
+              condimentum ac fringilla sed, sollicitudin ornare metus.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
+    
     <div class="w-100">
       <div class="d-flex">
         <img
@@ -75,6 +95,7 @@
       </div>
     </div>
   </div>
+  
   <%- include('includes/modals/progress') %>
 </main>
 </div>

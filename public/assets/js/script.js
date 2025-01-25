@@ -7,6 +7,20 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.toggle('sb-expanded');
     });
   }
+  const accordionLinks = document.querySelectorAll('.accordion-button a');
+
+  accordionLinks.forEach(link => {
+    link.addEventListener('click', function(event) {
+      // Prevent the default action (navigation)
+      event.preventDefault();
+
+      // Extract the href value (URL to redirect to)
+      const targetUrl = this.getAttribute('href');
+
+      // Use JavaScript to navigate to the target URL
+      window.location.href = targetUrl;
+    });
+  });
   const gridViewSelect = document.getElementById('gridViewSelect');
   const listViewSelect = document.getElementById('listViewSelect');
 
