@@ -7,9 +7,9 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.toggle('sb-expanded');
     });
   }
-  const accordionLinks = document.querySelectorAll('.accordion-button a');
+  const buttonLinks = document.querySelectorAll('button a');
 
-  accordionLinks.forEach(link => {
+  buttonLinks.forEach(link => {
     link.addEventListener('click', function(event) {
       // Prevent the default action (navigation)
       event.preventDefault();
