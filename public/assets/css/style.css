@@ -119,12 +119,12 @@ main{
 
 .modalContent {
   background-color: aliceblue;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  margin: 7% auto; 
   border: 1px solid #888;
-  width: 70%; /* Could be more or less, depending on screen size */
   max-height: 70vh; /* Set a maximum height for the modal content */
   overflow-y: auto; /* Enable vertical scrolling when content overflows */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow for better aesthetics */
-  border-radius: 8px; /* Optional: Add rounded corners for a modern look */
+}
+
+.activity{
+  border: 1px solid #cdcdcd; 
 }
