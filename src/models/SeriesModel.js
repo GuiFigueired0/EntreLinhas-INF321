@@ -5,7 +5,7 @@ const SeriesSchema = new mongoose.Schema({
   series_id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
   description: { type: String, default: null },
-  books: { type: [Number], default: [] },   // List of book_ids
+  books: { type: [Number], default: [] },
 });
 
 const SeriesModel = mongoose.model('Series', SeriesSchema);
@@ -20,24 +20,20 @@ class Series {
   }
 
   static async findById(series_id) {
-    return await SeriesModel.findOne({ series_id });
-  }
-
-  static async findBooksById(series_id) {
     try {
       const series = await SeriesModel.findOne({ series_id });
   
       if (!series) {
-        throw new Error(`Série com ID ${series_id} não foi encontrada.`);
+        throw new Error(`Series with ID ${series_id} was not found.`);
       }
   
       const books = await Promise.all(
         series.books.map(async (book_id) => await Book.findById(parseInt(book_id)))
       );
   
-      return books;
+      return { series, books };
     } catch (error) {
-      console.error(`Erro em findBooksById: ${error.message}`);
+      console.error(`Error in findById: ${error.message}`);
       throw error;
     }
   }  

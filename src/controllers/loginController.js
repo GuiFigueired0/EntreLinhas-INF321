@@ -1,59 +1,37 @@
 const Login = require('../models/LoginModel');
 
-exports.index = (req, res) => {
-  if(req.session.user) return res.render('login-logado');
-  return res.render('login');
-};
-
-exports.register = async function(req, res) {
+exports.register = async function (req, res) {
+  const login = new Login(req.body);
   try {
-    const login = new Login(req.body);
     await login.register();
 
-    if(login.errors.length > 0) {
-      req.flash('errors', login.errors);
-      req.session.save(function() {
-        return res.redirect('back');
-      });
-      return;
+    if (login.errors.length > 0) {
+      return res.status(400).json({ errors: login.errors });
     }
 
-    req.flash('success', 'Seu usuário foi criado com sucesso.');
-    req.session.save(function() {
-      return res.redirect('back');
-    });
-  } catch(e) {
-    console.log(e);
-    return res.render('404');
+    return res.status(201).json(login.data);
+  } catch (e) {
+    return res.status(500).json({ error: e.message, message: 'Error registering user.' });
   }
 };
 
-exports.login = async function(req, res) {
+exports.login = async function (req, res) {
   try {
     const login = new Login(req.body);
     await login.login();
 
-    if(login.errors.length > 0) {
-      req.flash('errors', login.errors);
-      req.session.save(function() {
-        return res.redirect('back');
-      });
-      return;
+    if (login.errors.length > 0) {
+      return res.status(400).json({ errors: login.errors });
     }
 
-    req.flash('success', 'Você entrou no sistema.');
-    req.session.user = login.user;
-    req.session.save(function() {
-      return res.redirect('back');
-    });
-  } catch(e) {
-    console.log(e);
-    return res.render('404');
+    req.session.user = { id: login.data.user._id, user_data: login.data.user };
+    return res.status(200).json({ message: 'Login successful.', user: req.session.user.user_data });
+  } catch (e) {
+    return res.status(500).json({ error: e.message, message: 'Error when logging in.' });
   }
 };
 
-exports.logout = function(req, res) {
+exports.logout = function (req, res) {
   req.session.destroy();
-  res.redirect('/');
+  return res.status(200).json({ message: 'Logout completed successfully.' });
 };
-

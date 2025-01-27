@@ -7,7 +7,7 @@ exports.create = async function (req, res) {
 
     return res.status(201).json(createdBook);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Erro ao criar o livro.' });
+    return res.status(400).json({ error: e, message: 'Error creating the book.' });
   }
 };
 
@@ -20,7 +20,7 @@ exports.findByGenre = async function (req, res) {
     const books = await Book.findByGenre(genre, page, limit);
     return res.json(books);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Erro ao buscar livros por gênero.' });
+    return res.status(400).json({ error: e, message: 'Error when searching books by genre.' });
   }
 };
 
@@ -30,12 +30,12 @@ exports.findById = async function (req, res) {
 
     const book = await Book.findById(parseInt(id));
     if (!book) {
-      return res.status(404).json({ message: 'Livro não encontrado.' });
+      return res.status(404).json({ message: 'Book not found.' });
     } 
 
     return res.json(book);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Erro ao buscar o livro.' });
+    return res.status(400).json({ error: e, message: 'Error when searching for the book.' });
   }
 };
 
@@ -48,7 +48,7 @@ exports.searchByTitle = async function (req, res) {
     const books = await Book.searchByTitle(title, page, limit);
     return res.json(books);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Erro ao buscar livros por título.' });
+    return res.status(400).json({ error: e, message: 'Error when searching books by title.' });
   }
 };
 
@@ -56,14 +56,9 @@ exports.findSimilarBooks = async function (req, res) {
   try {
     const { id } = req.params;
 
-    const book = await Book.findById(parseInt(id));
-    if (!book) {
-      return res.status(404).json({ message: 'Livro não encontrado.' });
-    }
-
-    const similarBooks = await Book.findSimilarBooks(book.similar_books);
+    const similarBooks = await Book.findSimilarBooks(parseInt(id));
     return res.json(similarBooks);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Erro ao buscar livros similares.' });
+    return res.status(400).json({ error: e, message: 'Error when searching for similar books.' });
   }
 };

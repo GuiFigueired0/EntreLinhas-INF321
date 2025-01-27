@@ -2,10 +2,12 @@ const mongoose = require('mongoose');
 
 const BookSchema = new mongoose.Schema({
   book_id: { type: Number, required: true, unique: true },
-  series_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Series', default: null },
-  num_series: { type: Number, default: null },
+  series_id: { type: Number, default: null },
+  series_number: { type: Number, default: null },
+  series_name: { type: String, default: null },
   title: { type: String, required: true },
-  authors: { type: [mongoose.Schema.Types.ObjectId], ref: 'Author', default: [] },
+  authors: { type: [Number], default: [] },
+  author_name: { type: String, default: null },
   publisher: { type: String, default: null },
   description: { type: String, default: null },
   num_pages: { type: Number, default: null },
@@ -13,16 +15,20 @@ const BookSchema = new mongoose.Schema({
   publication_month: { type: Number, default: null },
   publication_year: { type: Number, default: null },
   image_url: { type: String, default: null },
-  similar_books: { type: [Number], default: [] },   // List of book_ids
-  ratings_per_star: { type: Map, of: Number, default: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0, total: 0 } },
+  similar_books: { type: [Number], default: [] },
+  ratings_per_star: { 
+    type: Map, 
+    of: Number, 
+    default: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0, total: 0 } 
+  },
   genre: {
     type: String,
     required: true,
     enum: [
       'Children', 'Comics & Graphic', 'Fantasy & Paranormal', 'History & Biography',
       'Mystery, Thriller & Crime', 'Poetry', 'Romance', 'Young Adult'
-    ],
-  },
+    ]
+  }
 }, {
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
@@ -63,8 +69,13 @@ class Book {
     return await BookModel.find({ title: { $regex: partialTitle, $options: 'i' } }).skip(skip).limit(limit);
   }
 
-  static async findSimilarBooks(book_ids) {
-    return await BookModel.find({ book_id: { $in: book_ids } });
+  static async findSimilarBooks(book_id) {
+    const book = await BookModel.findOne({ book_id });
+    if (!book) {
+      throw new Error('Book not found');
+    }
+    const similarBooks = await BookModel.find({ book_id: { $in: book.similar_books } });
+    return similarBooks;
   }
 }
 

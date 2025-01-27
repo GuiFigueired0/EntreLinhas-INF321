@@ -18,7 +18,7 @@ const flash = require('connect-flash');
 const routes = require('./routes');
 const path = require('path');
 // const helmet = require('helmet'); // helmet começou a causar problemas no localhost por conta da falta de SSL
-const csrf = require('csurf');
+//const csrf = require('csurf');
 const { middlewareGlobal, checkCsrfError, csrfMiddleware } = require('./src/middlewares/middleware');
 
 // app.use(helmet()); // helmet começou a causar problemas no localhost por conta da falta de SSL
@@ -43,11 +43,11 @@ app.use(flash());
 app.set('views', path.resolve(__dirname, 'src', 'views'));
 app.set('view engine', 'ejs');
 
-app.use(csrf());
+//app.use(csrf());
 // Nossos próprios middlewares
 app.use(middlewareGlobal);
-app.use(checkCsrfError);
-app.use(csrfMiddleware);
+//app.use(checkCsrfError);
+//app.use(csrfMiddleware);
 app.use(routes);
 
 app.on('pronto', () => {

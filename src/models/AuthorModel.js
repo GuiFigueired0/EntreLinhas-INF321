@@ -5,8 +5,8 @@ const AuthorSchema = new mongoose.Schema({
   author_id: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
   description: { type: String, default: null },
+  books: { type: [Number], default: [] },
   image_url: { type: String, default: null },
-  books: { type: [Number], default: [] },   // List of book_ids
 });
 
 const AuthorModel = mongoose.model('Author', AuthorSchema);
@@ -21,24 +21,20 @@ class Author {
   }
 
   static async findById(author_id) {
-    return await AuthorModel.findOne({ author_id });
-  }
-
-  static async findBooksById(author_id) {
     try {
       const author = await AuthorModel.findOne({ author_id });
   
       if (!author) {
-        throw new Error(`Autor com ID ${author_id} não foi encontrado.`);
+        throw new Error(`Author with ID ${author_id} was not found.`);
       }
   
       const books = await Promise.all(
         author.books.map(async (book_id) => await Book.findById(parseInt(book_id)))
       );
   
-      return books;
+      return { author, books };
     } catch (error) {
-      console.error(`Erro em findBooksById: ${error.message}`);
+      console.error(`Error in findById: ${error.message}`);
       throw error;
     }
   }  
