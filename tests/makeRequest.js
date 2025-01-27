@@ -25,7 +25,7 @@ async function login(loginData = {
   password: '123456',
 }) {
   const data = await makeRequest('POST', '/login/login', loginData, false);
-  return data.user;
+  return (data) ? data.user : null;
 }
 
 exports.makeRequest = makeRequest;

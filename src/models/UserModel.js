@@ -28,6 +28,10 @@ class User {
   async create() {
     return await UserModel.create(this.data);
   }
+  
+  async delete() {
+    return await UserModel.findOneAndDelete({ username: this.data.username });
+  }
 
   static async findById(userId) {
     return await UserModel.findById(userId);
@@ -37,9 +41,9 @@ class User {
     return await UserModel.findByIdAndUpdate(userId, updatedData, { new: true });
   }  
 
-  async delete() {
-    return await UserModel.findOneAndDelete({ username: this.data.username });
-  }
+  static async findByIdAndUpdate(userId, query) {
+    return await UserModel.findByIdAndUpdate(userId, query);
+  }  
 }
 
 module.exports = User;

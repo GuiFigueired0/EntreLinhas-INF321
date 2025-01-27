@@ -2,10 +2,10 @@ const { makeRequest } = require('./makeRequest')
 
 async function testRegister() {
   const loginData = {
-    email: 'testemail@gmail.com',
-    password: '123456',
-    name: 'Guilherme Figueiredo',
-    username: 'geladinho007',
+    email: 'test@test.com',
+    password: 'test',
+    name: 'Test Name',
+    username: 'teste001',
   };
 
   await makeRequest('POST', '/login/register', loginData);

@@ -8,10 +8,11 @@ const loginController = require('./src/controllers/loginController');
 const bookController = require('./src/controllers/bookController');
 const seriesController = require('./src/controllers/seriesController');
 const authorController = require('./src/controllers/authorController');
+const bookshelfController = require('./src/controllers/bookshelfController');
 
 const { loginRequired } = require('./src/middlewares/middleware');
 
-// Rotas da views
+// Views routes
 route.get('/', viewsController.index);
 route.get('/db_playground', viewsController.db_playground);
 route.get('/list', viewsController.list);
@@ -19,28 +20,39 @@ route.get('/book', viewsController.book);
 route.get('/profile', viewsController.profile);
 route.get('/list_group', viewsController.list_group);
 
-// Rotas de usuário 
+// User routes
 route.get('/user/find/:id', userController.findById);
 route.put('/user/update/:id', userController.updateById);
 
-// Rotas de login
+// Login routes
 route.post('/login/register', loginController.register);
 route.post('/login/login', loginController.login);
 route.get('/login/logout', loginController.logout);
 
-// Rotas de Livro
+// Book routes
 route.post('/books', bookController.create); 
 route.get('/books/genre/:genre', bookController.findByGenre); 
 route.get('/books/search/:title', bookController.searchByTitle); 
 route.get('/books/similar/:id', bookController.findSimilarBooks);
 route.get('/books/find/:id', bookController.findById); 
 
-// Rotas de Série
+// Series routes
 route.post('/series', seriesController.create); 
 route.get('/series/find/:id', seriesController.findById); 
 
-// Rotas de Autor
+// Author routes
 route.post('/author', authorController.create); 
 route.get('/author/find/:id', authorController.findById); 
+
+// Bookshelf routes
+route.post('/bookshelf', bookshelfController.create);
+route.get('/bookshelf/find/:id', bookshelfController.findById);
+route.get('/bookshelf/books/:id', bookshelfController.getBooks);
+route.get('/bookshelf/owner/:owner', bookshelfController.findByOwner);
+route.delete('/bookshelf/delete/:id', bookshelfController.deleteBookshelf);
+route.post('/bookshelf/info', bookshelfController.getBookshelvesInfo);
+route.post('/bookshelf/remove-book', bookshelfController.removeBook);
+route.post('/bookshelf/save', bookshelfController.saveBookshelf);
+route.post('/bookshelf/add-book', bookshelfController.addBook);
 
 module.exports = route;
