@@ -6,45 +6,45 @@ async function testCreate(userId, name) {
     name: name,
   };
 
-  return await makeRequest('POST', '/bookshelf', bookshelfData);
+  return await makeRequest('POST', '/bookshelves', bookshelfData);
 }
 
 async function testfindById(bookshelfId) {
-  return await makeRequest('GET', `/bookshelf/find/${bookshelfId}`);
+  return await makeRequest('GET', `/bookshelves/find/${bookshelfId}`);
 }
 
 async function testAddBook(bookshelf_id, book_id) {
   const data = { bookshelf_id, book_id }
 
-  await makeRequest('POST', '/bookshelf/add-book', data);
+  await makeRequest('POST', '/bookshelves/add-book', data);
 }
 
 async function testRemoveBook(bookshelf_id, book_id) {
   const data = { bookshelf_id, book_id }
 
-  await makeRequest('POST', '/bookshelf/remove-book', data);
+  await makeRequest('POST', '/bookshelves/remove-book', data);
 }
 
 async function testDeleteBookshelf(bookshelfId) {
-  await makeRequest('DELETE', `/bookshelf/delete/${bookshelfId}`);
+  await makeRequest('DELETE', `/bookshelves/delete/${bookshelfId}`);
 }
 
 async function testSaveBookshelf(user_id, bookshelf_id) {
   const data = { user_id, bookshelf_id };
 
-  await makeRequest('POST', '/bookshelf/save', data);
+  await makeRequest('POST', '/bookshelves/save', data);
 }
 
 async function testFindByOwner(owner) {
-  await makeRequest('GET', `/bookshelf/owner/${owner}`);
+  await makeRequest('GET', `/bookshelves/owner/${owner}`);
 }
 
 async function testGetBooks(bookshelfId) {
-  await makeRequest('GET', `/bookshelf/books/${bookshelfId}`);
+  await makeRequest('GET', `/bookshelves/books/${bookshelfId}`);
 }
 
 async function testGetBookshelvesInfo(bookshelf_ids) {
-  await makeRequest('POST', '/bookshelf/info', { bookshelf_ids });
+  await makeRequest('POST', '/bookshelves/info', { bookshelf_ids });
 }
 
 (async () => {

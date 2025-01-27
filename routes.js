@@ -4,13 +4,16 @@ const route = express.Router();
 const viewsController = require('./src/controllers/viewsController');
 
 const userController = require('./src/controllers/userController');
-const loginController = require('./src/controllers/loginController');
 const bookController = require('./src/controllers/bookController');
+const loginController = require('./src/controllers/loginController');
 const seriesController = require('./src/controllers/seriesController');
 const authorController = require('./src/controllers/authorController');
 const bookshelfController = require('./src/controllers/bookshelfController');
 const connectionController = require('./src/controllers/connectionController');
-
+const readingHistoryController = require('./src/controllers/readingHistoryController');
+const bookStateController = require('./src/controllers/bookStateController');
+const activityController = require('./src/controllers/activityController');
+const reviewController = require('./src/controllers/reviewController');
 const { loginRequired } = require('./src/middlewares/middleware');
 
 // Views routes
@@ -46,20 +49,43 @@ route.post('/author', authorController.create);
 route.get('/author/find/:id', authorController.findById); 
 
 // Bookshelf routes
-route.post('/bookshelf', bookshelfController.create);
-route.get('/bookshelf/find/:id', bookshelfController.findById);
-route.get('/bookshelf/books/:id', bookshelfController.getBooks);
-route.get('/bookshelf/owner/:owner', bookshelfController.findByOwner);
-route.delete('/bookshelf/delete/:id', bookshelfController.deleteBookshelf);
-route.post('/bookshelf/info', bookshelfController.getBookshelvesInfo);
-route.post('/bookshelf/remove-book', bookshelfController.removeBook);
-route.post('/bookshelf/save', bookshelfController.saveBookshelf);
-route.post('/bookshelf/add-book', bookshelfController.addBook);
+route.post('/bookshelves', bookshelfController.create);
+route.get('/bookshelves/find/:id', bookshelfController.findById);
+route.get('/bookshelves/books/:id', bookshelfController.getBooks);
+route.get('/bookshelves/owner/:owner', bookshelfController.findByOwner);
+route.delete('/bookshelves/delete/:id', bookshelfController.deleteBookshelf);
+route.post('/bookshelves/info', bookshelfController.getBookshelvesInfo);
+route.post('/bookshelves/remove-book', bookshelfController.removeBook);
+route.post('/bookshelves/save', bookshelfController.saveBookshelf);
+route.post('/bookshelves/add-book', bookshelfController.addBook);
 
 // Connection routes
 route.post('/connections', connectionController.create);
 route.get('/connections/user/:follower', connectionController.findUserConnections);
 route.get('/connections/followers/:user', connectionController.findFollowers);
-route.delete('/connections/:id', connectionController.deleteConnection);
+route.delete('/connections/delete/:id', connectionController.deleteConnection);
+
+// BookState routes
+route.post('/book-states/mark', bookStateController.mark);
+route.get('/book-states/user-state/:user/:state', bookStateController.findUserState);
+route.get('/book-states/find/:id', bookStateController.findById);
+route.delete('/book-states/delete/:id', bookStateController.delete);
+
+// ReadingHistory routes
+route.post('/reading-history', readingHistoryController.create);
+route.get('/reading-history/find/:user/:book', readingHistoryController.findBookHistory);
+route.delete('/reading-history/delete/:id', readingHistoryController.delete);
+
+// Review routes
+route.post('/reviews', reviewController.create);
+route.get('/reviews/find/:id', reviewController.findById);
+route.get('/reviews/book/:id', reviewController.findBookReviews);
+route.get('/reviews/user/:id', reviewController.findUserReviews);
+route.put('/reviews/update/:id', reviewController.update);
+route.delete('/reviews/delete/:id', reviewController.delete);
+
+// Activity routes
+route.get('/activity/feed/:id', activityController.getFeed);
+route.get('/activity/user/:id', activityController.getUserFeed);
 
 module.exports = route;

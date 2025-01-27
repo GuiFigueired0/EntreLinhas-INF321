@@ -13,7 +13,7 @@ async function testFindFollowers(userId) {
 }
 
 async function testDeleteConnection(connectionId) {
-  return await makeRequest('DELETE', `/connections/${connectionId}`);
+  return await makeRequest('DELETE', `/connections/delete/${connectionId}`);
 }
 
 (async () => {
