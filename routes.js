@@ -9,6 +9,7 @@ const bookController = require('./src/controllers/bookController');
 const seriesController = require('./src/controllers/seriesController');
 const authorController = require('./src/controllers/authorController');
 const bookshelfController = require('./src/controllers/bookshelfController');
+const connectionController = require('./src/controllers/connectionController');
 
 const { loginRequired } = require('./src/middlewares/middleware');
 
@@ -54,5 +55,11 @@ route.post('/bookshelf/info', bookshelfController.getBookshelvesInfo);
 route.post('/bookshelf/remove-book', bookshelfController.removeBook);
 route.post('/bookshelf/save', bookshelfController.saveBookshelf);
 route.post('/bookshelf/add-book', bookshelfController.addBook);
+
+// Connection routes
+route.post('/connections', connectionController.create);
+route.get('/connections/user/:follower', connectionController.findUserConnections);
+route.get('/connections/followers/:user', connectionController.findFollowers);
+route.delete('/connections/:id', connectionController.deleteConnection);
 
 module.exports = route;
