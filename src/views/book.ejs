@@ -2,81 +2,76 @@
 <body>
 <%- include('includes/nav') %>
 <div id="content">
-<main>
-    <div id="book-card">
+<main class="bg-white">
+    <div id="book-card" class="d-flex flex-column align-items-center ps-5 pt-5 gap-3">
         <%- include('./includes/card') %>
-    </div>
-    <div id="book-info">
-        <a href="#"><i>Series</i></a>
-        <h1>Book</h1>
-        <h3>Author</h3>
-        <div class="d-flex gap-5">
+        <div class="text-center">
         <%- include('includes/rating_form') %>
-        <small>Rate this book</small>
+        <strong>Rate this book</strong>
+        </div>
         <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">
             Write a review
         </a>
+    </div>
+    <div id="book-info" class="px-5 py-4">
+        <a href="#"><i>Series</i></a>
+        <h1>Book</h1>
+        <div class="d-flex gap-4 align-items-center">
+        <h4>Author</h4> 
+        <small>333 pages | June 26, 1997</small>
         </div>
-        <div class="d-flex gap-5">
+        <div class="d-flex gap-5 my-3 align-items-center">
+        <div class="rating-display big">
         <%- include('includes/rating_display') %>
-        <h3>3.7</h3>
-        <small>N ratings</small>
         </div>
-        <small>333 pages, Kindle Edition</small>
-        <p>First published June 26, 1997</p>
+        <h2>3.7</h2>
+        <small>10.000 ratings</small>
+        </div>
+        
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</p>
-        <h2>Ratings</h2>
-        <div class="d-flex gap-3">
-        <span>5 stars</span>
-        <div class="progress flex-grow-1 align-self-center">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <span>10.000 ratings</span>
-        </div>
-        <div class="d-flex gap-3">
-        <span>4 stars</span>
-        <div class="progress flex-grow-1 align-self-center">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <span>10.000 ratings</span>
-        </div>
-        <div class="d-flex gap-3">
-        <span>3 stars</span>
-        <div class="progress flex-grow-1 align-self-center">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <span>10.000 ratings</span>
-        </div>
-        <div class="d-flex gap-3">
-        <span>2 stars</span>
-        <div class="progress flex-grow-1 align-self-center">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <span>10.000 ratings</span>
-        </div>
-        <div class="d-flex gap-3">
-        <span>1 star</span>
-        <div class="progress flex-grow-1 align-self-center">
-            <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-        </div>
-        <span>10.000 ratings</span>
-        </div>
-        <h2>Reviews</h2>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-2">
-                    <img
-                        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                        class="rounded-circle img-fluid"
-                        alt="Black and White Portrait of a Man"
-                        loading="lazy"
-                    />
-                    <h5>Reviewer</h5>
-                </div>
-                <div class="col-10">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula
+        <h2 class="mt-5 mb-4">Ratings</h2>
+        <div id="ratings">
+            <div class="d-inline-flex align-items-center gap-2">
+            <p class="fixed-width m-0 fw-bold">5</p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
             </div>
-
+            <small>10.000 users</small>
+            </div>
+            <div class="d-inline-flex align-items-center mt-3 gap-2">
+            <p class="fixed-width m-0 fw-bold">4</p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+            <small>10.000 users</small>
+            </div>
+            <div class="d-inline-flex align-items-center mt-3 gap-2">
+            <p class="fixed-width m-0 fw-bold">3</p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+            <small>10.000 users</small>
+            </div>
+            <div class="d-inline-flex align-items-center mt-3 gap-2">
+            <p class="fixed-width m-0 fw-bold">2</p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+            <small>10.000 users</small>
+            </div>
+            <div class="d-inline-flex align-items-center mt-3 gap-2">
+            <p class="fixed-width m-0 fw-bold">1</p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+            </div>
+            <small>10.000 users</small>
+            </div>
+        </div>
+        
+        <h2 class="mt-5 mb-4">Reviews</h2>
+        <div class="container-fluid d-flex flex-column gap-4">
+             <%- include('includes/review') %>
+             <%- include('includes/review') %>
         </div>
     </div>
     <%- include('includes/modals/progress') %>

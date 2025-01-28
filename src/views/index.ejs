@@ -45,7 +45,9 @@
       <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
         <div class="card-body">
           <div class="d-flex justify-content-between p-2">
+            <div class="rating-display">
             <%- include('includes/rating_display') %>
+            </div>
             <i>January 1, 2025</i>
           </div>
           <p>
@@ -84,7 +86,7 @@
       </a>
       <span>Username fixed something to their <a href="profile">profile</a>.</span>
     </div>
-    <div class="activity d-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
+    <div class="activity d-inline-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
       <a href="profile">
         <img
           src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
@@ -93,7 +95,10 @@
           loading="lazy"
         />
       </a>
-      <span>Username rated <a href="book" class="me-1">book</a> <%- include('includes/rating_display') %></span>
+      <span>Username rated <a href="book">book</a></span>
+      <div class="rating-display">
+      <%- include('includes/rating_display') %>
+      </div>
     </div>
   </div>
   
