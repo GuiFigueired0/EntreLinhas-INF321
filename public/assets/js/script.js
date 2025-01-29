@@ -37,6 +37,33 @@ document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('listView').classList.remove('d-none');
     });
   }
+  function paginationLogic(section){
+    const paginationLinks = section.querySelectorAll('.page-link');
+    const pageContents = section.querySelectorAll('.page-content');
+
+    paginationLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        // Get the page number from the clicked link
+        const pageNum = this.getAttribute('data-page');
+
+        // Hide all pages
+        pageContents.forEach(page => page.classList.add('d-none'));
+
+        // Show the selected page
+        section.querySelector(`.page-${pageNum}`).classList.remove('d-none');
+
+        // Set the active page in the pagination
+        paginationLinks.forEach(link => link.classList.remove('active'));
+        this.classList.add('active');
+        });
+    });
+  }
+  paginationLogic(document.getElementById('listView'));
+  paginationLogic(document.getElementById('gridView'));
+
+
   const modalBtns = document.querySelectorAll('.modalBtn');
   const modalDivs = document.querySelectorAll('.modalDiv');
   modalBtns.forEach(btn => {
