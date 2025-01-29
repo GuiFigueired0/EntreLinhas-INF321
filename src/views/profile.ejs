@@ -22,7 +22,7 @@
                   <a class="nav-link" target-selector=".tab.reviews">Reviews</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target-selector=".tab.social">Following</a>
+                    <a class="nav-link" target-selector=".tab.following">Following</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" target-selector=".tab.followers">Followers</a>
@@ -32,12 +32,7 @@
         <%- include('includes/tabs/profile') %>
         <%- include('includes/tabs/shelf') %>
         <%- include('includes/tabs/reviews') %>
-        <div id="tabFollowing" class="d-none tab following bg-white">
         <%- include('includes/tabs/social') %>
-        </div>
-        <div id="tabFollowers" class="d-none tab followers bg-white">
-        <%- include('includes/tabs/social') %>
-        </div>
         <%- include('includes/modals/progress') %>
     </div>
     

@@ -1,4 +1,4 @@
-<div id="tabSocial" class="tab social d-none container">
+<div id="tabSocial" class="tab following d-none container">
     <div class="row">
         <!-- Script will add things here -->
     </div>
@@ -62,7 +62,7 @@
     }
   }
 
-  document.querySelector('[target-selector=".tab.social"]').addEventListener("click", () => {
+  document.querySelector('[target-selector=".tab.following"]').addEventListener("click", () => {
     const tabSocial = document.getElementById("tabSocial");
   
     if (!tabSocial.dataset.loadedUser) {
@@ -72,7 +72,7 @@
   });
 
   document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", () => {
-    const tabSocial = document.getElementById("tabSocial");
+    const tabSocial = document.getElementById("tabFollowers");
   
     if (!tabSocial.dataset.loadedFollowers) {
       tabSocial.dataset.loadedFollowers = true;
