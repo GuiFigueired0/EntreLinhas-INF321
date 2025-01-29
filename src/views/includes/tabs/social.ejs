@@ -1,52 +1,82 @@
 <div id="tabSocial" class="tab social d-none container">
     <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
-                <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                    class="rounded-circle"
-                    alt="Black and White Portrait of a Man"
-                    width="50"
-                    height="50"
-                />
-                <a href="profile"><h3 class="ms-3 mb-0">Username</h3></a>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
-                <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                    class="rounded-circle"
-                    alt="Black and White Portrait of a Man"
-                    width="50"
-                    height="50"
-                />
-                <a href="profile"><h3 class="ms-3 mb-0">Username</h3></a>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
-                <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                    class="rounded-circle"
-                    alt="Black and White Portrait of a Man"
-                    width="50"
-                    height="50"
-                />
-                <a href="profile"><h3 class="ms-3 mb-0">Username</h3></a>
-            </div>
-        </div>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
-                <img
-                    src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                    class="rounded-circle"
-                    alt="Black and White Portrait of a Man"
-                    width="50"
-                    height="50"
-                />
-                <a href="profile"><h3 class="ms-3 mb-0">Username</h3></a>
-            </div>
-        </div>
+        <!-- Script will add things here -->
     </div>
 </div>
+<div id="tabFollowers" class="tab followers d-none container">
+    <div class="row">
+        <!-- Script will add things here -->
+    </div> 
+</div>
+
+<script>
+  async function loadConnections(getFollowers) {
+    const page = 1;
+    const limit = 10;
+    
+    let url = '';
+    let resultsContainer = null;
+    if(getFollowers){
+      resultsContainer = document.querySelector("#tabFollowers .row");
+      const user = document.body.dataset.user;
+      url = `/connections/followers/${user}`
+    } else {
+      resultsContainer = document.querySelector("#tabSocial .row");
+      const follower = document.body.dataset.user;
+      url = `/connections/user/${follower}`
+    }
+    try {
+      const query = new URLSearchParams({ page, limit });
+      const response = await fetch(`${url}?${query}`, {
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Error loading connections.");
+      }
+  
+      const connections = await response.json();
+      resultsContainer.innerHTML = "";
+  
+      connections.forEach(connection => {
+        const card = document.createElement("div");
+        card.className = "col-12 col-sm-6 col-md-4 col-lg-3 mb-3";
+        card.innerHTML = `
+          <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
+            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" width="50" height="50" />
+            <a href="profile/${getFollowers ? connection.follower.name : connection.user.name}">
+              <h3 class="ms-3 mb-0">${getFollowers ? connection.follower.name : connection.user.name}</h3>
+            </a>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+      });
+  
+    } catch (error) {
+      console.error(error);
+      resultsContainer.innerHTML = `<p class="text-danger">Erro ao carregar conexões: ${error}.</p>`;
+    }
+  }
+
+  document.querySelector('[target-selector=".tab.social"]').addEventListener("click", () => {
+    const tabSocial = document.getElementById("tabSocial");
+  
+    if (!tabSocial.dataset.loadedUser) {
+      tabSocial.dataset.loadedUser = true;
+      loadConnections(false);
+    }
+  });
+
+  document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", () => {
+    const tabSocial = document.getElementById("tabSocial");
+  
+    if (!tabSocial.dataset.loadedFollowers) {
+      tabSocial.dataset.loadedFollowers = true;
+      loadConnections(true);
+    }
+  });
+</script>

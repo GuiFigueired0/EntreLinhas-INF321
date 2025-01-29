@@ -1,49 +1,68 @@
 <div id="tabReviews" class="tab reviews d-none">
     <div class="container-fluid">
-        <div class="w-100">
-          <div class="d-flex">
-            <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="rounded-circle"
-                height="25"
-                alt="Black and White Portrait of a Man"
-                loading="lazy"
-            />
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
-          </div>
-          <div class="d-flex">
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</span>
-          </div>
-        </div>
-        <div class="w-100">
-          <div class="d-flex">
-            <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="rounded-circle"
-                height="25"
-                alt="Black and White Portrait of a Man"
-                loading="lazy"
-            />
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
-          </div>
-          <div class="d-flex">
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</span>
-          </div>
-        </div>
-        <div class="w-100">
-          <div class="d-flex">
-            <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="rounded-circle"
-                height="25"
-                alt="Black and White Portrait of a Man"
-                loading="lazy"
-            />
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </span>
-          </div>
-          <div class="d-flex">
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</span>
-          </div>
-        </div>
-      </div>
+        <!-- Script will add things here -->
+    </div>
 </div>
+
+<script>
+  async function loadReviews() {
+    const page = 1;
+    const limit = 10;
+    
+    let url = '';
+    let resultsContainer = document.querySelector("#tabReviews .container-fluid");
+    const id = document.body.dataset.user;
+    url = `/reviews/user/${id}`
+    try {
+      const query = new URLSearchParams({ page, limit });
+      const response = await fetch(`${url}?${query}`, {
+        method: 'GET',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        console.log(response);
+        throw new Error("Error loading reviews.");
+      }
+  
+      const reviews = await response.json();
+      resultsContainer.innerHTML = "";
+  
+      reviews.forEach(review => {
+        const card = document.createElement("div");
+        card.className = "w-100";
+        card.innerHTML = `
+          <div class="d-flex">
+            <img
+                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                class="rounded-circle"
+                height="25"
+                alt="Black and White Portrait of a Man"
+                loading="lazy"
+            />
+            <span>${review.formattedDate}. ${review.rating} stars.</span>
+          </div>
+          <div class="d-flex">
+            <span>${review.text}</span>
+          </div>
+        `;
+        resultsContainer.appendChild(card);
+      });
+  
+    } catch (error) {
+      console.error(error);
+      resultsContainer.innerHTML = `<p class="text-danger">Erro ao carregar reviews.</p>`;
+    }
+  }
+
+  document.querySelector('[target-selector=".tab.reviews"]').addEventListener("click", () => {
+    const tabSocial = document.getElementById("tabReviews");
+  
+    if (!tabSocial.dataset.loadedReviews) {
+      tabSocial.dataset.loadedReviews = true;
+      loadReviews();
+    }
+  });
+</script>

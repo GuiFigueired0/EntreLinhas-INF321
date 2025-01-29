@@ -13,7 +13,7 @@ exports.findUserConnections = async function (req, res) {
   try {
     const { follower } = req.params;
     const { page = 1, limit = 10 } = req.query;
-    const connections = await Connection.findUserConnections(follower, page, limit);
+    const connections = await Connection.findUserConnections(follower, parseInt(page), parseInt(limit));
     res.json(connections);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -24,7 +24,7 @@ exports.findFollowers = async function (req, res) {
   try {
     const { user } = req.params;
     const { page = 1, limit = 10 } = req.query;
-    const followers = await Connection.findFollowers(user, page, limit);
+    const followers = await Connection.findFollowers(user, parseInt(page), parseInt(limit));
     res.json(followers);
   } catch (error) {
     res.status(400).json({ error: error.message });
