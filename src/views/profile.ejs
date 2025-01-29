@@ -5,15 +5,15 @@
 <%- include('includes/sidebars/profile') %>
 <main> 
     <div id="tabDiv">
-        <div id="profile-nav" class="d-flex align-items-center p-3">
+        <div id="profile-nav" class="d-flex align-items-center bg-light border">
             <img
                 src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="icon-sm rounded-circle nav-id"
+                class="icon-sm rounded-circle nav-id ms-2"
             />
-            <h3 class="ms-3 mb-0 nav-id">Username</h3>
-            <ul class="nav nav-tabs">
+            <h3 class="ms-2 me-5 mb-0 nav-id">Username</h3>
+            <ul class="nav nav-tabs align-self-end">
                 <li class="nav-item">
-                  <a class="nav-link active sb-expanded" target-selector=".tab.profile">Profile</a>
+                  <a class="nav-link active sb-expanded custom" target-selector=".tab.profile">Profile</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" target-selector=".tab.shelf">Bookshelves</a>
@@ -32,7 +32,12 @@
         <%- include('includes/tabs/profile') %>
         <%- include('includes/tabs/shelf') %>
         <%- include('includes/tabs/reviews') %>
+        <div id="tabFollowing" class="d-none tab following bg-white">
         <%- include('includes/tabs/social') %>
+        </div>
+        <div id="tabFollowers" class="d-none tab followers bg-white">
+        <%- include('includes/tabs/social') %>
+        </div>
         <%- include('includes/modals/progress') %>
     </div>
     

@@ -49,6 +49,9 @@ main{
 #dropdownMenuLink{
   text-decoration: none;
 }
+#profile-nav{
+  height: 65px;
+}
 
 .icon-container {
   position: relative;
@@ -66,6 +69,9 @@ main{
 }
 .icon-md{
   width: 7rem;
+}
+.icon-lg{
+  width: 10rem;
 }
 
 .right-aligned {
@@ -102,10 +108,6 @@ main{
 #tabDiv{
   margin-left: var(--tab-info-width);
   transition: margin-left 0.5s ease-in-out, opacity 0.5s ease-in-out;
-}
-
-.stats{
-  background-color: #d3d3d3
 }
 
 .modalDiv {
@@ -171,4 +173,8 @@ main{
   color: blue;
   cursor: pointer;
   font-weight: bold;
+}
+.nav-link.custom.active{
+  background-color: #e1e7ec;
+  border-color: #e1e7ec;
 }
