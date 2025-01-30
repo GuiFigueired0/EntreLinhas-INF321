@@ -6,6 +6,7 @@ const AuthorSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, default: null },
   books: { type: [Number], default: [] },
+  number_of_books: { type: Number, required: true },
   image_url: { type: String, default: null },
 });
 
@@ -20,7 +21,8 @@ class Author {
     return await AuthorModel.create(this.data);
   }
 
-  static async findById(author_id) {
+  static async findById(author_id, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
     try {
       const author = await AuthorModel.findOne({ author_id });
   
@@ -28,6 +30,7 @@ class Author {
         throw new Error(`Author with ID ${author_id} was not found.`);
       }
   
+      author.books = author.books.slice(skip, skip+limit);
       const books = await Promise.all(
         author.books.map(async (book_id) => await Book.findById(parseInt(book_id)))
       );

@@ -6,6 +6,7 @@ const SeriesSchema = new mongoose.Schema({
   name: { type: String, required: true },
   description: { type: String, default: null },
   books: { type: [Number], default: [] },
+  number_of_books: { type: Number, required: true },
 });
 
 const SeriesModel = mongoose.model('Series', SeriesSchema);
@@ -19,14 +20,16 @@ class Series {
     return await SeriesModel.create(this.data);
   }
 
-  static async findById(series_id) {
+  static async findById(series_id, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
     try {
-      const series = await SeriesModel.findOne({ series_id });
+      let series = await SeriesModel.findOne({ series_id });
   
       if (!series) {
         throw new Error(`Series with ID ${series_id} was not found.`);
       }
-  
+      
+      series.books = series.books.slice(skip, skip+limit);
       const books = await Promise.all(
         series.books.map(async (book_id) => await Book.findById(parseInt(book_id)))
       );

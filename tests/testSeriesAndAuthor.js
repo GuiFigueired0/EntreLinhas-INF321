@@ -6,6 +6,7 @@ async function testCreateSeries() {
     name: 'Epic Fantasy',
     description: 'A thrilling series about exploration and discovery.',
     books: [1, 2, 3],
+    number_of_books: 3,
   };
 
   await makeRequest('POST', '/series', seriesData);
@@ -18,15 +19,16 @@ async function testFindSeriesById() {
 }
 
 async function testCreateAuthor() {
-  const payload = {
+  const authorData = {
     author_id: 1,
     name: 'John Doe',
     description: 'An author known for his thrilling novels.',
     books: [1, 2, 3],
+    number_of_books: 3,
     image_url: 'https://example.com/images/john_doe.jpg',
   };
 
-  await makeRequest('POST', '/author', payload);
+  await makeRequest('POST', '/author', authorData);
 }
 
 async function testFindAuthorById() {
