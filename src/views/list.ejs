@@ -3,11 +3,10 @@
 <%- include('includes/nav') %>
 <div id="content">
 <main>
-    <h1>Series</h1>
-    <small>N works</small>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</p>
+    <h1><%= data.name %></h1>
+    <small><%= data.number_of_books %> works</small>
+    <p><%= data.description %></p>
     <%- include('includes/gallery') %>
-    <%- include('includes/modals/progress') %>
 </main>
 </div>
 <script src="/assets/js/links.js"></script>
