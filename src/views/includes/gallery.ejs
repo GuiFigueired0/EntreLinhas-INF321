@@ -47,25 +47,23 @@
     </div>
     
     <div id="listView" class="d-none">
-        <!-- Page 1 Content -->
+        <%- include('list_item', { isSimple: true }) %>
         <div class="page-content page-1">
             <p>Page 1</p>
-            <%- include('list_item') %>
-            <%- include('list_item') %>
+            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple: true }) %>
         </div>
     
-        <!-- Page 2 Content -->
         <div class="page-content page-2 d-none">
             <p>Page 2</p>
-            <%- include('list_item') %>
-            <%- include('list_item') %>
+            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple: true }) %>
         </div>
     
-        <!-- Page 3 Content -->
         <div class="page-content page-3 d-none">
             <p>Page 3</p>
-            <%- include('list_item') %>
-            <%- include('list_item') %>
+            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple: true }) %>
         </div>
     
     

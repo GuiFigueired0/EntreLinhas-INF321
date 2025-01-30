@@ -23,6 +23,7 @@ route.get('/list', viewsController.list);
 route.get('/book', viewsController.book);
 route.get('/profile', viewsController.profile);
 route.get('/list_group', viewsController.list_group);
+route.get('/login', viewsController.login);
 
 // User routes
 route.get('/user/find/:id', userController.findById);

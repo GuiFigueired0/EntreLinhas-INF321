@@ -23,3 +23,7 @@ exports.profile = async(req, res) => {
 exports.list_group = async(req, res) => {
   res.render('list_group');
 };
+
+exports.login = async(req, res) => {
+  res.render('login');
+};
