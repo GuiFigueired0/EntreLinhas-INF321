@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const BookState = require('./BookStateModel');
+const User = require('./UserModel');
 
 const ReviewSchema = new mongoose.Schema({
   user: { 
@@ -13,6 +14,7 @@ const ReviewSchema = new mongoose.Schema({
     required: true 
   },
   rating: { type: Number, default: null },
+  title: { type: String, default: null },
   text: { type: String, default: null },
   finished: { type: Boolean, default: true }, 
   last_alteration_day: { type: Number, default: null },
@@ -40,6 +42,11 @@ ReviewSchema.virtual('formattedDate').get(function () {
 
 const ReviewModel = mongoose.model('Review', ReviewSchema);
 
+async function updateUserCounter(userId, increment = true) {
+  const update = { $inc: { ['reviews_count']: increment ? 1 : -1 } };
+  return await User.findByIdAndUpdate(userId, update);
+}
+
 class Review {
   constructor(data) {
     this.data = data;
@@ -58,11 +65,14 @@ class Review {
     this.data.last_alteration_year = now.getFullYear();
     this.data.finished = bookState.state === 'Read';
     const review = await ReviewModel.create(this.data);
+    updateUserCounter(review.user);
     return review;
   }
 
   static async delete(reviewId) {
-    return await ReviewModel.findByIdAndDelete(reviewId);
+    const review = await ReviewModel.findByIdAndDelete(reviewId);
+    updateUserCounter(review.user, false);
+    return review;
   } 
 
   static async findById(review_id) {

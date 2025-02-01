@@ -15,11 +15,11 @@
     </div>
     <div id="book-info" class="px-5 py-4">
         <% if (book.series_id) { %>
-            <a href=<%= series_url %><i><%= book.series_name %>, #<%= book.series_number %></i></a>
+            <a href="<%= series_url %>"><i><%= book.series_name %>, #<%= book.series_number %></i></a>
         <% } %>
         <h1><%= book.title %></h1>
         <% if (book.author_id) { %>
-            <a href=<%= author_url %><i><%= book.author_name %></i></a>
+            <a href="<%= author_url %>"><i><%= book.author_name %></i></a>
         <% } %>
         <div class="d-flex gap-4 align-items-center">
         <small><%= book.num_pages %> pages | <%= book.formattedDate %></small>

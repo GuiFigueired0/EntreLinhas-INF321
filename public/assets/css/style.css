@@ -66,12 +66,18 @@ main{
 } 
 .icon-sm{
   width: 3rem;
+  height: 3rem;
+  object-fit: cover;
 }
 .icon-md{
   width: 7rem;
+  height: 7rem;
+  object-fit: cover;
 }
 .icon-lg{
   width: 10rem;
+  height: 10rem;
+  object-fit: cover;
 }
 
 .right-aligned {
