@@ -80,10 +80,6 @@ main{
   object-fit: cover;
 }
 
-.right-aligned {
-  right: 0;
-  left: auto;
-}
 
 .bxs-star {
   color: gold;
@@ -183,4 +179,7 @@ main{
 .nav-link.custom.active{
   background-color: #e1e7ec;
   border-color: #e1e7ec;
+}
+#search-menu{
+  background-color: #e1e7ec;
 }
