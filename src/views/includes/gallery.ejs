@@ -1,55 +1,19 @@
 <div class="container">
     <%- include('page_nav') %>
     <div id="gridView">
-        <!-- Page 1 Content -->
-        <div class="page-content page-1">
-            <div class="row">
-                <p>Page 1</p>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
+        <div class="row">
+        <% books.forEach(book => { %>
+            <div class="col-6 col-lg-4 col-xl-3">
+                <img src="<%= book.image_url %>" class="img-md">
             </div>
-        </div>
-    
-        <!-- Page 2 Content -->
-        <div class="page-content page-2 d-none">
-            <div class="row">
-                <p>Page 2</p>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
-            </div>
-        </div>
-    
-        <!-- Page 3 Content -->
-        <div class="page-content page-3 d-none">
-            <div class="row">
-                <p>Page 3</p>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
-                <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
-            </div>
-        </div>
-
+        <% }) %>
+        </div>  
     </div>
     
     <div id="listView" class="d-none">
-        
-        <div class="page-content page-1">
-            <p>Page 1</p>
-            <%- include('list_item', { isSimple }) %>
-            <%- include('list_item', { isSimple }) %>
-        </div>
-    
-        <div class="page-content page-2 d-none">
-            <p>Page 2</p>
-            <%- include('list_item', { isSimple }) %>
-            <%- include('list_item', { isSimple }) %>
-        </div>
-    
-        <div class="page-content page-3 d-none">
-            <p>Page 3</p>
-            <%- include('list_item', { isSimple }) %>
-            <%- include('list_item', { isSimple }) %>
-        </div>
-    
+        <% books.forEach(book => { %>
+            <%- include('list_item', { isSimple: isSimple, book: book }) %>
+        <% }) %>
     </div>
 </div>
     

@@ -1,70 +1,40 @@
 <div class="list-item border rounded shadow-sm mb-3 <%= isSimple ? 'simple' : '' %>">
     <div class="row">
-        
+    
         <!-- Book Card -->
-        <div class="<%= isSimple ? 'col-1' : 'position-relative col-2' %> pe-0">
-            <img class="w-100 h-auto" src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg">
+        <div class="card <%= isSimple ? 'col-1' : 'col-2' %> p-0">
+            <!-- Image as Background -->
+            <img class="card-img-top object-fit-cover w-100" src="<%= book.image_url %>">
+
             <% if (!isSimple) { %>
-                <div class="btn-group position-absolute start-50 translate-middle-x bottom-0 mb-2">
-                    <button class="btn btn-success btn-sm" type="button">
-                        Small split
-                    </button>
-                    <button type="button" class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="visually-hidden">Toggle Dropdown</span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        ...
-                    </ul>
+                <!-- Dropdown Inside the Card (No Absolute Positioning) -->
+                <div class="card-body d-flex justify-content-center align-items-end p-2">
+                    <%- include('add_list', { isSimple: isSimple, isSmall: false }) %>
                 </div>
             <% } %>
         </div>
-
         <!-- Book Info -->
         <div class="<%= isSimple ? 'col-11' : 'col-10' %>">
         <div class="d-inline-flex w-100 <%= isSimple ? '' : 'h-25 border-bottom' %>  justify-content-around align-items-center pt-2">
             <div class="pt-2">
-                <h5 class="fw-bold">Title</h5>
-                <p class="text-muted">by Author</p>
+                <h5 class="fw-bold"><%= book.title %></h5>
+                <p class="text-muted">by <%= book.author_name %></p>
             </div>
             <div class="text-end pt-1">
                 <div>
-                    <span class="fw-bold d-inline ">3.7</span>
-                    <%- include('rating_display') %>
+                    <span class="fw-bold d-inline "><%= book.rating %></span>
+                    <%- include('rating_display', { star_value: book.rating }) %>
                 </div>
-                <small class="text-muted ms-1">12 ratings</small>
+                <small class="text-muted ms-1"><%= book.total_ratings %> ratings</small>
             </div>
             <% if (isSimple) { %>
-            <div class="btn-group text-light">
-                <button class="btn btn-success btn-sm" type="button">
-                    Small split button
-                </button>
-                <button type="button" class="btn btn-sm btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="visually-hidden">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                    ...
-                </ul>
-            </div>
+                <%- include('add_list', { isSmall: false }) %>
             <% } %>
         </div>
         <% if (!isSimple) { %>
             <div class="h-75 overflow-hidden d-flex">
                 <p class="mt-2 text-muted text-wrap truncate" truncate="800">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum
-                    tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices,
-                    diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus.
-                    Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem,
-                    condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus
-                    magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at,
-                    consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui,
-                    condimentum ac fringilla sed, sollicitudin ornare metus.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum
-                    tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices,
-                    diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus.
-                    Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem,
-                    condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                    <%= book.description %>
                 </p>
             </div>
         <% } %>

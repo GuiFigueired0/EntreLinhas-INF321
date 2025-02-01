@@ -3,10 +3,10 @@
 <%- include('includes/nav') %>
 <div id="content">
 <main>
-    <!-- <h1><%= data.name %></h1>
+    <h1><%= data.name %></h1>
     <small><%= data.number_of_books %> works</small>
-    <p><%= data.description %></p> -->
-    <%- include('includes/gallery', { isSimple: false }) %>
+    <p><%= data.description %></p>
+    <%- include('includes/gallery', { isSimple: false, books: books }) %>
 </main>
 </div>
 <script src="/assets/js/links.js"></script>
