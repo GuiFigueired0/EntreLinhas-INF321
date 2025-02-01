@@ -1,7 +1,5 @@
 <div class="container">
-    <a id="gridViewSelect" href="#">Grid View</a>
-    <a id="listViewSelect" href="#">List View</a>
-    
+    <%- include('page_nav') %>
     <div id="gridView">
         <!-- Page 1 Content -->
         <div class="page-content page-1">
@@ -29,57 +27,29 @@
                 <div class="col-6 col-lg-4 col-xl-3"><%- include('card') %></div>
             </div>
         </div>
-    
-    
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="1">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="2">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="3">3</a>
-            </li>
-            </ul>
-        </nav>
+
     </div>
     
     <div id="listView" class="d-none">
-        <%- include('list_item', { isSimple: true }) %>
+        
         <div class="page-content page-1">
             <p>Page 1</p>
-            <%- include('list_item', { isSimple: true }) %>
-            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple }) %>
+            <%- include('list_item', { isSimple }) %>
         </div>
     
         <div class="page-content page-2 d-none">
             <p>Page 2</p>
-            <%- include('list_item', { isSimple: true }) %>
-            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple }) %>
+            <%- include('list_item', { isSimple }) %>
         </div>
     
         <div class="page-content page-3 d-none">
             <p>Page 3</p>
-            <%- include('list_item', { isSimple: true }) %>
-            <%- include('list_item', { isSimple: true }) %>
+            <%- include('list_item', { isSimple }) %>
+            <%- include('list_item', { isSimple }) %>
         </div>
     
-    
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="1">1</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="2">2</a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="#" data-page="3">3</a>
-            </li>
-            </ul>
-        </nav>
     </div>
 </div>
     
