@@ -1,6 +1,10 @@
-const user = '67976b7e78e23443e48e341a';
 const Series = require('../models/SeriesModel');
 const Author = require('../models/AuthorModel');
+const Book = require('../models/BookModel');
+const Review = require('../models/ReviewModel');
+const BookState = require('../models/BookStateModel');
+
+const user = '67976b7e78e23443e48e341a';
 
 exports.index = async(req, res) => {
   res.render('index');
@@ -35,7 +39,12 @@ exports.series = async(req, res) => {
     if (!data) {
       res.render('404', { number: 404, message: 'Series not found.' });
     } 
-    res.render('list', { data: data.series, books: data.books, page, user });
+    res.render('list', { 
+      data: data.series, 
+      books: data.books, 
+      page, 
+      user 
+    });
   } catch (error) {
     console.log(error);
     res.render('404', { number: 400, message: 'Error when searching for the series.' });
@@ -51,13 +60,44 @@ exports.author = async(req, res) => {
     if (!data) {
       res.render('404', { number: 404, message: 'Author not found.' });
     } 
-    res.render('list', { data: data.author, books: data.books, page, user });
+    res.render('list', { 
+      data: data.author, 
+      books: data.books, 
+      page, 
+      user 
+    });
   } catch (error) {
     console.log(error);
     res.render('404', { number: 400, message: 'Error when searching for the author.' });
   }
 };
 
+exports.book = async(req, res) => {
+  try {
+    let { id } = req.params;
+    id = parseInt(id)
+    const book = await Book.findById(id);
+    if (!book) {
+      res.render('404', { number: 404, message: 'Book not found.' });
+    }
+    const similar_books = await Book.findSimilarBooks(id);
+    const reviews = await Review.findBookReviews(book._id, 1, 5);
+    const user_review = await Review.findByIds(user, book._id);
+    const bookState = await BookState.findBookState(user, book._id);
+    res.render('book', { 
+      book, 
+      similar_books, 
+      user_review, 
+      reviews, 
+      bookState,
+      series_url: `/series/view/${book.series_id}`,
+      author_url: `/author/view/${book.author_id}`,
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when loading the data for the book.' });
+  }
+};
 
 exports.login = async(req, res) => {
   res.render('login');
