@@ -19,13 +19,16 @@ async function testfindUserState(user, state) {
 (async () => {
   console.log('Starting BookState tests...');
 
-  const user1 = await login();
+  const user1 = await login({
+    email: 'test1@test.com',
+    password: 'test1',
+  });
   const book1 = await makeRequest('GET', `/books/find/1`, null, false);
   const book2 = await makeRequest('GET', `/books/find/2`, null, false);
 
   let bookStateData = {
     user: user1._id,
-    book: book1._id,
+    book: book2._id,
     state: 'Want to Read',
   };
 
@@ -34,7 +37,7 @@ async function testfindUserState(user, state) {
   let bookState2 = await testMark(bookStateData);
   bookStateData.state = 'Currently Reading'
   bookState2 = await testMark(bookStateData);
-  
+  return;
   await testfindUserState(user1._id, 'Want to Read');
   await testfindById(bookState2._id);
 

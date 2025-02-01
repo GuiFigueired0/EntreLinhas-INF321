@@ -17,6 +17,7 @@ const BookStateSchema = new mongoose.Schema({
     required: true,
     enum: ['Want to Read', 'Currently Reading', 'Read', 'Abandoned'],
   },
+  timestamp: { type: Date, default: Date.now }
 });
 
 async function updateUserCounter(userId, state, increment = true) {
@@ -74,6 +75,7 @@ class BookState {
   static async findUserState(user, state, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
     return await BookStateModel.find({ user, state })
+      .sort({ timestamp: -1 })
       .populate('book')
       .skip(skip)
       .limit(limit);

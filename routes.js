@@ -21,12 +21,14 @@ route.get('/', viewsController.index);
 route.get('/db_playground', viewsController.db_playground);
 route.get('/list', viewsController.list);
 route.get('/book', viewsController.book);
-route.get('/profile', viewsController.profile);
 route.get('/list_group', viewsController.list_group);
 route.get('/login', viewsController.login);
+route.get('/search', viewsController.search);
+
 route.get('/series/view/:id', viewsController.series);
 route.get('/author/view/:id', viewsController.author);
 route.get('/book/view/:id', viewsController.book);
+route.get('/profile/view/:id', viewsController.profile);
 
 // User routes
 route.get('/user/find/:id', userController.findById);

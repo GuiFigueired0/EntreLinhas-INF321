@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  name: { type: String, default: '' },
   username: { type: String, required: true, unique: true },
-  image_url: { type: String, default: null },
+  image_url: { type: String, default: 'https://mdbcdn.b-cdn.net/img/new/avatars/2.webp' },
   quote: { type: String, default: '' },
-  age: { type: Number, default: null },
   bookshelves: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Bookshelf' 
@@ -16,6 +14,7 @@ const UserSchema = new mongoose.Schema({
   abandoned_count: { type: Number, default: 0 },
   followers_count: { type: Number, default: 0 },
   following_count: { type: Number, default: 0 },
+  reviews_count: { type: Number, default: 0 },
 });
 
 const UserModel = mongoose.model('User', UserSchema);
@@ -36,7 +35,7 @@ class User {
   static async findById(userId) {
     return await UserModel.findById(userId);
   }
-
+  
   static async updateById(userId, updatedData) {
     return await UserModel.findByIdAndUpdate(userId, updatedData, { new: true });
   }  

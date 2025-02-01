@@ -60,7 +60,7 @@ class Bookshelf {
   }
 
   static async getBookshelvesInfo(bookshelf_ids) {
-    return await BookshelfModel.find({ _id: { $in: bookshelf_ids } });
+    return await BookshelfModel.find({ _id: { $in: bookshelf_ids } }).select('_id name owner');
   }
 
   static async addBook(bookshelf_id, book_id) {

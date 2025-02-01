@@ -7,10 +7,10 @@
     <div id="tabDiv">
         <div id="profile-nav" class="d-flex align-items-center bg-light border">
             <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                src="<%= profile.image_url %>"
                 class="icon-sm rounded-circle nav-id ms-2"
             />
-            <h3 class="ms-2 me-5 mb-0 nav-id">Username</h3>
+            <h3 class="ms-2 me-5 mb-0 nav-id"><%= profile.username %></h3>
             <ul class="nav nav-tabs align-self-end">
                 <li class="nav-item">
                   <a class="nav-link active sb-expanded custom" target-selector=".tab.profile">Profile</a>

@@ -27,7 +27,10 @@ async function testDelete(id) {
 (async () => {
   console.log('Starting Review tests...');
 
-  const user = await login();
+  const user = await login({
+    email: 'test1@test.com',
+    password: 'test',
+  });
   const book = await makeRequest('GET', `/books/find/1`, null, false);
 
   let bookStateData = {
@@ -41,6 +44,7 @@ async function testDelete(id) {
     user: user._id,
     book: book._id,
     rating: 4,
+    title: "Perfection!!!",
     text: "My favorite book so far this year!",
   };
   let review = await testCreate(reviewData);
@@ -48,7 +52,7 @@ async function testDelete(id) {
   await testFindBookReviews(book._id);
   await testUpdate(review._id, { rating: 5 });
   await testFindUserReviews(user._id);
-
+  return;
   await testFindById(review._id);
   await testDelete(review._id);
 

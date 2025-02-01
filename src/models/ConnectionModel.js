@@ -47,17 +47,17 @@ class Connection {
     if (limit) {
       const skip = (page - 1) * limit;
       return await ConnectionModel.find({ follower })
-        .populate({ path: 'user', select: '_id name image_url' })
+        .populate({ path: 'user', select: '_id username image_url' })
         .skip(skip)
         .limit(limit);
     }
-    return await ConnectionModel.find({ follower }).populate({ path: 'user', select: '_id name image_url' })
+    return await ConnectionModel.find({ follower }).populate({ path: 'user', select: '_id username image_url' })
   }
 
   static async findFollowers(user, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
     return await ConnectionModel.find({ user })
-      .populate({ path: 'follower', select: '_id name image_url' })
+      .populate({ path: 'follower', select: '_id username image_url' })
       .skip(skip)
       .limit(limit);
   }

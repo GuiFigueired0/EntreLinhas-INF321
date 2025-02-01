@@ -3,6 +3,8 @@ const Author = require('../models/AuthorModel');
 const Book = require('../models/BookModel');
 const Review = require('../models/ReviewModel');
 const BookState = require('../models/BookStateModel');
+const User = require('../models/UserModel');
+const Activity = require('../models/ActivityModel');
 
 const user = '67976b7e78e23443e48e341a';
 
@@ -22,12 +24,16 @@ exports.book = async(req, res) => {
   res.render('book');
 };
 
-exports.profile = async(req, res) => {
-  res.render('profile', { user });
-};
-
 exports.list_group = async(req, res) => {
   res.render('list_group');
+};
+
+exports.login = async(req, res) => {
+  res.render('login');
+};
+
+exports.search = async(req, res) => {
+  res.render('search');
 };
 
 exports.series = async(req, res) => {
@@ -80,10 +86,11 @@ exports.book = async(req, res) => {
     if (!book) {
       res.render('404', { number: 404, message: 'Book not found.' });
     }
-    const similar_books = await Book.findSimilarBooks(id);
+    let similar_books = await Book.findSimilarBooks(id);
     const reviews = await Review.findBookReviews(book._id, 1, 5);
     const user_review = await Review.findByIds(user, book._id);
     const bookState = await BookState.findBookState(user, book._id);
+    console.log(reviews.length)
     res.render('book', { 
       book, 
       similar_books, 
@@ -99,6 +106,26 @@ exports.book = async(req, res) => {
   }
 };
 
-exports.login = async(req, res) => {
-  res.render('login');
+exports.profile = async(req, res) => {
+  try {
+    let { id } = req.params;
+    const profile = await User.findById(id);
+    if (!profile) {
+      res.render('404', { number: 404, message: 'Profile not found.' });
+    }
+    const ownProfile = id == user;
+    const feed = ownProfile ? await Activity.getFollowedFeed(id) : await Activity.getUserFeed(id);
+    let recent = await BookState.findUserState(id, 'Currently Reading', 1, 10);
+    console.log(recent)
+    res.render('profile', { 
+      ownProfile,
+      profile, 
+      feed,
+      user,
+      recent
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when loading the data for the profile.' });
+  }
 };

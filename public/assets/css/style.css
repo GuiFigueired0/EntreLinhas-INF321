@@ -66,12 +66,18 @@ main{
 } 
 .icon-sm{
   width: 3rem;
+  height: 3rem;
+  object-fit: cover;
 }
 .icon-md{
   width: 7rem;
+  height: 7rem;
+  object-fit: cover;
 }
 .icon-lg{
   width: 10rem;
+  height: 10rem;
+  object-fit: cover;
 }
 
 
@@ -176,4 +182,14 @@ main{
 }
 #search-menu{
   background-color: #e1e7ec;
+}
+
+.img-md{
+  width: 15rem; 
+  height: 20rem;
+}
+
+.img-bg{
+  width: 18rem; 
+  height: 24rem;
 }

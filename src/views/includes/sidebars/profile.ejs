@@ -1,30 +1,32 @@
 <div id="sidebarProfile" class="sidebar d-flex flex-column align-items-center gap-2 shadow">
     <img
-        src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-        class="rounded-circle img-fluid icon-lg shadow-lg"
+        src="<%= profile.image_url %>"
+        class="rounded-circle img-fluid icon-md shadow-lg"
         alt="Black and White Portrait of a Man"
         loading="lazy"
     />
-    <h2>Username</h2>
-    <a href="#" class="w-100 btn btn-primary d-block">Follow</a>
+    <h2><%= profile.username %></h2>
+    <% if (!ownProfile) { %>
+        <a href="#" class="w-100 btn btn-primary d-block">Follow</a>
+    <% } %>
     <div class="w-100 d-flex justify-content-between">    
-    <small>100 followers</small>
-    <small>100 following</small>
+    <small><%= profile.followers_count %> followers</small>
+    <small><%= profile.following_count %> following</small>
     </div>
     <div class="w-100 stats bg-light border rounded text-center mt-2">
         <a href="#">READ</a>
-        <h5>100</h5>
+        <h5><%= profile.read_count %></h5>
     </div>
     <div class="w-100 stats bg-light border rounded text-center mt-2">
         <a href="#">READING</a>
-        <h5>100</h5>
+        <h5><%= profile.currently_reading_count %></h5>
     </div>
     <div class="w-100 stats bg-light border rounded text-center mt-2">
         <a href="#">WANT TO READ</a>
-        <h5>100</h5>
+        <h5><%= profile.want_to_read_count %></h5>
     </div>
     <div class="w-100 stats bg-light border rounded text-center mt-2">
         <a href="#">REVIEWS</a>
-        <h5>100</h5>
+        <h5><%= profile.reviews_count %></h5>
     </div>
 </div>
