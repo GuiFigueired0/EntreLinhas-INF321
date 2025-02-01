@@ -1,6 +1,37 @@
-<!-- Sempre aninhar em <div class="rating-display"> -->
-<i class='d-inline bx bx-star' data-value="1"></i>
-<i class='d-inline bx bx-star' data-value="2"></i>
-<i class='d-inline bx bx-star' data-value="3"></i>
-<i class='d-inline bx bx-star' data-value="4"></i>
-<i class='d-inline bx bx-star' data-value="5"></i>
+<div class="rating-display <%= typeof isBig == 'undefined' ? '' : isBig ? 'big' : '' %>" data-rating="<%= typeof star_value == 'undefined' ? '3' : star_value %>">
+    <i class='d-inline bx bx-star' data-value="1"></i>
+    <i class='d-inline bx bx-star' data-value="2"></i>
+    <i class='d-inline bx bx-star' data-value="3"></i>
+    <i class='d-inline bx bx-star' data-value="4"></i>
+    <i class='d-inline bx bx-star' data-value="5"></i>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ratingDisplays = document.querySelectorAll('.rating-display');
+    
+        ratingDisplays.forEach(display => {
+            const rating = parseFloat(display.getAttribute('data-rating'));
+            const stars = display.querySelectorAll('.bx');
+    
+            if (display.classList.contains('big')) {
+                stars.forEach(star => star.classList.add('bx-md'));
+            }
+    
+            stars.forEach(star => {
+                const starValue = parseFloat(star.getAttribute('data-value'));
+                if (starValue <= rating) {
+                    star.classList.remove('bx-star');
+                    star.classList.add('bxs-star');
+                } else if (starValue - 0.5 <= rating) {
+                    star.classList.remove('bx-star');
+                    star.classList.add('bxs-star-half');
+                } else {
+                    star.classList.remove('bxs-star', 'bxs-star-half');
+                    star.classList.add('bx-star');
+                }
+            });
+        });
+    });
+</script>
+    

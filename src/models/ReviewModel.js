@@ -31,11 +31,11 @@ ReviewSchema.virtual('formattedDate').get(function () {
   if (!day || !month || !year) return null;
   
   const monthNames = [
-    'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
-    'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
   ];
   
-  return `${day} de ${monthNames[month - 1]} de ${year}`;
+  return `${monthNames[month - 1]} ${day}, ${year}`;
 });
 
 const ReviewModel = mongoose.model('Review', ReviewSchema);

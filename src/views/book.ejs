@@ -4,7 +4,7 @@
 <div id="content">
 <main class="bg-white">
     <div id="book-card" class="d-flex flex-column align-items-center ps-5 pt-5 gap-3">
-        <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
+        <img src=<%= book.image_url %> style="width: 18rem;">
         <div class="text-center">
         <%- include('includes/rating_form') %>
         <strong>Rate this book</strong>
@@ -14,60 +14,23 @@
         </a>
     </div>
     <div id="book-info" class="px-5 py-4">
-        <a href="#"><i>Series</i></a>
-        <h1>Book</h1>
+        <% if (book.series_id) { %>
+            <a href=<%= series_url %><i><%= book.series_name %>, #<%= book.series_number %></i></a>
+        <% } %>
+        <h1><%= book.title %></h1>
+        <% if (book.author_id) { %>
+            <a href=<%= author_url %><i><%= book.author_name %></i></a>
+        <% } %>
         <div class="d-flex gap-4 align-items-center">
-        <h4>Author</h4> 
-        <small>333 pages | June 26, 1997</small>
+        <small><%= book.num_pages %> pages | <%= book.formattedDate %></small>
         </div>
         <div class="d-flex gap-5 my-3 align-items-center">
-        <div class="rating-display big">
-        <%- include('includes/rating_display') %>
+        <%- include('includes/rating_display', { isBig: true, star_value: book.rating }) %>
+        <h2><%= book.rating %></h2>
+        <small><%= book.total_ratings %> ratings</small>
         </div>
-        <h2>3.7</h2>
-        <small>10.000 ratings</small>
-        </div>
-        
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices, diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus. Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem, condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at, consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui, condimentum ac fringilla sed, sollicitudin ornare metus.</p>
-        <h2 class="mt-5 mb-4">Ratings</h2>
-        <div id="ratings">
-            <div class="d-inline-flex align-items-center gap-2">
-            <p class="fixed-width m-0 fw-bold">5</p><i class="bx bxs-star ms-2"></i>
-            <div class="w-50 progress border shadow-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <small>10.000 users</small>
-            </div>
-            <div class="d-inline-flex align-items-center mt-3 gap-2">
-            <p class="fixed-width m-0 fw-bold">4</p><i class="bx bxs-star ms-2"></i>
-            <div class="w-50 progress border shadow-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <small>10.000 users</small>
-            </div>
-            <div class="d-inline-flex align-items-center mt-3 gap-2">
-            <p class="fixed-width m-0 fw-bold">3</p><i class="bx bxs-star ms-2"></i>
-            <div class="w-50 progress border shadow-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <small>10.000 users</small>
-            </div>
-            <div class="d-inline-flex align-items-center mt-3 gap-2">
-            <p class="fixed-width m-0 fw-bold">2</p><i class="bx bxs-star ms-2"></i>
-            <div class="w-50 progress border shadow-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <small>10.000 users</small>
-            </div>
-            <div class="d-inline-flex align-items-center mt-3 gap-2">
-            <p class="fixed-width m-0 fw-bold">1</p><i class="bx bxs-star ms-2"></i>
-            <div class="w-50 progress border shadow-sm">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-            </div>
-            <small>10.000 users</small>
-            </div>
-        </div>
-        
+        <p><%= book.description %></p>
+        <%- include('includes/rating_per_stars', { total_ratings: book.total_ratings, ratings_per_star: book.ratings_per_star }) %>
         <h2 class="mt-5 mb-4">Reviews</h2>
         <div class="container-fluid d-flex flex-column gap-4">
              <%- include('includes/review') %>
@@ -81,6 +44,5 @@
 <script src="/assets/js/collapsable.js"></script>
 <script src="/assets/js/links.js"></script>
 <script src="/assets/js/modal.js"></script>
-<script src="/assets/js/stars.js"></script>
 </body>
 </html>

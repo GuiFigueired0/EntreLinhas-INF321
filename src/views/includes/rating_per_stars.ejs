@@ -1,0 +1,15 @@
+<h2 class="mt-5 mb-4">Ratings</h2>
+<div id="ratings">
+    <% for (let i = 5; i >= 1; i--) { 
+        let count = ratings_per_star.get(i.toString()) || 0; // Número de avaliações para essa nota
+        let percentage = total_ratings > 0 ? (count / total_ratings * 100).toFixed(1) : 0; // Cálculo da porcentagem
+    %>
+        <div class="d-inline-flex align-items-center mt-3 gap-2">
+            <p class="fixed-width m-0 fw-bold"><%= i %></p><i class="bx bxs-star ms-2"></i>
+            <div class="w-50 progress border shadow-sm">
+                <div class="progress-bar" role="progressbar" style="width: <%= percentage %>%;" aria-valuenow="<%= percentage %>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small><%= percentage %>% (<%= count %> users)</small>
+        </div>
+    <% } %>
+</div>
