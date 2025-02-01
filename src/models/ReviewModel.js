@@ -13,7 +13,7 @@ const ReviewSchema = new mongoose.Schema({
     ref: 'Book', 
     required: true 
   },
-  rating: { type: Number, default: null },
+  rating: { type: Number, default: 0 },
   title: { type: String, default: null },
   text: { type: String, default: null },
   finished: { type: Boolean, default: true }, 
@@ -85,7 +85,7 @@ class Review {
 
   static async findBookReviews(book, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
-    return await ReviewModel.find({ book }).skip(skip).limit(limit);
+    return await ReviewModel.find({ book }).populate({ path: 'user', select: '_id username image_url' }).skip(skip).limit(limit);
   }
 
   static async findUserReviews(user, page = 1, limit = 10) {

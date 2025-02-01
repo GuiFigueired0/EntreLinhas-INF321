@@ -35,7 +35,7 @@ class User {
   static async findById(userId) {
     return await UserModel.findById(userId);
   }
-
+  
   static async updateById(userId, updatedData) {
     return await UserModel.findByIdAndUpdate(userId, updatedData, { new: true });
   }  

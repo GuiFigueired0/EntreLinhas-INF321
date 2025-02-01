@@ -4,7 +4,7 @@
 <div id="content">
 <main class="bg-white">
     <div id="book-card" class="d-flex flex-column align-items-center ps-5 pt-5 gap-3">
-        <img src=<%= book.image_url %> style="width: 18rem;">
+        <img src=<%= book.image_url %> class="object-fit-cover img-bg">
         <div class="text-center">
         <%- include('includes/rating_form') %>
         <strong>Rate this book</strong>
@@ -31,11 +31,28 @@
         </div>
         <p><%= book.description %></p>
         <%- include('includes/rating_per_stars', { total_ratings: book.total_ratings, ratings_per_star: book.ratings_per_star }) %>
-        <h2 class="mt-5 mb-4">Reviews</h2>
-        <div class="container-fluid d-flex flex-column gap-4">
-             <%- include('includes/review') %>
-             <%- include('includes/review') %>
-        </div>
+        <% if (similar_books.length > 0 ) { %>
+            <h2 class="mt-4">Similar Books</h2>
+            <div class="container overflow-auto bg-light rounded shadow-sm p-3">
+                <div class="row flex-row flex-nowrap">
+                    <% similar_books.forEach(book => { %>
+                        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                            <a href="/book/view/<%= book.book_id %>">
+                                <img src="<%= book.image_url %>" class="object-fit-cover img-md">
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        <% } %>
+        <% if (reviews.length > 0 ) { %>
+            <h2 class="mt-5 mb-4">Reviews</h2>
+            <div class="container-fluid d-flex flex-column gap-4">
+                <% reviews.forEach(review => { %>
+                    <%- include('includes/review', { review: review }) %>
+                <% }); %>
+            </div>
+        <% } %>
     </div>
     <%- include('includes/modals/progress') %>
     <%- include('includes/modals/review') %>

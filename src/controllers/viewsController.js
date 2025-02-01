@@ -86,10 +86,11 @@ exports.book = async(req, res) => {
     if (!book) {
       res.render('404', { number: 404, message: 'Book not found.' });
     }
-    const similar_books = await Book.findSimilarBooks(id);
+    let similar_books = await Book.findSimilarBooks(id);
     const reviews = await Review.findBookReviews(book._id, 1, 5);
     const user_review = await Review.findByIds(user, book._id);
     const bookState = await BookState.findBookState(user, book._id);
+    console.log(reviews.length)
     res.render('book', { 
       book, 
       similar_books, 

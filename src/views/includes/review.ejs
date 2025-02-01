@@ -1,13 +1,12 @@
 <div class="row border-top border-bottom">
     <div class="col-2 d-flex flex-column align-items-center gap-2 pt-4 bg-light rounded border">
         <img
-            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+            src="<%= review.user.image_url %>"
             class="rounded-circle img-fluid icon-md"
             alt="Black and White Portrait of a Man"
             loading="lazy"
         />
-        <h5>Reviewer</h5>
-        <a href="#" class="btn btn-primary">Follow</a>
+        <h5><%= review.user.username %></h5>
     </div>
     <div class="col-10 p-4">
         <%- include('review_content') %>

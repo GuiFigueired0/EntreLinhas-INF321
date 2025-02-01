@@ -36,21 +36,21 @@ async function testFindSimilarBooks() {
   console.log('Starting Book tests...');
 
   const bookData = {
-    book_id: 2,
+    book_id: 3,
     series_id: 1,
-    series_number: 2,
+    series_number: 3,
     series_name: 'Epic Fantasy',
     title: 'The Second Adventure',
     author_id: 1,
     author_name: 'John Doe',
     publisher: 'Fictional Press',
     description: 'An epic tale of adventure.',
-    num_pages: 400,
+    num_pages: 253,
     publication_day: 3,
     publication_month: 6,
     publication_year: 2021,
-    image_url: 'https://images.gr-assets.com/books/1333287305m/13571772.jpg',
-    similar_books: [2, 3],
+    image_url: 'https://images.gr-assets.com/books/1363886502m/17666476.jpg',
+    similar_books: [1, 3],
     genre: 'Fantasy & Paranormal',
     ratings_per_star: {
       1: 10,
