@@ -1,7 +1,6 @@
 <form id="ratingForm" action="/submit-rating" method="POST">
-    <input type="hidden" id="csrfTokenCreate" value="YOUR_CSRF_TOKEN_HERE">
-    <input type="hidden" id="ratingForm_User_id" value="USER_ID_HERE">
-    <input type="hidden" id="ratingForm_Book_id" value="BOOK_ID_HERE">
+    <input type="hidden" id="ratingForm_User_id" value="<% user %>">
+    <input type="hidden" id="ratingForm_Book_id" value="<% book._id %>">
     <div id="starContainer" >
         <i class='d-inline bx bx-star bx-md' data-value="1"></i>
         <i class='d-inline bx bx-star bx-md' data-value="2"></i>
@@ -9,7 +8,7 @@
         <i class='d-inline bx bx-star bx-md' data-value="4"></i>
         <i class='d-inline bx bx-star bx-md' data-value="5"></i>
     </div>
-    <input type="hidden" name="rating" id="ratingInput" value="0">
+    <input type="hidden" name="rating" id="ratingInput" value="<%= typeof review == 'undefined' ? '0' : review.rating %>">
 </form>
 
 <script>
@@ -31,7 +30,7 @@
                 }
             });
         }
-
+        highlightStars(ratingInput.getAttribute('value'));
         stars.forEach(star => {
             star.addEventListener('mouseover', function () {
                 const value = this.getAttribute('data-value');
@@ -39,7 +38,7 @@
             });
 
             star.addEventListener('mouseout', function () {
-                const value = ratingInput.value;
+                const value = ratingInput.getAttribute('value');
                 highlightStars(value);
             });
 
@@ -60,14 +59,12 @@
             // Automatically submit the form
             const user_id = document.getElementById('ratingForm_User_id').value;
             const book_id = document.getElementById('ratingForm_Book_id').value;
-            const csrfToken = document.getElementById('csrfTokenCreate').value;
 
             try {
             const response = await fetch('/submit-rating', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
-                'CSRF-Token': csrfToken,
                 },
                 body: JSON.stringify({ user: user_id, book: book_id, rating }),
             });

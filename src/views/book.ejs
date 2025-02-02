@@ -6,11 +6,11 @@
     <div id="book-card" class="d-flex flex-column align-items-center ps-5 pt-5 gap-3">
         <img src=<%= book.image_url %> class="object-fit-cover img-bg">
         <div class="text-center">
-        <%- include('includes/rating_form') %>
+        <%- include('includes/rating_form', { review: user_review }) %>
         <strong>Rate this book</strong>
         </div>
         <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">
-            Write a review
+            <%= typeof user_review == 'undefined' ? 'Write' : 'Edit' %> a review
         </a>
     </div>
     <div id="book-info" class="px-5 py-4">
@@ -55,7 +55,7 @@
         <% } %>
     </div>
     <%- include('includes/modals/progress') %>
-    <%- include('includes/modals/review') %>
+    <%- include('includes/modals/review', { review: user_review, book: book }) %>
 </main>
 </div>
 <script src="/assets/js/collapsable.js"></script>

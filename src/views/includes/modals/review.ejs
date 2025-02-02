@@ -4,16 +4,15 @@
     <!-- Modal content -->
     <div class="modalContent rounded w-50 p-4">
       <form id="createReviewForm">
-        <input type="hidden" id="csrfTokenCreate" value="YOUR_CSRF_TOKEN_HERE">
-        <input type="hidden" id="createReview_User_id" value="USER_ID_HERE">
-        <input type="hidden" id="createReview_Book_id" value="BOOK_ID_HERE">
+        <input type="hidden" id="createReview_User_id" value="<%= user %>">
+        <input type="hidden" id="createReview_Book_id" value="<%= book._id %>">
         <div class="mb-3">
           <label for="createReview_Title" class="form-label">Title for the review:</label>
-          <input type="text" class="form-control" id="createReview_Title" placeholder="(optional)" aria-describedby="bookTitleHelp">
+          <input type="text" class="form-control" id="createReview_Title" placeholder="(optional)" aria-describedby="bookTitleHelp" value="<%= typeof review == 'undefined' ? '' : review.title %>">
         </div>
         <div class="mb-3">
           <label for="createReview_Text" class="form-label"><strong>Write your opinion on the book:</strong></label>
-          <textarea class="form-control" id="createReview_Text" rows="7" required></textarea>
+          <textarea class="form-control" id="createReview_Text" rows="7" required><%= typeof review == 'undefined' ? '' : review.text %></textarea>
         </div>
         <button type="button" id="createReviewBtn" class="btn btn-primary">Submit Review</button>
       </form>
@@ -29,7 +28,6 @@
       const rating = 0;
       const title = document.getElementById('createReview_Title').value;
       const text = document.getElementById('createReview_Text').value;
-      const csrfToken = document.getElementById('csrfTokenCreate').value;
       const messageContainer = document.getElementById('createReviewMessage');
   
       try {
@@ -37,7 +35,6 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'CSRF-Token': csrfToken,
           },
           body: JSON.stringify({ user: user_id, book: book_id, rating, title, text }),
         });
