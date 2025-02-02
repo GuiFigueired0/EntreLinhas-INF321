@@ -1,0 +1,15 @@
+<div class="container d-flex flex-column gap-4">
+    <% reviews.forEach(review => { %>
+        <div class="d-flex">
+            <div>
+                <img
+                    src="<%= review.book.image_url %>"
+                    class="img-md object-fit-cover"
+                />
+            </div>
+            <div class="border rounded p-4 w-auto">
+                <%- include('../review_content', { review: review }) %>
+            </div>
+        </div>
+    <% }) %>
+</div>

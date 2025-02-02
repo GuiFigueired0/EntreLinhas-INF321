@@ -34,6 +34,9 @@ body.tab-info{
 main{
   margin-left: 0;
   transition: margin-left 0.5s ease-in-out;
+  height: 100%;
+}
+.grey-bg{
   background-color: #e1e7ec;
 }
 .sb-expanded main{
@@ -184,6 +187,10 @@ main{
   background-color: #e1e7ec;
 }
 
+.img-sm{
+  width: 9rem;
+  height: 12rem;
+}
 .img-md{
   width: 15rem; 
   height: 20rem;

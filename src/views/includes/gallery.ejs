@@ -3,8 +3,13 @@
     <div id="gridView">
         <div class="row">
         <% books.forEach(book => { %>
-            <div class="col-6 col-lg-4 col-xl-3">
-                <img src="<%= book.image_url %>" class="img-md">
+            <div class="card img-sm col-6 col-lg-4 col-xl-3 p-0">
+            <!-- Image as Background -->
+            <img src="<%= book.image_url %>" class="card-img object-fit-cover w-100 h-100">
+            <!-- Dropdown Button at the Bottom -->
+            <div class="card-img-overlay p-0 d-flex flex-column justify-content-end aling-items-end">
+                <%- include('add_list', { isSimple: isSimple, isSmall: false }) %>
+            </div>
             </div>
         <% }) %>
         </div>  

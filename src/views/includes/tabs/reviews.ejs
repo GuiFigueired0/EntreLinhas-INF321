@@ -1,20 +1,17 @@
-<div id="tabReviews" class="tab reviews d-none">
-    <div class="container-fluid">
-        <!-- Script will add things here -->
-    </div>
+<div id="tabReviews" class="d-none tab reviews bg-white py-5">
+    
 </div>
-
 <script>
   async function loadReviews() {
     const page = 1;
     const limit = 10;
     
     let url = '';
-    let resultsContainer = document.querySelector("#tabReviews .container-fluid");
+    let resultsContainer = document.querySelector("#tabReviews .container");
     const id = document.body.dataset.user;
     url = `/reviews/user/${id}`
     try {
-      const query = new URLSearchParams({ page, limit });
+      const query = new URLSearchParams({ page, limit, render: true });
       const response = await fetch(`${url}?${query}`, {
         method: 'GET',
         headers: {
@@ -33,21 +30,7 @@
       reviews.forEach(review => {
         const card = document.createElement("div");
         card.className = "w-100";
-        card.innerHTML = `
-          <div class="d-flex">
-            <img
-                src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                class="rounded-circle"
-                height="25"
-                alt="Black and White Portrait of a Man"
-                loading="lazy"
-            />
-            <span>${review.formattedDate}. ${review.rating} stars.</span>
-          </div>
-          <div class="d-flex">
-            <span>${review.text}</span>
-          </div>
-        `;
+        card.innerHTML = ``;
         resultsContainer.appendChild(card);
       });
   
