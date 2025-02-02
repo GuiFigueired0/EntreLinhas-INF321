@@ -1,3 +1,4 @@
+const { ContextExclusionPlugin } = require('webpack');
 const Connection = require('../models/ConnectionModel');
 
 exports.create = async function (req, res) {
@@ -10,10 +11,19 @@ exports.create = async function (req, res) {
 }
 
 exports.findUserConnections = async function (req, res) {
+  const render = req.query.render === "true";
+  const ownProfile = req.query.ownProfile === "true";
   try {
     const { follower } = req.params;
     const { page = 1, limit = 10 } = req.query;
     const connections = await Connection.findUserConnections(follower, parseInt(page), parseInt(limit));
+
+    if (render) {
+      let users = connections.map(connection => { return { user: connection.user, connection_id: connection._id }; });
+      console.log(users)
+      return res.render('includes/users_display', { users, ownProfile });
+    }
+
     res.json(connections);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -21,10 +31,19 @@ exports.findUserConnections = async function (req, res) {
 }
 
 exports.findFollowers = async function (req, res) {
+  const render = req.query.render === "true";
+  const ownProfile = req.query.ownProfile === "true";
   try {
     const { user } = req.params;
     const { page = 1, limit = 10 } = req.query;
-    const followers = await Connection.findFollowers(user, parseInt(page), parseInt(limit));
+    const connections = await Connection.findFollowers(user, parseInt(page), parseInt(limit));
+
+    if (render) {
+      let users = connections.map(connection => { return { user: connection.follower, connection_id: connection._id }; });
+      console.log(users)
+      return res.render('includes/users_display', { users, ownProfile });
+    }
+
     res.json(followers);
   } catch (error) {
     res.status(400).json({ error: error.message });

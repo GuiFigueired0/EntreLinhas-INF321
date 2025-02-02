@@ -43,14 +43,12 @@
             console.log('Entrou no script', searchInput, '.');
             if (!searchInput) return;
             
-            // Identificar qual tipo de pesquisa foi selecionado
             const selectedType = document.querySelector('input[name="flexRadioDefault"]:checked').nextElementSibling.innerText.toLowerCase().trim();
-            console.log(`InicioSelect:${selectedType}:FinalSelect`)
             if (!selectedType) { 
                 console.log('Nenhum tipo foi selecionado'); 
                 return;
             }
-            // Mapear tipo para a URL correta
+            
             const endpointMap = {
                 book: "/books/search/",
                 series: "/series/search/",

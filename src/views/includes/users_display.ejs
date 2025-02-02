@@ -1,14 +1,33 @@
 <div class="container">
-    <% users.forEach(user_info => { %>
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
-            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
-                <img src="<%= user_info.image_url %>" class="rounded-circle" width="50" height="50" />
-                <div>
-                    <a href="/profile/view/<%= user_info._id %>">
-                        <h3 class="ms-3 mb-0"><%= user_info.username %></h3>
-                    </a>
+    <% if (typeof ownProfile == 'undefined' ? false : ownProfile) { %>
+        <% users.forEach(user_info => { %>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
+                    <img src="<%= user_info.user.image_url %>" class="rounded-circle" width="50" height="50" />
+                    <div>
+                        <a href="/profile/view/<%= user_info.user._id %>">
+                            <h3 class="ms-3 mb-0"><%= user_info.user.username %></h3>
+                        </a>
+                    </div>
+                    <button class="btn btn-danger" type="button" id="deleteBtn"><i class='bx bx-trash'></i></button>
+                    <script>
+
+                    </script>
                 </div>
             </div>
-        </div>
-    <% }) %>
+        <% }) %>
+    <% } else { %>
+        <% users.forEach(user_info => { %>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
+                <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
+                    <img src="<%= user_info.image_url %>" class="rounded-circle" width="50" height="50" />
+                    <div>
+                        <a href="/profile/view/<%= user_info._id %>">
+                            <h3 class="ms-3 mb-0"><%= user_info.username %></h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } %>
 </div>
