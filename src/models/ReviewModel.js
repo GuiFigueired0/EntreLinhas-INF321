@@ -90,7 +90,7 @@ class Review {
 
   static async findUserReviews(user, page = 1, limit = 10) {
     const skip = (page - 1) * limit;
-    return await ReviewModel.find({ user }).skip(skip).limit(limit);
+    return await ReviewModel.find({ user }).populate('book').skip(skip).limit(limit);
   }
 
   static async updateById(review_id, data) {

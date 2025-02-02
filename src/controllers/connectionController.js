@@ -20,13 +20,16 @@ exports.findUserConnections = async function (req, res) {
 
     if (render) {
       let users = connections.map(connection => { return { user: connection.user, connection_id: connection._id }; });
-      console.log(users)
       return res.render('includes/users_display', { users, ownProfile });
     }
 
     res.json(connections);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    const message = "Error when searching for followed users.";
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    res.status(400).json({ error: error.message, message });
   }
 }
 
@@ -40,13 +43,16 @@ exports.findFollowers = async function (req, res) {
 
     if (render) {
       let users = connections.map(connection => { return { user: connection.follower, connection_id: connection._id }; });
-      console.log(users)
       return res.render('includes/users_display', { users, ownProfile });
     }
 
     res.json(followers);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    const message = "Error when searching for users's followers.";
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    res.status(400).json({ error: error.message, message });
  }
 }
 

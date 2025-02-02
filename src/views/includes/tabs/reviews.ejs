@@ -1,42 +1,96 @@
 <div id="tabReviews" class="d-none tab reviews bg-white py-5">
-    
+    <!-- Script will add things here -->
 </div>
+
 <script>
+  function initializeRatingDisplays() {
+    const ratingDisplays = document.querySelectorAll('.rating-display');
+
+    ratingDisplays.forEach(display => {
+        const rating = parseFloat(display.getAttribute('data-rating'));
+        const stars = display.querySelectorAll('.bx');
+
+        if (display.classList.contains('big')) {
+            stars.forEach(star => star.classList.add('bx-md'));
+        }
+
+        stars.forEach(star => {
+            const starValue = parseFloat(star.getAttribute('data-value'));
+            if (starValue <= rating) {
+                star.classList.remove('bx-star');
+                star.classList.add('bxs-star');
+            } else if (starValue - 0.5 <= rating) {
+                star.classList.remove('bx-star');
+                star.classList.add('bxs-star-half');
+            } else {
+                star.classList.remove('bxs-star', 'bxs-star-half');
+                star.classList.add('bx-star');
+            }
+        });
+    });
+}
+
+function initializeCollapsibles() {
+  const collapsables = document.querySelectorAll('.collapsable');
+  const collapseButtons = document.querySelectorAll(".collapse-button");
+  collapsables.forEach(content => {
+    const paragraph = content.querySelector("p"); // The paragraph inside the collapsable div
+    const maxCharacters = 1500; // Maximum number of characters to display before collapsing
+
+    // Check if the text exceeds the maximum number of characters
+    if (paragraph.textContent.length <= maxCharacters) {
+      // Hide the toggle button and remove the fade effect
+      content.nextElementSibling.style.display = "none";
+    } else {
+      // Apply the hidden class and ensure the fade effect exists
+      content.classList.add("hidden");
+    }
+  });
+  
+  collapseButtons.forEach(button => {
+    button.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default anchor behavior
+        const collapsable = this.parentElement.previousElementSibling;
+        if (collapsable.classList.contains("expanded")) {
+            collapsable.classList.remove("expanded");
+            this.textContent = "Show more";
+        } else {
+            collapsable.classList.add("expanded");
+            this.textContent = "Show less";
+        }
+    });
+  });
+}
+
+function initializeDynamicContent() {
+    initializeRatingDisplays();
+    initializeCollapsibles();
+}
+
   async function loadReviews() {
     const page = 1;
     const limit = 10;
     
-    let url = '';
-    let resultsContainer = document.querySelector("#tabReviews .container");
+    let resultsContainer = document.querySelector("#tabReviews");
+    const query = new URLSearchParams({ page, limit, render: true});
     const id = document.body.dataset.user;
-    url = `/reviews/user/${id}`
+    const url = `/reviews/user/${id}`;
+
     try {
-      const query = new URLSearchParams({ page, limit, render: true });
-      const response = await fetch(`${url}?${query}`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-      });
+      const response = await fetch(`${url}?${query}`);
       
       if (!response.ok) {
         console.log(response);
-        throw new Error("Error loading reviews.");
+        throw new Error("Error loading connections.");
       }
-  
-      const reviews = await response.json();
-      resultsContainer.innerHTML = "";
-  
-      reviews.forEach(review => {
-        const card = document.createElement("div");
-        card.className = "w-100";
-        card.innerHTML = ``;
-        resultsContainer.appendChild(card);
-      });
-  
+
+      const html = await response.text();
+      resultsContainer.innerHTML = html;
+
+      initializeDynamicContent()
     } catch (error) {
       console.error(error);
-      resultsContainer.innerHTML = `<p class="text-danger">Erro ao carregar reviews.</p>`;
+      resultsContainer.innerHTML = `<p class="text-danger">Error loading connections: ${error}.</p>`;
     }
   }
 

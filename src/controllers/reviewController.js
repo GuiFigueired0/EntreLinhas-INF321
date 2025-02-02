@@ -57,7 +57,6 @@ exports.findBookReviews = async function (req, res) {
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
-
     const reviews = await Review.findBookReviews(id, page, limit);
     return res.json(reviews);
   } catch (e) {
@@ -66,15 +65,25 @@ exports.findBookReviews = async function (req, res) {
 };
 
 exports.findUserReviews = async function (req, res) {
+  const render = req.query.render === "true";
   try {
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
-
     const reviews = await Review.findUserReviews(id, page, limit);
+
+    if (render) {
+      return res.render('includes/review_display', { reviews });
+    }
+
     return res.json(reviews);
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Error when searching for user reviews.' });
+    console.log(e)
+    const message = 'Error when searching for user reviews.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message });
   }
 };
 

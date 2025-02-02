@@ -40,7 +40,6 @@
     <script>
         document.getElementById('searchBtn').addEventListener('click', async () => {
             const searchInput = document.getElementById('searchInput').value.trim();
-            console.log('Entrou no script', searchInput, '.');
             if (!searchInput) return;
             
             const selectedType = document.querySelector('input[name="flexRadioDefault"]:checked').nextElementSibling.innerText.toLowerCase().trim();

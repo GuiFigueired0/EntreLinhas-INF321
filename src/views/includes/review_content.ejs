@@ -1,7 +1,5 @@
 <div class="d-flex justify-content-between p-2">
-    <div class="rating-display">
     <%- include('rating_display', { star_value: review.rating }) %>
-    </div>
     <i><%= review.formattedDate %></i>
 </div>
 <div class="collapsable">
@@ -10,3 +8,4 @@
 <div class="collapse-menu">
     <a href="#" class="collapse-button">Show more</a>
 </div>
+<script src="assets/js/collapsable.js"></script>

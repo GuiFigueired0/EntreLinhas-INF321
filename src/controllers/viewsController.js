@@ -92,6 +92,7 @@ exports.book = async(req, res) => {
     const bookState = await BookState.findBookState(user, book._id);
     console.log(reviews.length)
     res.render('book', { 
+      user,
       book, 
       similar_books, 
       user_review, 
