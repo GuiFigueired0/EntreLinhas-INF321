@@ -1,4 +1,7 @@
 <form id="ratingForm" action="/submit-rating" method="POST">
+    <input type="hidden" id="csrfTokenCreate" value="YOUR_CSRF_TOKEN_HERE">
+    <input type="hidden" id="ratingForm_User_id" value="USER_ID_HERE">
+    <input type="hidden" id="ratingForm_Book_id" value="BOOK_ID_HERE">
     <div id="starContainer" >
         <i class='d-inline bx bx-star bx-md' data-value="1"></i>
         <i class='d-inline bx bx-star bx-md' data-value="2"></i>
@@ -8,3 +11,78 @@
     </div>
     <input type="hidden" name="rating" id="ratingInput" value="0">
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+ 
+        const starContainer = document.getElementById('starContainer');
+        const stars = starContainer.querySelectorAll('.bx');
+        const ratingInput = document.getElementById('ratingInput');
+        const ratingForm = document.getElementById('ratingForm');
+
+        function highlightStars(value) {
+            stars.forEach(star => {
+                if (star.getAttribute('data-value') <= value) {
+                    star.classList.remove('bx-star');
+                    star.classList.add('bxs-star');
+                } else {
+                    star.classList.remove('bxs-star');
+                    star.classList.add('bx-star');
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function () {
+                const value = this.getAttribute('data-value');
+                highlightStars(value);
+            });
+
+            star.addEventListener('mouseout', function () {
+                const value = ratingInput.value;
+                highlightStars(value);
+            });
+
+            star.addEventListener('click', function () {
+                const value = this.getAttribute('data-value');
+                ratingInput.value = value;
+                highlightStars(value);
+                ratingForm.submit();
+            });
+        });
+        
+        starContainer.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('bx')) {
+            const rating = event.target.getAttribute('data-value');
+            ratingInput.value = rating;
+
+
+            // Automatically submit the form
+            const user_id = document.getElementById('ratingForm_User_id').value;
+            const book_id = document.getElementById('ratingForm_Book_id').value;
+            const csrfToken = document.getElementById('csrfTokenCreate').value;
+
+            try {
+            const response = await fetch('/submit-rating', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'CSRF-Token': csrfToken,
+                },
+                body: JSON.stringify({ user: user_id, book: book_id, rating }),
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error('Error submitting rating:', errorDetails);
+                throw new Error(errorDetails.message || 'Failed to submit rating.');
+            }
+
+            messageContainer.innerHTML = '<p class="text-success">Rating submitted successfully!</p>';
+            } catch (error) {
+            messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+            }
+        }
+        });
+    });
+</script>
