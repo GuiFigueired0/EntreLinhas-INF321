@@ -1,0 +1,9 @@
+<div class="container">
+    <% series.forEach(series_info => { %>
+        <div class="card-body">
+            <h5 class="card-title"><%= series_info.name %></h5>
+            <p class="card-text"><strong>Number of books:</strong><%= series_info.number_of_books %></p>
+            <p class="card-text"><strong>Description:</strong><%= series_info.description %></p>
+        </div>
+    <% }) %>
+</div>

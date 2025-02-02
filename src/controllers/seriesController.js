@@ -25,3 +25,25 @@ exports.findById = async function (req, res) {
     return res.status(400).json({ error: e, message: 'Error when searching for the series.' });
   }
 };
+
+exports.searchByName = async function (req, res) {
+  const render = req.query.render === "true";
+  try {
+    const { name } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const series = await Series.searchByName(name, page, limit);
+    if (render) {
+      return res.render('includes/series_display', { series });
+    }
+
+    return res.json(series); 
+  } catch (e) {
+    const message = 'Error when searching series by name.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
+  }
+};

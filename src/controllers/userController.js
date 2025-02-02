@@ -31,3 +31,26 @@ exports.updateById = async function (req, res) {
     res.status(400).json({ error: error.message });
   }
 }
+
+exports.searchByUsername = async function (req, res) {
+  const render = req.query.render === "true";
+  try {
+    const { username } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const users = await User.searchByUsername(username, page, limit);
+    if (render) {
+      return res.render('includes/users_display', { users });
+    }
+
+    return res.json(users); 
+  } catch (e) {
+    console.log(e);
+    const message = 'Error when searching users by username.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
+  }
+};

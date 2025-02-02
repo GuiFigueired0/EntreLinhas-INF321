@@ -33,6 +33,7 @@ route.get('/profile/view/:id', viewsController.profile);
 // User routes
 route.get('/user/find/:id', userController.findById);
 route.put('/user/update/:id', userController.updateById);
+route.get('/user/search/:username', userController.searchByUsername); 
 
 // Login routes
 route.post('/login/register', loginController.register);
@@ -49,10 +50,12 @@ route.get('/books/find/:id', bookController.findById);
 // Series routes
 route.post('/series', seriesController.create); 
 route.get('/series/find/:id', seriesController.findById); 
+route.get('/series/search/:name', seriesController.searchByName); 
 
 // Author routes
 route.post('/author', authorController.create); 
 route.get('/author/find/:id', authorController.findById); 
+route.get('/author/search/:name', authorController.searchByName); 
 
 // Bookshelf routes
 route.post('/bookshelves', bookshelfController.create);

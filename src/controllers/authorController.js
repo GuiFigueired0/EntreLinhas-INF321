@@ -25,3 +25,25 @@ exports.findById = async function (req, res) {
     return res.status(400).json({ error: e, message: 'Error searching for the author.' });
   }
 };
+
+exports.searchByName = async function (req, res) {
+  const render = req.query.render === "true";
+  try {
+    const { name } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const authors = await Author.searchByName(name, page, limit);
+    if (render) {
+      return res.render('includes/authors_display', { authors });
+    }
+
+    return res.json(authors); 
+  } catch (e) {
+    const message = 'Error when searching author by name.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
+  }
+};

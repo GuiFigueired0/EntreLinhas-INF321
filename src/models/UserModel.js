@@ -43,6 +43,11 @@ class User {
   static async findByIdAndUpdate(userId, query) {
     return await UserModel.findByIdAndUpdate(userId, query);
   }  
+
+  static async searchByUsername(partialUsername, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+    return await UserModel.find({ username: { $regex: partialUsername, $options: 'i' } }).select('_id username image_url').skip(skip).limit(limit);
+  }
 }
 
 module.exports = User;

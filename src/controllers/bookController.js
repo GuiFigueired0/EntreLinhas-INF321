@@ -40,15 +40,25 @@ exports.findById = async function (req, res) {
 };
 
 exports.searchByTitle = async function (req, res) {
+  const render = req.query.render === "true";
   try {
     const { title } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
 
     const books = await Book.searchByTitle(title, page, limit);
-    return res.json(books);
+
+    if (render) {
+      return res.render('includes/gallery', { isSimple: false, books });
+    }
+
+    return res.json(books); 
   } catch (e) {
-    return res.status(400).json({ error: e, message: 'Error when searching books by title.' });
+    const message = 'Error when searching books by title.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
   }
 };
 
