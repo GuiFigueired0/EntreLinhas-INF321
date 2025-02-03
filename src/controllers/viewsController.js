@@ -5,21 +5,19 @@ const Review = require('../models/ReviewModel');
 const BookState = require('../models/BookStateModel');
 const User = require('../models/UserModel');
 const Activity = require('../models/ActivityModel');
+const ReadingHistory = require('../models/ReadingHistoryModel');
 
 exports.db_playground = async(req, res) => {
+  const user = req.session.user.id;
   res.render('db_playground', { user });
-};
-
-exports.list = async(req, res) => {
-  res.render('list');
-};
-  
-exports.book = async(req, res) => {
-  res.render('book');
 };
 
 exports.list_group = async(req, res) => {
   res.render('list_group');
+};
+
+exports.login = async(req, res) => {
+  res.render('login');
 };
 
 exports.index = async(req, res) => {
@@ -31,8 +29,15 @@ exports.index = async(req, res) => {
       res.render('404', { number: 404, message: 'Profile not found.' });
     }
     const feed = await Activity.getFollowedFeed(user);
+    let reading = await BookState.findUserState(user, 'Currently Reading');
+    reading = await Promise.all(reading.map(async (book_state) => {
+      const reading_history = await ReadingHistory.findBookHistory(user, book_state.book._id);
+      return { book_state, reading_history, book: book_state.book };
+    }));
+    console.log(reading)
     res.render('index', { 
       nav_icon,
+      reading,
       feed,
       user
     });
@@ -42,8 +47,31 @@ exports.index = async(req, res) => {
   }
 };
 
-exports.login = async(req, res) => {
-  res.render('login');
+exports.profile = async(req, res) => {
+  try {
+    const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
+    let { id } = req.params;
+    const profile = await User.findById(id);
+    if (!profile) {
+      res.render('404', { number: 404, message: 'Profile not found.' });
+    }
+    const ownProfile = id == user;
+    const feed = await Activity.getUserFeed(id);
+    const last_read = await BookState.findUserState(id, 'Read', 1, 10);
+    console.log(last_read)
+    res.render('profile', { 
+      ownProfile,
+      last_read,
+      nav_icon,
+      profile, 
+      feed,
+      user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when loading the data for the profile.' });
+  }
 };
 
 exports.search = async(req, res) => {
@@ -163,32 +191,5 @@ exports.book = async(req, res) => {
   } catch (error) {
     console.log(error);
     res.render('404', { number: 400, message: 'Error when loading the data for the book.' });
-  }
-};
-
-exports.profile = async(req, res) => {
-  try {
-    const user = req.session.user.id;
-    const nav_icon = req.session.user.user_data.image_url;
-    let { id } = req.params;
-    const profile = await User.findById(id);
-    if (!profile) {
-      res.render('404', { number: 404, message: 'Profile not found.' });
-    }
-    const ownProfile = id == user;
-    const feed = await Activity.getUserFeed(id);
-    const last_read = await BookState.findUserState(id, 'Read', 1, 10);
-    console.log(last_read)
-    res.render('profile', { 
-      ownProfile,
-      last_read,
-      nav_icon,
-      profile, 
-      feed,
-      user,
-    });
-  } catch (error) {
-    console.log(error);
-    res.render('404', { number: 400, message: 'Error when loading the data for the profile.' });
   }
 };

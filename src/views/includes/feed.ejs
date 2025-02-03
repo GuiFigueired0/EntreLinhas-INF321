@@ -5,28 +5,30 @@
         <% if (activity.activity.type == 'Review') { %>
             <% if (activity.data.text) { %>
                 <div class="card shadow-sm activity review mt-3">
-                    <div id="headingOne">
-                    <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <div id="headingOne<%= activity.activity._id %>">
+                    <div class="btn w-100 d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center gap-3">
                         <a href="/profile/view/<%= activity.activity.user._id %>">
                             <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                         </a>
                         <span><%= activity.activity.user.username %> left a review for <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
                         </div>
-                        <i class='bx bx-chevron-down bx-md'></i>
-                    </button>
+                        <button class="border-0 bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#id<%= activity.activity._id %>" aria-expanded="false" aria-controls="id<%= activity.activity._id %>">
+                            <i class='bx bx-chevron-down bx-md'></i>
+                        </button>
                     </div>
-                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-2">
-                            <div class="rating-display">
-                            <%- include('rating_display', { star_value: activity.data.rating }) %>
+                    </div>
+                    <div id="id<%= activity.activity._id %>" class="collapse" aria-labelledby="headingOne<%= activity.activity._id %>">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between p-2">
+                                <div class="rating-display">
+                                <%- include('rating_display', { star_value: activity.data.rating }) %>
+                                </div>
+                                <i><%= activity.data.formattedDate %></i>
                             </div>
-                            <i><%= activity.data.formattedDate %></i>
+                            <h4><%= activity.data.title %></h4>
+                            <p><%= activity.data.text %></p>
                         </div>
-                        <h4><%= activity.data.title %></h4>
-                        <p><%= activity.data.text %></p>
-                    </div>
                     </div>
                 </div>
             <% } else { %>
@@ -43,18 +45,20 @@
             <% } %>
         <% } else if (activity.activity.type == 'ReadingHistory') { %>
             <div class="card shadow-sm activity review mt-3">
-                <div id="headingOne">
-                <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                <div id="headingOne<%= activity.activity._id %>">
+                <div class="btn w-100 d-flex align-items-center justify-content-between">
                     <div class="d-flex align-items-center gap-3">
                     <a href="/profile/view/<%= activity.activity.user._id %>">
                         <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                     </a>
                     <span><%= activity.activity.user.username %> progressed in reading <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
                     </div>
-                    <i class='bx bx-chevron-down bx-md'></i>
-                </button>
+                    <button class="border-0 bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#id<%= activity.activity._id %>" aria-expanded="false" aria-controls="id<%= activity.activity._id %>">
+                        <i class='bx bx-chevron-down bx-md'></i>
+                    </button>
                 </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                </div>
+                <div id="id<%= activity.activity._id %>" class="collapse" aria-labelledby="headingOne<%= activity.activity._id %>">
                 <div class="card-body">
                     <div class="d-flex justify-content-between p-2">
                         <i>Page <%= activity.data.progress %> of <%= activity.data.num_pages %> (<%= activity.data.percentage %>%)</i>

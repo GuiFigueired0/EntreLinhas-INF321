@@ -72,13 +72,19 @@ class BookState {
     return await BookStateModel.findOne({user, book});
   }
 
-  static async findUserState(user, state, page = 1, limit = 10) {
-    const skip = (page - 1) * limit;
-    return await BookStateModel.find({ user, state })
-      .sort({ timestamp: -1 })
-      .populate('book')
-      .skip(skip)
-      .limit(limit);
+  static async findUserState(user, state, page = 1, limit = null) {
+    if (limit) {
+      const skip = (page - 1) * limit;
+      return await BookStateModel.find({ user, state })
+        .sort({ timestamp: -1 })
+        .populate('book')
+        .skip(skip)
+        .limit(limit);
+    } else {
+      return await BookStateModel.find({ user, state })
+        .sort({ timestamp: -1 })
+        .populate('book')
+    }
   }
 
   static async delete(bookStateId) {

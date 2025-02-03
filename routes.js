@@ -18,8 +18,6 @@ const { loginRequired } = require('./src/middlewares/middleware');
 
 // Views routes
 route.get('/db_playground', viewsController.db_playground);
-route.get('/list', viewsController.list);
-route.get('/book', viewsController.book);
 route.get('/list_group', viewsController.list_group);
 
 route.get('/login', viewsController.login);

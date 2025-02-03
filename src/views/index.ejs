@@ -4,27 +4,20 @@
 <div id="content" class="grey-bg">
 <%- include('includes/sidebars/home') %>
 <main class="px-5 py-4">
-  <h2>Recent</h2>
+  <h2>Currently Reading</h2>
   <div class="container overflow-auto bg-light rounded shadow-sm p-3">
     <div class="row flex-row flex-nowrap">
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
-        <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
-       <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-            <%- include('includes/card') %>
-        </div>
+        <% if (reading.length > 0) { %>
+            <% reading.forEach(data => { %>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                    <%- include('includes/card', { book: data.book }) %>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <div class="alert alert-primary m-0" role="alert">
+                It seems you are not reading any book right now
+            </div>
+        <% } %>
     </div>
   </div>
   
