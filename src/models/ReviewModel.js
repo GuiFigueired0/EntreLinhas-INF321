@@ -76,7 +76,7 @@ class Review {
   } 
 
   static async findById(review_id) {
-    return await ReviewModel.findById(review_id);
+    return await ReviewModel.findById(review_id).populate('book');
   }
 
   static async findByIds(user, book) {

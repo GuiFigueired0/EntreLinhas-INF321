@@ -162,7 +162,8 @@ exports.profile = async(req, res) => {
       res.render('404', { number: 404, message: 'Profile not found.' });
     }
     const ownProfile = id == user;
-    const feed = ownProfile ? await Activity.getFollowedFeed(id) : await Activity.getUserFeed(id);
+    const feed = await Activity.getUserFeed(id);
+    console.log(feed)
     let recent = await BookState.findUserState(id, 'Currently Reading', 1, 10);
     res.render('profile', { 
       ownProfile,

@@ -1,0 +1,81 @@
+<h2 class="mt-4">Activity</h2>
+<div class="container-fluid">
+    <% if (feed.length > 0) { %>
+    <% feed.forEach(activity => { %>
+        <% if (activity.activity.type == 'Review') { %>
+            <% if (activity.data.text) { %>
+                <div class="card shadow-sm activity review mt-3">
+                    <div id="headingOne">
+                    <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <div class="d-flex align-items-center gap-3">
+                        <a href="profile/view/<%= activity.activity.user._id %>">
+                            <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
+                        </a>
+                        <span><%= activity.activity.user.username %> left a review for <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
+                        </div>
+                        <i class='bx bx-chevron-down bx-md'></i>
+                    </button>
+                    </div>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between p-2">
+                            <div class="rating-display">
+                            <%- include('rating_display', { star_value: activity.data.rating }) %>
+                            </div>
+                            <i><%= activity.data.formattedDate %></i>
+                        </div>
+                        <h4><%= activity.data.title %></h4>
+                        <p><%= activity.data.text %></p>
+                    </div>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="activity d-inline-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
+                    <a href="profile/view/<%= activity.activity.user._id %>">
+                        <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
+                    </a>
+                    <span><%= activity.activity.user.username %> rated <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a></span>
+                    <div class="rating-display">
+                        <%- include('rating_display', { star_value: activity.data.rating }) %>
+                    </div>
+                    <span>.</span>
+                </div>
+            <% } %>
+        <% } else if (activity.activity.type == 'ReadingHistory') { %>
+            <div class="card shadow-sm activity review mt-3">
+                <div id="headingOne">
+                <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    <div class="d-flex align-items-center gap-3">
+                    <a href="profile/view/<%= activity.activity.user._id %>">
+                        <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
+                    </a>
+                    <span><%= activity.activity.user.username %> progressed in reading <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
+                    </div>
+                    <i class='bx bx-chevron-down bx-md'></i>
+                </button>
+                </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-2">
+                        <i>Page <%= activity.data.progress %> of <%= activity.data.num_pages %> (<%= activity.data.percentage %>%)</i>
+                        <i><%= activity.data.formattedDate %></i>
+                    </div>
+                    <p><%= activity.data.comment %></p>
+                </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="activity d-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
+                <a href="profile/view/<%= activity.activity.user._id %>">
+                    <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
+                </a>
+                <span><%= activity.activity.user.username %> added <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a> to <%= activity.data.state %>.</span>
+            </div>
+        <% } %>
+    <% }) %>
+    <% } else { %>
+        <div class="alert alert-primary m-0" role="alert">
+            It seems you've reached the end of activities
+        </div>
+    <% } %>
+</div>

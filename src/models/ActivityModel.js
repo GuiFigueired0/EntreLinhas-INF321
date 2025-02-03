@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Review = require('./ReviewModel');
 const BookState = require('./BookStateModel');
 const ReadingHistory = require('./ReadingHistoryModel');
+const Connection = require('./ConnectionModel');
 
 const ActivitySchema = new mongoose.Schema({
   user: {
@@ -41,6 +42,7 @@ class Activity {
       const skip = (page - 1) * limit;
   
       const activities = await ActivityModel.find({ user })
+        .populate({ path: 'user', select: '_id username image_url' })
         .sort({ timestamp: -1 })
         .skip(skip)
         .limit(limit)
@@ -76,11 +78,13 @@ class Activity {
     }
   }
   
-  static async getFollowedFeed(userIds, page = 1, limit = 10) {
+  static async getFollowedFeed(user, page = 1, limit = 10) {
     try {
       const skip = (page - 1) * limit;
-  
+      const connections = await Connection.findUserConnections(user);
+      const userIds = connections.map(connection => connection.user._id);
       const activities = await ActivityModel.find({ user: { $in: userIds } })
+        .populate({ path: 'user', select: '_id username image_url' })
         .sort({ timestamp: -1 })
         .skip(skip)
         .limit(limit)

@@ -27,81 +27,8 @@
         </div>
     </div>
   </div>
-  <h2 class="mt-4">Activity</h2>
-  <div class="container-fluid">
-    <div class="card shadow-sm activity review mt-3">
-      <div class="card-header" id="headingOne">
-        <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-          <div class="d-flex align-items-center gap-3">
-            <a href="profile">
-              <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="icon-sm rounded-circle"/>
-            </a>
-            <span>Username left a review for <a href="book">book</a>.</span>
-          </div>
-          <!-- Arrow indicator -->
-          <i class='bx bx-chevron-down bx-md'></i>
-        </button>
-      </div>
-      <div id="collapseOne" class="collapse" aria-labelledby="headingOne">
-        <div class="card-body">
-          <div class="d-flex justify-content-between p-2">
-            <div class="rating-display">
-            <%- include('includes/rating_display') %>
-            </div>
-            <i>January 1, 2025</i>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vestibulum
-            tincidunt libero eu sollicitudin. Maecenas sollicitudin, dolor id laoreet ultrices,
-            diam urna ornare nibh, ac auctor sem justo non diam. Sed sed gravida tellus.
-            Suspendisse potenti. Nulla tincidunt blandit sodales. Phasellus tellus lorem,
-            condimentum ac enim egestas, consectetur efficitur dui. Aenean et accumsan sem.
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque mattis risus
-            magna, a placerat arcu tincidunt luctus. In rutrum mi pulvinar, pretium ligula at,
-            consectetur eros. Mauris et dignissim massa, in tempor purus. Proin lorem dui,
-            condimentum ac fringilla sed, sollicitudin ornare metus.
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="activity d-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
-      <a href="profile">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-          class="icon-sm rounded-circle ms-2"
-          alt="Black and White Portrait of a Man"
-          loading="lazy"
-        />
-      </a>
-      <span>Username added <a href="book">book</a> to <a href="list">list</a>.</span>
-    </div>
-    <div class="activity d-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
-      <a href="profile">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-          class="icon-sm rounded-circle ms-2"
-          alt="Black and White Portrait of a Man"
-          loading="lazy"
-        />
-      </a>
-      <span>Username fixed something to their <a href="profile">profile</a>.</span>
-    </div>
-    <div class="activity d-inline-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
-      <a href="profile">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-          class="icon-sm rounded-circle ms-2"
-          alt="Black and White Portrait of a Man"
-          loading="lazy"
-        />
-      </a>
-      <span>Username rated <a href="book">book</a></span>
-      <div class="rating-display">
-      <%- include('includes/rating_display') %>
-      </div>
-    </div>
-  </div>
   
+  <%- include('includes/feed.ejs', { feed: feed }) %>
   <%- include('includes/modals/progress') %>
 </main>
 </div>

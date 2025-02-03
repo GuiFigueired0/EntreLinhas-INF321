@@ -23,7 +23,7 @@ const ReadingHistorySchema = new mongoose.Schema({
 });
 
 ReadingHistorySchema.virtual('percentage').get(function () {
-  return Math.floor(this.progress / this.num_pages);
+  return Math.floor(this.progress * 100 / this.num_pages);
 });
 
 const ReadingHistoryModel = mongoose.model('ReadingHistory', ReadingHistorySchema);
@@ -56,7 +56,7 @@ class ReadingHistory {
   }
 
   static async findById(readingHirstoryId) {
-    return await ReadingHistoryModel.findById(readingHirstoryId);
+    return await ReadingHistoryModel.findById(readingHirstoryId).populate('book');
   }
 
   static async findBookHistory(user, book) {
