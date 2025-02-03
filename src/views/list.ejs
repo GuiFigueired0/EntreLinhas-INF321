@@ -3,11 +3,21 @@
 <%- include('includes/nav') %>
 <div id="content">
 <main>
-    <h1><%= data.name %></h1>
-    <small><%= data.number_of_books %> works</small>
-    <p><%= data.description %></p>
+    <% if (data) { %>
+        <div class="d-flex align-items-center">
+            <div>
+                <h1><%= data.name || '' %></h1>
+                <small><%= data.number_of_books || '' %> works</small>
+                <p><%= data.description || '' %></p>
+            </div>
+            <% if (data.image_url) { %>
+                <img src="<%= data.image_url %>" class="object-fit-cover img-sm">
+            <% } %>
+        </div>
+    <% } %>
+
     <%- include('includes/gallery', { isSimple: false, books: books }) %>
-</main>
+</main>    
 </div>
 <script src="/assets/js/links.js"></script>
 <script src="/assets/js/gallery.js"></script>

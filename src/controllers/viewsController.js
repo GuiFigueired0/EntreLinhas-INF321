@@ -6,12 +6,6 @@ const BookState = require('../models/BookStateModel');
 const User = require('../models/UserModel');
 const Activity = require('../models/ActivityModel');
 
-const user = '67976b7e78e23443e48e341a';
-
-exports.index = async(req, res) => {
-  res.render('index');
-};
-
 exports.db_playground = async(req, res) => {
   res.render('db_playground', { user });
 };
@@ -28,16 +22,36 @@ exports.list_group = async(req, res) => {
   res.render('list_group');
 };
 
+exports.index = async(req, res) => {
+  try {
+    const user = req.session.user.id;
+    const profile = await User.findById(user);
+    if (!profile) {
+      res.render('404', { number: 404, message: 'Profile not found.' });
+    }
+    const feed = await Activity.getFollowedFeed(user);
+    res.render('index', { 
+      feed,
+      user
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when loading your dashboard.' });
+  }
+};
+
 exports.login = async(req, res) => {
   res.render('login');
 };
 
 exports.search = async(req, res) => {
-  res.render('search');
+  const user = req.session.user.id;
+  res.render('search', {user});
 };
 
 exports.series = async(req, res) => {
   try {
+    const user = req.session.user.id;
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -49,7 +63,7 @@ exports.series = async(req, res) => {
       data: data.series, 
       books: data.books, 
       page, 
-      user 
+      user
     });
   } catch (error) {
     console.log(error);
@@ -59,6 +73,7 @@ exports.series = async(req, res) => {
 
 exports.author = async(req, res) => {
   try {
+    const user = req.session.user.id;
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -69,8 +84,8 @@ exports.author = async(req, res) => {
     res.render('list', { 
       data: data.author, 
       books: data.books, 
-      page, 
-      user 
+      page,
+      user
     });
   } catch (error) {
     console.log(error);
@@ -78,8 +93,31 @@ exports.author = async(req, res) => {
   }
 };
 
+exports.genre = async(req, res) => {
+  try {
+    const user = req.session.user.id;
+    const { genre } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const books = await Book.findByGenre(genre, page, limit);
+    if (!books) {
+      res.render('404', { number: 404, message: 'Genre not found.' });
+    } 
+    res.render('list', { 
+      data: undefined,
+      books, 
+      page, 
+      user
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when searching for the genre.' });
+  }
+};
+
 exports.book = async(req, res) => {
   try {
+    const user = req.session.user.id;
     let { id } = req.params;
     id = parseInt(id)
     const book = await Book.findById(id);
@@ -91,14 +129,14 @@ exports.book = async(req, res) => {
     const user_review = await Review.findByIds(user, book._id);
     const bookState = await BookState.findBookState(user, book._id);
     res.render('book', { 
-      user,
-      book, 
-      similar_books, 
-      user_review, 
-      reviews, 
-      bookState,
       series_url: `/series/view/${book.series_id}`,
       author_url: `/author/view/${book.author_id}`,
+      similar_books, 
+      user_review, 
+      bookState,
+      reviews, 
+      book, 
+      user,
     });
   } catch (error) {
     console.log(error);
@@ -108,6 +146,7 @@ exports.book = async(req, res) => {
 
 exports.profile = async(req, res) => {
   try {
+    const user = req.session.user.id;
     let { id } = req.params;
     const profile = await User.findById(id);
     if (!profile) {
@@ -116,13 +155,12 @@ exports.profile = async(req, res) => {
     const ownProfile = id == user;
     const feed = ownProfile ? await Activity.getFollowedFeed(id) : await Activity.getUserFeed(id);
     let recent = await BookState.findUserState(id, 'Currently Reading', 1, 10);
-    console.log(recent)
     res.render('profile', { 
       ownProfile,
       profile, 
+      recent,
       feed,
       user,
-      recent
     });
   } catch (error) {
     console.log(error);

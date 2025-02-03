@@ -1,20 +1,23 @@
 <div class="container">
     <%- include('page_nav') %>
-    <div id="gridView">
-        <div class="row">
-        <% books.forEach(book => { %>
-            <div class="card img-sm col-6 col-lg-4 col-xl-3 p-0">
-            <!-- Image as Background -->
-            <img src="<%= book.image_url %>" class="card-img object-fit-cover w-100 h-100">
-            <!-- Dropdown Button at the Bottom -->
-            <div class="card-img-overlay p-0 d-flex flex-column justify-content-end aling-items-end">
-                <%- include('add_list', { isSimple: isSimple, isSmall: false }) %>
-            </div>
-            </div>
-        <% }) %>
-        </div>  
-    </div>
-    
+    <% if (books.length > 0 ) { %>
+        <div id="gridView">
+            <div class="row">
+            <% books.forEach(book => { %>
+                <div class="card img-sm col-6 col-lg-4 col-xl-3 p-0">
+                <img src="<%= book.image_url %>" class="card-img object-fit-cover w-100 h-100">
+                <div class="card-img-overlay p-0 d-flex flex-column justify-content-end aling-items-end">
+                    <%- include('add_list', { isSimple: isSimple, isSmall: false }) %>
+                </div>
+                </div>
+            <% }) %>
+            </div>  
+        </div>
+    <% } else { %>
+        <div class="alert alert-primary" role="alert">
+            It seems you've reached the end of books
+        </div>
+    <% } %>
     <div id="listView" class="d-none">
         <% books.forEach(book => { %>
             <%- include('list_item', { isSimple: isSimple, book: book }) %>

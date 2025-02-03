@@ -10,18 +10,18 @@
       </li>
       <li class="nav-item mt-2">
         <div class="dropdown">
-          <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Explore
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Mystery, Thriller & Crime</a></li>
-            <li><a class="dropdown-item" href="#">Fantasy & Paranormal</a></li>
-            <li><a class="dropdown-item" href="#">History & Biography</a></li>
-            <li><a class="dropdown-item" href="#">Comics & Graphic</a></li>
-            <li><a class="dropdown-item" href="#">Young Adult</a></li>
-            <li><a class="dropdown-item" href="#">Children</a></li>
-            <li><a class="dropdown-item" href="#">Romance</a></li>
-            <li><a class="dropdown-item" href="#">Poetry</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Mystery, Thriller & Crime">Mystery, Thriller & Crime</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Fantasy & Paranormal">Fantasy & Paranormal</a></li>
+            <li><a class="dropdown-item" href="/genre/view/History & Biography">History & Biography</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Comics & Graphic">Comics & Graphic</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Young Adult">Young Adult</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Children">Children</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Romance">Romance</a></li>
+            <li><a class="dropdown-item" href="/genre/view/Poetry">Poetry</a></li>
           </ul>
         </div>
       </li>
@@ -40,14 +40,38 @@
             class="icon-sm rounded-circle"
             alt="Black and White Portrait of a Man"
             loading="lazy"
-            
           />
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-          <li><a class="dropdown-item" href="profile">My profile</a></li>
-          <li><a class="dropdown-item" href="#">Logout</a></li>
+          <li><a class="dropdown-item" href="/profile/view/<%= user %>">My profile</a></li>
+          <li>
+            <form class="form-logout" action="/login/logout" method="GET">
+              <button type="submit" class="dropdown-item">Logout</button>
+            </form>
+          </li>
         </ul>
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        async function handleLogout(event) {
+            event.preventDefault();
+            const form = event.target;
+    
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    headers: { "Content-Type": "application/json" },
+                });
+    
+                window.location.href = "/login";
+            } catch (error) {
+                console.error("Erro ao enviar formulário:", error);
+            }
+        }
+    
+        document.querySelector(".form-logout").addEventListener("submit", (event) => handleLogout(event));
+    });
+  </script>  
 </nav>  
