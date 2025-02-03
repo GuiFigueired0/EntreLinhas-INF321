@@ -183,9 +183,6 @@ main{
   background-color: #e1e7ec;
   border-color: #e1e7ec;
 }
-#search-menu{
-  background-color: #e1e7ec;
-}
 
 .img-sm{
   width: 9rem;
@@ -195,7 +192,6 @@ main{
   width: 15rem; 
   height: 20rem;
 }
-
 .img-bg{
   width: 18rem; 
   height: 24rem;

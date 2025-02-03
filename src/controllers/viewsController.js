@@ -45,8 +45,17 @@ exports.login = async(req, res) => {
 };
 
 exports.search = async(req, res) => {
-  const user = req.session.user.id;
-  res.render('search', {user});
+  try {
+    const user = req.session.user.id;
+    const search_field = req.query.field || '';
+    res.render('search', { 
+      search_field,
+      user
+    });
+  } catch (error) {
+    console.log('teste', error);
+    res.render('404', { number: 400, message: 'Error when loading the search screen.' });
+  }
 };
 
 exports.series = async(req, res) => {

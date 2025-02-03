@@ -27,8 +27,8 @@
       </li>
     </ul>
 
-    <form class="d-flex">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="d-flex form-search" action="/search" method="GET">
+      <input id="navSearchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
     <div class="d-flex gap-3 me-2">
@@ -70,8 +70,25 @@
                 console.error("Erro ao enviar formulário:", error);
             }
         }
+
+        async function handleSearch(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const searchInput = document.getElementById('navSearchInput').value.trim();
+
+            let url;
+            if (searchInput) {
+                url = `${form.action}?field=${searchInput}`;
+            } else {
+              url = form.action;
+            }
+            
+            window.location.replace(url);
+        }
     
         document.querySelector(".form-logout").addEventListener("submit", (event) => handleLogout(event));
+        document.querySelector(".form-search").addEventListener("submit", (event) => handleSearch(event));
     });
   </script>  
 </nav>  
