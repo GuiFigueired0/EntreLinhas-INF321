@@ -1,0 +1,10 @@
+<% console.log(bookshelves); %>
+<div class="container">
+    <% bookshelves.forEach(shelf => { %>
+        <div class="card-body col-12 col-sm-6 col-md-4 col-lg-3 mb-3 w-50 p-3 bg-light rounded shadow-sm">
+            <a href="/series/view/<%= series_info.series_id %>"><h5 class="card-title m-0"><%= shelf.name %></h5></a>
+            <p class="card-text m-0"><strong>Number of books:</strong><%= shelf.length %></p>
+            <p class="card-text m-0"><strong>Owner:</strong><%= shelf.owner.username %></p>
+        </div>
+    <% }) %>
+</div>

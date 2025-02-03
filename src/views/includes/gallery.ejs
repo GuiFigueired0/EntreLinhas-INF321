@@ -1,5 +1,8 @@
 <div class="container">
-    <%- include('page_nav') %>
+    <div class="d-inline-flex w-auto">
+        <a class="btn btn-primary" href="#"><i class='bx bx-chevron-left'></i></a>
+        <a class="btn btn-primary" href="#"><i class='bx bx-chevron-right'></i></a>
+    </div>
     <% if (books.length > 0 ) { %>
         <div id="gridView">
             <div class="row">

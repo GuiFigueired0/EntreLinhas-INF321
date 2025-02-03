@@ -104,6 +104,11 @@ class Bookshelf {
       $addToSet: { bookshelves: bookshelf_id },
     });
   }
+
+  static async searchByName(partialName, page = 1, limit = 10) {
+    const skip = (page - 1) * limit;
+    return await BookshelfModel.find({ name: { $regex: partialName, $options: 'i' } }).populate('owner').skip(skip).limit(limit);
+  }
 }
 
 module.exports = Bookshelf;

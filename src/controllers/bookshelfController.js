@@ -23,6 +23,29 @@ exports.findById = async function (req, res) {
   }
 };
 
+exports.searchByName = async function (req, res) {
+  const render = req.query.render === "true";
+  try {
+    const { name } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const bookshelves = await Bookshelf.searchByName(name, page, limit);
+    if (render) {
+      console.log(bookshelves);
+      return res.render('includes/display/shelf_display', { bookshelves: bookshelves });
+    }
+
+    return res.json(series); 
+  } catch (e) {
+    const message = 'Error when searching series by name.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
+  }
+};
+
 exports.addBook = async function (req, res) {
   try {
     const { bookshelf_id, book_id } = req.body;

@@ -61,6 +61,7 @@ route.post('/bookshelves', bookshelfController.create);
 route.get('/bookshelves/find/:id', bookshelfController.findById);
 route.get('/bookshelves/books/:id', bookshelfController.getBooks);
 route.get('/bookshelves/owner/:owner', bookshelfController.findByOwner);
+route.get('/bookshelves/search/:name', bookshelfController.searchByName); 
 route.delete('/bookshelves/delete/:id', bookshelfController.deleteBookshelf);
 route.post('/bookshelves/info', bookshelfController.getBookshelvesInfo);
 route.post('/bookshelves/remove-book', bookshelfController.removeBook);
