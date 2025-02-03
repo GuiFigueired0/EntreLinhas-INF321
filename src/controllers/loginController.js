@@ -9,6 +9,7 @@ exports.register = async function (req, res) {
       return res.status(400).json({ errors: login.errors });
     }
 
+    req.session.user = { id: login.data.user._id, user_data: login.data.user };
     return res.status(201).json(login.data);
   } catch (e) {
     return res.status(500).json({ error: e.message, message: 'Error registering user.' });

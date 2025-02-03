@@ -90,7 +90,6 @@ exports.book = async(req, res) => {
     const reviews = await Review.findBookReviews(book._id, 1, 5);
     const user_review = await Review.findByIds(user, book._id);
     const bookState = await BookState.findBookState(user, book._id);
-    console.log(reviews.length)
     res.render('book', { 
       user,
       book, 

@@ -17,18 +17,18 @@ const reviewController = require('./src/controllers/reviewController');
 const { loginRequired } = require('./src/middlewares/middleware');
 
 // Views routes
-route.get('/', viewsController.index);
 route.get('/db_playground', viewsController.db_playground);
 route.get('/list', viewsController.list);
 route.get('/book', viewsController.book);
 route.get('/list_group', viewsController.list_group);
-route.get('/login', viewsController.login);
-route.get('/search', viewsController.search);
 
-route.get('/series/view/:id', viewsController.series);
-route.get('/author/view/:id', viewsController.author);
-route.get('/book/view/:id', viewsController.book);
-route.get('/profile/view/:id', viewsController.profile);
+route.get('/login', viewsController.login);
+route.get('/', loginRequired, viewsController.index);
+route.get('/search', loginRequired, viewsController.search);
+route.get('/series/view/:id', loginRequired, viewsController.series);
+route.get('/author/view/:id', loginRequired, viewsController.author);
+route.get('/book/view/:id', loginRequired, viewsController.book);
+route.get('/profile/view/:id', loginRequired, viewsController.profile);
 
 // User routes
 route.get('/user/find/:id', userController.findById);

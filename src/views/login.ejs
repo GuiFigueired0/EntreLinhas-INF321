@@ -1,61 +1,90 @@
 <%- include('includes/head') %>
-<%- include('includes/nav') %>
-
-<div class="container">
-  <div class="row">
-    <div class="col-lg-2"></div>
-
-    <div class="col-lg-8 my-3">
-      <h1 class="text-center">Criar conta ou Entrar</h1>
-      <p class="text-center lead">Faça login ou crie sua conta abaixo</p>
-
-
-      <div class="row">
-
-        <div class="col-lg my-5">
-          <h4>Faça seu cadastro</h4>
-          <p>Se você ainda não tem conta, preencha o formulário abaixo:</p>
-
-          <form class="form-cadastro" action="/login/register" method="POST">
-            <input type="hidden" name="_csrf" value=<%= csrfToken %>>
-            <div class="form-group">
-              <label>Seu e-mail</label>
-              <input type="email" class="form-control" name="email">
-            </div>
-            <div class="form-group">
-              <label>Sua senha</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Criar minha conta</button>
-          </form>
-
+<body>
+  <%- include('includes/nav') %>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-2"></div>
+  
+      <div class="col-lg-8 my-3">
+        <h1 class="text-center">Criar conta ou Entrar</h1>
+        <p class="text-center lead">Faça login ou crie sua conta abaixo</p>
+        <div id="cadastro-errors" class="alert alert-danger d-none"></div>
+        <div id="login-errors" class="alert alert-danger d-none"></div>
+  
+        <div class="row">
+          <div class="col-lg my-5">
+            <h4>Faça seu cadastro</h4>
+            <p>Se você ainda não tem conta, preencha o formulário abaixo:</p>
+            <form class="form-cadastro" action="/login/register" method="POST">
+              <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" name="username">
+              </div>
+              <div class="form-group">
+                <label>Seu e-mail</label>
+                <input type="email" class="form-control" name="email">
+              </div>
+              <div class="form-group">
+                <label>Sua senha</label>
+                <input type="password" class="form-control" name="password">
+              </div>
+              <button type="submit" class="btn btn-primary">Criar minha conta</button>
+            </form>
+          </div>
+  
+          <div class="col-lg my-5">
+            <h4>Faça seu login</h4>
+            <p>Se você já tem uma conta, faça login abaixo:</p>
+            <form class="form-login " action="/login/login" method="POST">
+              <div class="form-group">
+                <label>Seu e-mail</label>
+                <input type="email" class="form-control" name="email">
+              </div>
+              <div class="form-group">
+                <label>Sua senha</label>
+                <input type="password" class="form-control" name="password">
+              </div>
+              <button type="submit" class="btn btn-primary">Entrar</button>
+            </form>
+          </div>
         </div>
-
-        <div class="col-lg my-5">
-          <h4>Faça seu login</h4>
-
-          <p>Se você já tem uma conta, faça login abaixo:</p>
-
-          <form class="form-login" action="/login/login" method="POST">
-            <input type="hidden" name="_csrf" value=<%= csrfToken %>
-            <div class="form-group">
-              <label>Seu e-mail</label>
-              <input type="email" class="form-control" name="email">
-            </div>
-            <div class="form-group">
-              <label>Sua senha</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-          </form>
-
-          
-        </div>
-
       </div>
-
+      <div class="col-lg-2"></div>
     </div>
-
-    <div class="col-lg-2"></div>
   </div>
-</div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        async function handleFormSubmit(event, formType) {
+            event.preventDefault();
+    
+            const form = event.target;
+            const formData = new FormData(form);
+            const jsonData = Object.fromEntries(formData.entries());
+    
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(jsonData),
+                });
+    
+                const data = await response.json();
+    
+                if (!response.ok) {
+                    const errorContainer = document.querySelector(`#${formType}-errors`);
+                    errorContainer.innerHTML = data.errors ? data.errors.join("<br>") : "Erro desconhecido.";
+                    errorContainer.classList.remove("d-none");
+                    return;
+                }
+    
+                window.location.href = "/";
+            } catch (error) {
+                console.error("Erro ao enviar formulário:", error);
+            }
+        }
+    
+        document.querySelector(".form-cadastro").addEventListener("submit", (event) => handleFormSubmit(event, "cadastro"));
+        document.querySelector(".form-login").addEventListener("submit", (event) => handleFormSubmit(event, "login"));
+    });
+  </script>    
+</body>
