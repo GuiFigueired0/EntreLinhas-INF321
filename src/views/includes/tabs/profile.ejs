@@ -1,26 +1,21 @@
 <div id="tabProfile" class="tab profile grey-bg p-5">
-    <h2 class="mt-4">Recent</h2>
-    <div class="container overflow-auto bg-light rounded shadow-sm p-3">
-        <div class="row flex-row flex-nowrap">
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
-            </div>
-            <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
-            </div>
-           <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                <img src="https://cdn.pixabay.com/photo/2022/10/22/13/41/paris-7539257_640.jpg" style="width: 18rem;">
+    <h2 class="mt-4">Last Read</h2>
+    <% if (last_read.length > 0) { %>
+        <div class="container overflow-auto bg-light rounded shadow-sm p-3">
+            <div class="row flex-row flex-nowrap">
+                <% last_read.forEach(data => { %>
+                    <div class="col-12 col-sm-12 col-md-6 col-lg-4">
+                        <a href="/book/view/<%= data.book.book_id %>">
+                            <img src="<%= data.book.image_url %>" style="width: 15rem; height: 20rem;">
+                        </a>
+                    </div>
+                <% }) %>
             </div>
         </div>
-    </div>
+    <% } else { %>
+        <div class="alert alert-primary m-0" role="alert">
+            It seems like <%= profile.username %> still haven't read any book
+        </div>
+    <% } %>
     <%- include('../feed') %>
 </div>

@@ -1,5 +1,5 @@
 <%- include('includes/head') %>
-<body class="sb-expanded" data-user="<%= user %>">
+<body class="sb-expanded" data-user="<%= profile._id %>">
 <%- include('includes/nav') %>
 <div id="content">
 <%- include('includes/sidebars/profile') %>
@@ -32,7 +32,7 @@
         <%- include('includes/tabs/profile') %>
         <%- include('includes/tabs/shelf') %>
         <%- include('includes/tabs/reviews') %>
-        <%- include('includes/tabs/social', { ownProfile: ownProfile }) %>
+        <%- include('includes/tabs/social') %>
         <%- include('includes/modals/progress') %>
     </div>
     

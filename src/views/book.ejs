@@ -4,15 +4,23 @@
 <div id="content">
 <main class="bg-white">
     <div id="book-card" class="d-flex flex-column align-items-center ps-5 pt-5 gap-3">
-        <img src=<%= book.image_url %> class="object-fit-cover img-bg">
-        <% if (false) { %>
-            <div class="text-center">
-            <%- include('includes/rating_form', { review: user_review }) %>
-            <strong>Rate this book</strong>
-            </div>
-            <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">
-                <%= typeof user_review == 'undefined' ? 'Write a review' : 'Edit your review' %>
-            </a>
+        <img src=<%= book.image_url %> style="width: 18rem; height: 24rem;">
+        <% if (typeof book_state != 'undefined') { %>
+            <% if (book_state.state == 'Read' || book_state.state == 'Abandoned') { %>
+                <% if (typeof user_review != 'undefined') { %>
+                    <%- include('includes/rating_form', { review: user_review }) %>
+                    <a id="reviewModalBtn" class="btn btn-primary modalBtn" style="width: 12rem;" href="#reviewModal">Edit your review</a>
+                    <a id="reviewModalBtn" class="btn btn-danger modalBtn" style="width: 12rem;" href="#reviewModal">Delete your review</a>
+                <% } else { %>
+                    <div class="text-center">
+                        <%- include('includes/rating_form', { review: user_review }) %>
+                        <strong>Rate this book</strong>
+                    </div>
+                    <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">Write a review</a>
+                <% } %>
+            <% } else { %>
+                <%- include('includes/add_list', { isSmall: false }) %>
+            <% } %>
         <% } %>
     </div>
     <div id="book-info" class="px-5 py-4">
@@ -40,7 +48,7 @@
                     <% similar_books.forEach(book => { %>
                         <div class="col-12 col-sm-12 col-md-6 col-lg-4">
                             <a href="/book/view/<%= book.book_id %>">
-                                <img src="<%= book.image_url %>" class="object-fit-cover img-md">
+                                <img src="<%= book.image_url %>" style="width: 15rem; height: 20rem;">
                             </a>
                         </div>
                     <% }); %>

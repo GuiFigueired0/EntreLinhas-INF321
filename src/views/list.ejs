@@ -15,7 +15,9 @@
             <% } %>
         </div>
     <% } %>
-
+    <% if (typeof genre != 'undefined') { %>
+        <h1 class="d-flex justify-content-center" ><%= genre %></h1>
+    <% } %> 
     <%- include('includes/gallery', { isSimple: false, books: books }) %>
 </main>    
 </div>

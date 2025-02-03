@@ -25,12 +25,14 @@ exports.list_group = async(req, res) => {
 exports.index = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     const profile = await User.findById(user);
     if (!profile) {
       res.render('404', { number: 404, message: 'Profile not found.' });
     }
     const feed = await Activity.getFollowedFeed(user);
     res.render('index', { 
+      nav_icon,
       feed,
       user
     });
@@ -47,9 +49,11 @@ exports.login = async(req, res) => {
 exports.search = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     const search_field = req.query.field || '';
     res.render('search', { 
       search_field,
+      nav_icon,
       user
     });
   } catch (error) {
@@ -61,6 +65,7 @@ exports.search = async(req, res) => {
 exports.series = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -71,6 +76,7 @@ exports.series = async(req, res) => {
     res.render('list', { 
       data: data.series, 
       books: data.books, 
+      nav_icon,
       page, 
       user
     });
@@ -83,6 +89,7 @@ exports.series = async(req, res) => {
 exports.author = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     const { id } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -93,6 +100,7 @@ exports.author = async(req, res) => {
     res.render('list', { 
       data: data.author, 
       books: data.books, 
+      nav_icon,
       page,
       user
     });
@@ -105,6 +113,7 @@ exports.author = async(req, res) => {
 exports.genre = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     const { genre } = req.params;
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
@@ -114,7 +123,9 @@ exports.genre = async(req, res) => {
     } 
     res.render('list', { 
       data: undefined,
-      books, 
+      nav_icon,
+      books,
+      genre, 
       page, 
       user
     });
@@ -127,6 +138,7 @@ exports.genre = async(req, res) => {
 exports.book = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     let { id } = req.params;
     id = parseInt(id)
     const book = await Book.findById(id);
@@ -136,13 +148,14 @@ exports.book = async(req, res) => {
     let similar_books = await Book.findSimilarBooks(id);
     const reviews = await Review.findBookReviews(book._id, 1, 5);
     const user_review = await Review.findByIds(user, book._id);
-    const bookState = await BookState.findBookState(user, book._id);
+    const book_state = await BookState.findBookState(user, book._id);
     res.render('book', { 
+      book_state: book_state == null ? 'undefined' : book_state,
       series_url: `/series/view/${book.series_id}`,
       author_url: `/author/view/${book.author_id}`,
       similar_books, 
       user_review, 
-      bookState,
+      nav_icon,
       reviews, 
       book, 
       user,
@@ -156,6 +169,7 @@ exports.book = async(req, res) => {
 exports.profile = async(req, res) => {
   try {
     const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
     let { id } = req.params;
     const profile = await User.findById(id);
     if (!profile) {
@@ -163,12 +177,13 @@ exports.profile = async(req, res) => {
     }
     const ownProfile = id == user;
     const feed = await Activity.getUserFeed(id);
-    console.log(feed)
-    let recent = await BookState.findUserState(id, 'Currently Reading', 1, 10);
+    const last_read = await BookState.findUserState(id, 'Read', 1, 10);
+    console.log(last_read)
     res.render('profile', { 
       ownProfile,
+      last_read,
+      nav_icon,
       profile, 
-      recent,
       feed,
       user,
     });
