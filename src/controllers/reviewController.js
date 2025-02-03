@@ -73,7 +73,7 @@ exports.findUserReviews = async function (req, res) {
     const reviews = await Review.findUserReviews(id, page, limit);
 
     if (render) {
-      return res.render('includes/review_display', { reviews });
+      return res.render('includes/display/reviews_display', { reviews });
     }
 
     return res.json(reviews);

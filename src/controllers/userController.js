@@ -39,9 +39,10 @@ exports.searchByUsername = async function (req, res) {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
 
-    const users = await User.searchByUsername(username, page, limit);
+    let users = await User.searchByUsername(username, page, limit);
     if (render) {
-      return res.render('includes/users_display', { users });
+      users = users.map(user => { return { user }; })
+      return res.render('includes/display/users_display', { users });
     }
 
     return res.json(users); 

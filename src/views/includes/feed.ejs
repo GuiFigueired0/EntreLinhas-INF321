@@ -8,10 +8,10 @@
                     <div id="headingOne">
                     <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         <div class="d-flex align-items-center gap-3">
-                        <a href="profile/view/<%= activity.activity.user._id %>">
+                        <a href="/profile/view/<%= activity.activity.user._id %>">
                             <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                         </a>
-                        <span><%= activity.activity.user.username %> left a review for <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
+                        <span><%= activity.activity.user.username %> left a review for <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
                         </div>
                         <i class='bx bx-chevron-down bx-md'></i>
                     </button>
@@ -31,10 +31,10 @@
                 </div>
             <% } else { %>
                 <div class="activity d-inline-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
-                    <a href="profile/view/<%= activity.activity.user._id %>">
+                    <a href="/profile/view/<%= activity.activity.user._id %>">
                         <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                     </a>
-                    <span><%= activity.activity.user.username %> rated <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a></span>
+                    <span><%= activity.activity.user.username %> rated <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a></span>
                     <div class="rating-display">
                         <%- include('rating_display', { star_value: activity.data.rating }) %>
                     </div>
@@ -46,10 +46,10 @@
                 <div id="headingOne">
                 <button class="btn w-100 d-flex align-items-center justify-content-between" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                     <div class="d-flex align-items-center gap-3">
-                    <a href="profile/view/<%= activity.activity.user._id %>">
+                    <a href="/profile/view/<%= activity.activity.user._id %>">
                         <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                     </a>
-                    <span><%= activity.activity.user.username %> progressed in reading <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
+                    <span><%= activity.activity.user.username %> progressed in reading <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a>.</span>
                     </div>
                     <i class='bx bx-chevron-down bx-md'></i>
                 </button>
@@ -66,10 +66,10 @@
             </div>
         <% } else { %>
             <div class="activity d-flex align-items-center bg-light p-3 gap-3 rounded shadow mt-3">
-                <a href="profile/view/<%= activity.activity.user._id %>">
+                <a href="/profile/view/<%= activity.activity.user._id %>">
                     <img src="<%= activity.activity.user.image_url %>" class="icon-sm rounded-circle"/>
                 </a>
-                <span><%= activity.activity.user.username %> added <a href="book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a> to <%= activity.data.state %>.</span>
+                <span><%= activity.activity.user.username %> added <a href="/book/view/<%= activity.data.book.book_id %>"><%= activity.data.book.title %></a> to <%= activity.data.state %>.</span>
             </div>
         <% } %>
     <% }) %>

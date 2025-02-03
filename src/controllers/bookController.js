@@ -49,7 +49,7 @@ exports.searchByTitle = async function (req, res) {
     const books = await Book.searchByTitle(title, page, limit);
 
     if (render) {
-      return res.render('includes/gallery', { isSimple: false, books });
+      return res.render('includes/display/books_display', { isSimple: false, books });
     }
 
     return res.json(books); 

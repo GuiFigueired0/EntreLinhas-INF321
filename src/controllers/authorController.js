@@ -35,7 +35,7 @@ exports.searchByName = async function (req, res) {
 
     const authors = await Author.searchByName(name, page, limit);
     if (render) {
-      return res.render('includes/authors_display', { authors });
+      return res.render('includes/display/authors_display', { authors });
     }
 
     return res.json(authors); 

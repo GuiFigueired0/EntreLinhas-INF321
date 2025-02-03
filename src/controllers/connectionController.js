@@ -20,7 +20,7 @@ exports.findUserConnections = async function (req, res) {
 
     if (render) {
       let users = connections.map(connection => { return { user: connection.user, connection_id: connection._id }; });
-      return res.render('includes/users_display', { users, ownProfile });
+      return res.render('includes/display/users_display', { users, ownProfile });
     }
 
     res.json(connections);
@@ -43,7 +43,7 @@ exports.findFollowers = async function (req, res) {
 
     if (render) {
       let users = connections.map(connection => { return { user: connection.follower, connection_id: connection._id }; });
-      return res.render('includes/users_display', { users, ownProfile });
+      return res.render('includes/display/users_display', { users, ownProfile });
     }
 
     res.json(followers);

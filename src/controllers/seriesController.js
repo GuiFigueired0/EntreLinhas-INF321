@@ -35,7 +35,7 @@ exports.searchByName = async function (req, res) {
 
     const series = await Series.searchByName(name, page, limit);
     if (render) {
-      return res.render('includes/series_display', { series });
+      return res.render('includes/display/series_display', { series });
     }
 
     return res.json(series); 

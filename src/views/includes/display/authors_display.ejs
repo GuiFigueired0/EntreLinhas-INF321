@@ -1,0 +1,16 @@
+<div class="container">
+    <% authors.forEach(author_info => { %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 w-50">
+            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
+                <div class="w-100">
+                    <a href="/author/view/<%= author_info.author_id %>">
+                        <h3 class="m-0"><%= author_info.name %></h3>
+                    </a>
+                    <p class="card-text m-0"><strong>Number of books:</strong><%= author_info.number_of_books %></p>
+                    <p class="card-text m-0"><strong>Description:</strong><%= author_info.description %></p>
+                </div>
+                <img src="<%= author_info.image_url %>" class="rounded-circle" width="50" height="50" />
+            </div>
+        </div>
+    <% }) %>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+    <% books.forEach(book_info => { %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3 w-50">
+            <div class="d-flex align-items-center p-3 bg-light rounded shadow-sm">
+                <div class="w-100">
+                    <a href="/book/view/<%= book_info.book_id %>">
+                        <h3 class="m-0"><%= book_info.title %></h3>
+                    </a>
+                    <% if (book_info.series_id) { %>
+                        <p class="card-text m-0"><strong>Series:</strong><%= book_info.series_name %>, #<%= book_info.series_number %></p>
+                    <% } %>
+                    <% if (book_info.author_id) { %>
+                        <p class="card-text m-0"><strong>Author:</strong><%= book_info.author_name %></p>
+                    <% } %>
+                    <p class="card-text m-0"><strong>Description:</strong><%= book_info.description %></p>
+                    <p class="card-text m-0"><strong>Number of pages:</strong><%= book_info.num_pages %></p>
+                    <p class="card-text m-0"><strong>Rating:</strong><%= book_info.rating %></p>
+                </div>
+                <img src="<%= book_info.image_url %>"  style="width: 12rem; height: 15rem;"/>
+            </div>
+        </div>
+    <% }) %>
+</div>

@@ -1,0 +1,9 @@
+<div class="container">
+    <% series.forEach(series_info => { %>
+        <div class="card-body col-12 col-sm-6 col-md-4 col-lg-3 mb-3 w-50 p-3 bg-light rounded shadow-sm">
+            <a href="/series/view/<%= series_info.series_id %>"><h5 class="card-title m-0"><%= series_info.name %></h5></a>
+            <p class="card-text m-0"><strong>Number of books:</strong><%= series_info.number_of_books %></p>
+            <p class="card-text m-0"><strong>Description:</strong><%= series_info.description %></p>
+        </div>
+    <% }) %>
+</div>
