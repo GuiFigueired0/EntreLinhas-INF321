@@ -45,7 +45,7 @@ class Bookshelf {
   }
 
   static async findByOwner(owner) {
-    return await BookshelfModel.find({ owner });
+    return await BookshelfModel.find({ owner }).populate('owner');
   }
 
   static async getBooks(bookshelf_id) {

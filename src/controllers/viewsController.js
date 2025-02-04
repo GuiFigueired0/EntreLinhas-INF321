@@ -36,9 +36,13 @@ exports.index = async(req, res) => {
       const reading_history = await ReadingHistory.findBookHistory(user, book_state.book._id);
       return { book_state, reading_history, book: book_state.book };
     }));
+    const bookshelves = await Bookshelf.getBookshelvesInfo(profile.bookshelves);
+    console.log(bookshelves)
     res.render('index', { 
+      bookshelves,
       nav_icon,
       reading,
+      profile,
       feed,
       user
     });
@@ -53,7 +57,7 @@ exports.profile = async(req, res) => {
     const user = req.session.user.id;
     const nav_icon = req.session.user.user_data.image_url;
     let { id } = req.params;
-    const current_tab = req.query.current_tab || 'reviews';
+    const current_tab = req.query.current_tab || 'profile';
 
     const profile = await User.findById(id);
     if (!profile) {
@@ -187,8 +191,34 @@ exports.bookshelf = async(req, res) => {
     } 
     const books = await Bookshelf.getBooks(bookshelf);
     res.render('list', { 
-      bookshelf: info, 
-      data: undefined,
+      bookshelf: info.name, 
+      nav_icon,
+      books,
+      page, 
+      user
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when searching for the bookshelf.' });
+  }
+};
+
+exports.bookstate = async(req, res) => {
+  try {
+    const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+
+    const { bookstate, profile } = req.params;
+    const profile_data = await User.findById(profile);
+    const info = await BookState.findUserState(profile, bookstate, page, limit);
+    if (!info) {
+      res.render('404', { number: 404, message: 'BookState not found.' });
+    } 
+    const books = info.map(state => state.book);
+    res.render('list', { 
+      bookshelf: `${profile_data.username}'s ${bookstate} books`,
       nav_icon,
       books,
       page, 
@@ -215,11 +245,11 @@ exports.book = async(req, res) => {
     const user_review = await Review.findByIds(user, book._id);
     const book_state = await BookState.findBookState(user, book._id);
     res.render('book', { 
+      user_review: user_review == null ? 'undefined' : user_review, 
       book_state: book_state == null ? 'undefined' : book_state,
       series_url: `/series/view/${book.series_id}`,
       author_url: `/author/view/${book.author_id}`,
       similar_books, 
-      user_review, 
       nav_icon,
       reviews, 
       book, 

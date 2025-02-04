@@ -20,25 +20,25 @@
                 </small>
             </div>
             <div class="w-100 stats bg-light border rounded text-center mt-2">
-                <a href="#">READ</a>
+                <a href="/bookstate/view/Read/<%= profile._id %>">READ</a>
                 <h5>
                     <%= profile.read_count %>
                 </h5>
             </div>
             <div class="w-100 stats bg-light border rounded text-center mt-2">
-                <a href="#">READING</a>
+                <a href="/bookstate/view/Currently Reading/<%= profile._id %>">CURRENTLY READING</a>
                 <h5>
                     <%= profile.currently_reading_count %>
                 </h5>
             </div>
             <div class="w-100 stats bg-light border rounded text-center mt-2">
-                <a href="#">WANT TO READ</a>
+                <a href="/bookstate/view/Want to Read/<%= profile._id %>">WANT TO READ</a>
                 <h5>
                     <%= profile.want_to_read_count %>
                 </h5>
             </div>
             <div class="w-100 stats bg-light border rounded text-center mt-2">
-                <a href="#">REVIEWS</a>
+                <a href="/profile/view/<%= profile._id %>?current_tab=reviews">REVIEWS</a>
                 <h5>
                     <%= profile.reviews_count %>
                 </h5>

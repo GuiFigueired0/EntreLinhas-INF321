@@ -1,26 +1,19 @@
 <div id="sidebarNav" class="sidebar bg-white shadow">
-<nav>
-<ul>
-    <li><a href="#">Reading</a></li>
-    <li><a href="#">Read</a></li>
-    <li><a href="#">Wishlist</a></li>
-    <li>
-    <span>Recently visited</span>
-    <ul>
-    <li><a href="#">Page 1</a></li>
-    <li><a href="#">Page 2</a></li>
-    <li><a href="#">Page 3</a></li>
-    </ul>
-    </li>
-    <li>
-    <span>Recent lists</span>
-    <ul>
-    <li><a href="#">List 1</a></li>
-    <li><a href="#">List 2</a></li>
-    <li><a href="#">List 3</a></li>
-    <li><a href="#">See more...</a></li>
-    </ul>
-    </li>
-</ul>
-</nav>
+    <nav>
+        <ul>
+            <li><a href="/bookstate/view/Currently Reading/<%= profile._id %>">Reading</a></li>
+            <li><a href="/bookstate/view/Read/<%= profile._id %>">Read</a></li>
+            <li><a href="/bookstate/view/Want to Read/<%= profile._id %>">Wishlist</a></li>
+            <% if (bookshelves.length > 0) { %>
+                <li>
+                    <span>Your bookshelves</span>
+                    <ul>
+                        <% bookshelves.forEach(bookshelf => { %>
+                            <li><a href="/bookshelf/view/<%= bookshelf._id %>"><%= bookshelf.name %></a></li>
+                        <% }); %>
+                    </ul>
+                </li>
+            <% } %>
+        </ul>
+    </nav>
 </div>

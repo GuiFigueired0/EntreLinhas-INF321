@@ -17,7 +17,7 @@
     <% } if (typeof genre != 'undefined') { %>
         <h1 class="d-flex justify-content-center" ><%= genre %></h1>
     <% } if (typeof bookshelf != 'undefined') { %>
-        <h1 class="d-flex justify-content-center" ><%= bookshelf.name %></h1>
+        <h1 class="d-flex justify-content-center" ><%= bookshelf %></h1>
     <% }  %> 
     <%- include('includes/gallery', { isSimple: false, books: books }) %>
 </main>    
