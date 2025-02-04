@@ -1,0 +1,27 @@
+<div class="d-inline-flex w-auto">
+    <form id="paginationForm" action="<%= path %>" method="GET" class="form-pagination">
+        <input type="hidden" id="tab_id" name="tab" value="<%=  %>">
+        <input type="hidden" id="page_id" name="page" value="<%=  %>">
+        <input type="hidden" id="limit_id" name="limit" value="<%=  %>">
+    </form>
+    <a class="btn btn-primary" href="#"><i class='bx bx-chevron-left'></i></a>
+    <a class="btn btn-primary" href="#"><i class='bx bx-chevron-right'></i></a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+    
+            const form = event.target;
+            const formData = new FormData(form);
+            const jsonData = Object.fromEntries(formData.entries());
+            const query = new URLSearchParams(jsonData).toString();
+
+            url = form.action + "?" + query;
+            window.location.assign(url);
+        }
+    
+        document.querySelector(".form-pagination").addEventListener("submit", (event) => handleFormSubmit(event));
+    });
+  </script>    
