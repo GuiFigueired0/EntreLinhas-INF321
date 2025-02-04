@@ -6,6 +6,7 @@ const BookState = require('../models/BookStateModel');
 const User = require('../models/UserModel');
 const Activity = require('../models/ActivityModel');
 const ReadingHistory = require('../models/ReadingHistoryModel');
+const Bookshelf = require('../models/BookshelfModel');
 
 exports.db_playground = async(req, res) => {
   const user = req.session.user.id;
@@ -34,7 +35,6 @@ exports.index = async(req, res) => {
       const reading_history = await ReadingHistory.findBookHistory(user, book_state.book._id);
       return { book_state, reading_history, book: book_state.book };
     }));
-    console.log(reading)
     res.render('index', { 
       nav_icon,
       reading,
@@ -59,7 +59,6 @@ exports.profile = async(req, res) => {
     const ownProfile = id == user;
     const feed = await Activity.getUserFeed(id);
     const last_read = await BookState.findUserState(id, 'Read', 1, 10);
-    console.log(last_read)
     res.render('profile', { 
       ownProfile,
       last_read,
@@ -160,6 +159,32 @@ exports.genre = async(req, res) => {
   } catch (error) {
     console.log(error);
     res.render('404', { number: 400, message: 'Error when searching for the genre.' });
+  }
+};
+
+exports.bookshelf = async(req, res) => {
+  try {
+    const user = req.session.user.id;
+    const nav_icon = req.session.user.user_data.image_url;
+    const { bookshelf } = req.params;
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 10;
+    const info = await Bookshelf.findById(bookshelf, page, limit);
+    if (!info) {
+      res.render('404', { number: 404, message: 'Bookshelf not found.' });
+    } 
+    const books = await Bookshelf.getBooks(bookshelf);
+    res.render('list', { 
+      bookshelf: info, 
+      data: undefined,
+      nav_icon,
+      books,
+      page, 
+      user
+    });
+  } catch (error) {
+    console.log(error);
+    res.render('404', { number: 400, message: 'Error when searching for the bookshelf.' });
   }
 };
 

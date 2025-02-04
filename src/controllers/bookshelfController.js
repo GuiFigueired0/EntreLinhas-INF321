@@ -32,8 +32,7 @@ exports.searchByName = async function (req, res) {
 
     const bookshelves = await Bookshelf.searchByName(name, page, limit);
     if (render) {
-      console.log(bookshelves);
-      return res.render('includes/display/shelf_display', { bookshelves: bookshelves });
+      return res.render('includes/display/shelf_display', { bookshelves });
     }
 
     return res.json(series); 
@@ -87,12 +86,22 @@ exports.saveBookshelf = async function (req, res) {
 };
 
 exports.findByOwner = async function (req, res) {
+  const render = req.query.render === "true";
   try {
     const { owner } = req.params;
     const bookshelves = await Bookshelf.findByOwner(owner);
+
+    if (render) {
+      return res.render('includes/display/shelf_display', { bookshelves });
+    }
+
     res.json(bookshelves);
   } catch (e) {
-    res.status(400).json({ error: e.message });
+    const message = 'Error when loading bookshelves from owner.';
+    if (render) {
+      return res.render('404', { number: 400, message });
+    }
+    return res.status(400).json({ error: e, message: message });
   }
 }
 

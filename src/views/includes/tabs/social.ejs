@@ -1,69 +1,71 @@
-<div id="tabSocial" class="tab following d-none container" data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
-  <div class="row">
-      <!-- Script will add things here -->
-  </div>
+<div id="tabSocial" class="tab following d-none container"
+    data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
+    <div class="row">
+        <!-- Script will add things here -->
+    </div>
 </div>
-<div id="tabFollowers" class="tab followers d-none container" data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
-  <div class="row">
-      <!-- Script will add things here -->
-  </div> 
+<div id="tabFollowers" class="tab followers d-none container"
+    data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
+    <div class="row">
+        <!-- Script will add things here -->
+    </div>
 </div>
 
 <script>
-async function loadConnections(getFollowers) {
-  const page = 1;
-  const limit = 10;
+    async function loadConnections(getFollowers) {
+        const page = 1;
+        const limit = 10;
 
-  let url = '';
-  let query = null;
-  let resultsContainer = null;
-  let ownProfile = null;
-  
-  if(getFollowers){
-    resultsContainer = document.querySelector("#tabFollowers .row");
-    const user = document.body.dataset.user;
-    url = `/connections/followers/${user}`;
-    ownProfile = document.querySelector("#tabFollowers").dataset.ownProfile;
-  } else {
-    resultsContainer = document.querySelector("#tabSocial .row");
-    const follower = document.body.dataset.user;
-    url = `/connections/user/${follower}`;
-    ownProfile = document.querySelector("#tabSocial").dataset.ownProfile;
-  }
+        let url = '';
+        let query = null;
+        let resultsContainer = null;
+        let ownProfile = null;
 
-  query = new URLSearchParams({ page, limit, render: true, ownProfile });
+        if (getFollowers) {
+            resultsContainer = document.querySelector("#tabFollowers .row");
+            const user = document.body.dataset.user;
+            url = `/connections/followers/${user}`;
+            ownProfile = document.querySelector("#tabFollowers").dataset.ownProfile;
+        } else {
+            resultsContainer = document.querySelector("#tabSocial .row");
+            const follower = document.body.dataset.user;
+            url = `/connections/user/${follower}`;
+            ownProfile = document.querySelector("#tabSocial").dataset.ownProfile;
+        }
 
-  try {
-    const response = await fetch(`${url}?${query}`);
-    
-    if (!response.ok) {
-      console.log(response);
-      throw new Error("Error loading connections.");
+        query = new URLSearchParams({ page, limit, render: true, ownProfile });
+
+        try {
+            const response = await fetch(`${url}?${query}`);
+
+            if (!response.ok) {
+                console.log(response);
+                throw new Error("Error loading connections.");
+            }
+
+            const html = await response.text();
+            resultsContainer.innerHTML = html;
+        } catch (error) {
+            console.error(error);
+            resultsContainer.innerHTML = `<p class="text-danger">Error loading connections: ${error}.</p>`;
+        }
     }
 
-    const html = await response.text();
-    resultsContainer.innerHTML = html;
-  } catch (error) {
-    console.error(error);
-    resultsContainer.innerHTML = `<p class="text-danger">Error loading connections: ${error}.</p>`;
-  }
-}
+    document.querySelector('[target-selector=".tab.following"]').addEventListener("click", () => {
+        const tabSocial = document.getElementById("tabSocial");
 
-document.querySelector('[target-selector=".tab.following"]').addEventListener("click", () => {
-  const tabSocial = document.getElementById("tabSocial");
+        if (!tabSocial.dataset.loadedUser) {
+            tabSocial.dataset.loadedUser = true;
+            loadConnections(false);
+        }
+    });
 
-  if (!tabSocial.dataset.loadedUser) {
-    tabSocial.dataset.loadedUser = true;
-    loadConnections(false);
-  }
-});
+    document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", () => {
+        const tabFollowers = document.getElementById("tabFollowers");
 
-document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", () => {
-  const tabSocial = document.getElementById("tabFollowers");
-
-  if (!tabSocial.dataset.loadedFollowers) {
-    tabSocial.dataset.loadedFollowers = true;
-    loadConnections(true);
-  }
-});
+        if (!tabFollowers.dataset.loadedFollowers) {
+            tabFollowers.dataset.loadedFollowers = true;
+            loadConnections(true);
+        }
+    });
 </script>

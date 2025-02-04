@@ -28,6 +28,7 @@ route.get('/author/view/:id', loginRequired, viewsController.author);
 route.get('/book/view/:id', loginRequired, viewsController.book);
 route.get('/profile/view/:id', loginRequired, viewsController.profile);
 route.get('/genre/view/:genre', loginRequired, viewsController.genre);
+route.get('/bookshelf/view/:bookshelf', loginRequired, viewsController.bookshelf);
 
 // User routes
 route.get('/user/find/:id', userController.findById);

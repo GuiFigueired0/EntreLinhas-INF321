@@ -78,7 +78,7 @@
 
       if (!response.ok) {
         console.log(response);
-        throw new Error("Error loading connections.");
+        throw new Error("Error loading reviews.");
       }
 
       const html = await response.text();
@@ -87,15 +87,15 @@
       initializeDynamicContent()
     } catch (error) {
       console.error(error);
-      resultsContainer.innerHTML = `<p class="text-danger">Error loading connections: ${error}.</p>`;
+      resultsContainer.innerHTML = `<p class="text-danger">Error loading reviews: ${error}.</p>`;
     }
   }
 
   document.querySelector('[target-selector=".tab.reviews"]').addEventListener("click", () => {
-    const tabSocial = document.getElementById("tabReviews");
+    const tabReviews = document.getElementById("tabReviews");
 
-    if (!tabSocial.dataset.loadedReviews) {
-      tabSocial.dataset.loadedReviews = true;
+    if (!tabReviews.dataset.loadedReviews) {
+      tabReviews.dataset.loadedReviews = true;
       loadReviews();
     }
   });

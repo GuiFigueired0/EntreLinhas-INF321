@@ -59,7 +59,7 @@
             const form = event.target;
             const formData = new FormData(form);
             const jsonData = Object.fromEntries(formData.entries());
-    
+            
             try {
                 const response = await fetch(form.action, {
                     method: form.method,
@@ -76,7 +76,7 @@
                     return;
                 }
     
-                window.location.href = "/";
+                window.location.assign('/');
             } catch (error) {
                 console.error("Erro ao enviar formulário:", error);
             }

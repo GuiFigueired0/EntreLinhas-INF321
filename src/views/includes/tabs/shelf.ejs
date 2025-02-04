@@ -1,3 +1,44 @@
-<div id="tabShelf" class="d-none tab shelf">
-    <%- include('../display/shelf_display') %>
+<div id="tabShelf" class="d-none tab shelf container"
+    data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
+    <div class="row">
+        <!-- Script will add things here -->
+    </div>
 </div>
+
+<script>
+    async function loadBoolshelves() {
+        const page = 1;
+        const limit = 10;
+
+        let ownProfile = document.querySelector("#tabShelf").dataset.ownProfile;;
+        let resultsContainer = document.querySelector("#tabShelf .row");
+        let owner = document.body.dataset.user;
+
+        const url = `/bookshelves/owner/${owner}`;
+        let query = new URLSearchParams({ page, limit, render: true, ownProfile });
+        
+        try {
+            const response = await fetch(`${url}?${query}`);
+
+            if (!response.ok) {
+                console.log(response);
+                throw new Error("Error loading bookshelves.");
+            }
+
+            const html = await response.text();
+            resultsContainer.innerHTML = html;
+        } catch (error) {
+            console.error(error);
+            resultsContainer.innerHTML = `<p class="text-danger">Error loading bookshelves: ${error}.</p>`;
+        }
+    }
+
+    document.querySelector('[target-selector=".tab.shelf"]').addEventListener("click", () => {
+        const tabShelf = document.getElementById("tabShelf");
+
+        if (!tabShelf.dataset.loadedBookshelves) {
+            tabShelf.dataset.loadedBookshelves = true;
+            loadBoolshelves();
+        }
+    });
+</script>

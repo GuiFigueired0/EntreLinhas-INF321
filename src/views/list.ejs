@@ -3,7 +3,7 @@
 <%- include('includes/nav') %>
 <div id="content">
 <main>
-    <% if (data) { %>
+    <% if (typeof data != 'undefined') { %>
         <div class="d-flex align-items-center">
             <div>
                 <h1><%= data.name || '' %></h1>
@@ -14,10 +14,11 @@
                 <img src="<%= data.image_url %>" class="object-fit-cover img-sm">
             <% } %>
         </div>
-    <% } %>
-    <% if (typeof genre != 'undefined') { %>
+    <% } if (typeof genre != 'undefined') { %>
         <h1 class="d-flex justify-content-center" ><%= genre %></h1>
-    <% } %> 
+    <% } if (typeof bookshelf != 'undefined') { %>
+        <h1 class="d-flex justify-content-center" ><%= bookshelf.name %></h1>
+    <% }  %> 
     <%- include('includes/gallery', { isSimple: false, books: books }) %>
 </main>    
 </div>

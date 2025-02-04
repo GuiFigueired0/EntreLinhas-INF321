@@ -10,24 +10,23 @@
         <% if (reading.length > 0) { %>
             <% reading.forEach(data => { %>
                 <div class="col-12 col-sm-12 col-md-6 col-lg-4">
-                    <%- include('includes/card', { book: data.book }) %>
+                    <%- include('includes/card', { data: data }) %>
+                    <%- include('includes/modals/progress', { data: data }) %>
                 </div>
-            <% }) %>
-        <% } else { %>
-            <div class="alert alert-primary m-0" role="alert">
+                <% }) %>
+                <% } else { %>
+                    <div class="alert alert-primary m-0" role="alert">
                 It seems you are not reading any book right now
             </div>
-        <% } %>
+            <% } %>
+        </div>
     </div>
-  </div>
-  
-  <%- include('includes/feed.ejs', { feed: feed }) %>
-  <%- include('includes/modals/progress') %>
+    
+    <%- include('includes/feed.ejs', { feed: feed }) %>
 </main>
 </div>
 <script src="/assets/js/collapsable.js"></script>
 <script src="/assets/js/links.js"></script>
-<script src="/assets/js/modal.js"></script>
 <script src="/assets/js/sidebar.js"></script>
 <script src="/assets/js/stars.js"></script>
 </body>
