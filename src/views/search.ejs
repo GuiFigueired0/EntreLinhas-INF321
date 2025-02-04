@@ -1,5 +1,5 @@
 <%- include('includes/head') %>
-<body>
+<body data-search_type="<%= search_type %>">
 <%- include('includes/nav') %>
 <div id="content">
 <main>
@@ -12,32 +12,32 @@
             </form>
             <div class="d-inline-flex gap-3 justify-content-around">
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
-                    <label class="form-check-label" for="flexRadioDefault2">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="book-radio">
+                    <label class="form-check-label" for="book-radio">
                         Book
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="series-radio">
+                    <label class="form-check-label" for="series-radio">
                         Series
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="author-radio">
+                    <label class="form-check-label" for="author-radio">
                         Author
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="bookshelves-radio">
+                    <label class="form-check-label" for="bookshelves-radio">
                         Bookshelves
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="user-radio">
+                    <label class="form-check-label" for="user-radio">
                         User  
                     </label>
                 </div>
@@ -80,7 +80,10 @@
             search();
         });
         document.addEventListener("DOMContentLoaded", function () {
-            //marcar checked
+            const search_type = document.body.dataset.search_type;
+            if (search_type) {
+                document.getElementById(`${search_type}-radio`).checked = true;
+            }
             search();
         });
     </script> 
