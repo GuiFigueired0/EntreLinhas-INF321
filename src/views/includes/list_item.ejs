@@ -16,7 +16,7 @@
         <div class="<%= isSimple ? 'col-11' : 'col-10' %>">
         <div class="d-inline-flex w-100 <%= isSimple ? '' : 'h-25 border-bottom' %>  justify-content-around align-items-center pt-2">
             <div class="pt-2">
-                <h5 class="fw-bold"><%= book.title %></h5>
+                <a href="/book/view/<%= book.book_id %>"><h5 class="fw-bold"><%= book.title %></h5></a>
                 <p class="text-muted">by <%= book.author_name %></p>
             </div>
             <div class="text-end pt-1">

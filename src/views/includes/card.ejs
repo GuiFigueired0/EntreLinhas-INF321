@@ -1,10 +1,12 @@
 <div class="card flex-shrink-0 text-white" style="width: 18rem; height: 24rem;">
   <img src=<%=data.book.image_url %> class="rounded" style="width: 18rem; height: 24rem;">
   <div class="card-img-overlay d-flex flex-column justify-content-end">
-    <div class="bg-primary d-flex justify-content-center m-1 p-0 rounded">
-      <h5 class="card-title m-1">
+    <div class="bg-light bg-opacity-75 d-flex justify-content-center m-1 p-0 rounded">
+      <a href="/book/view/<%= data.book.book_id %>" class="link-dark link-underline-opacity-0">
+        <h5 class="card-title m-1">
         <%= data.book.title %>
-      </h5>
+        </h5>
+      </a>
     </div>
     <div class="d-inline-flex gap-2">
       <div class="progress flex-grow-1 align-self-center">
