@@ -41,7 +41,7 @@ exports.searchByUsername = async function (req, res) {
 
     let users = await User.searchByUsername(username, page, limit);
     if (render) {
-      users = users.map(user => { return { user }; })
+      users = users.map(user => { return { user, _id: user._id }; })
       return res.render('includes/display/users_display', { users });
     }
 

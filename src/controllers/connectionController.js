@@ -19,7 +19,7 @@ exports.findUserConnections = async function (req, res) {
     const connections = await Connection.findUserConnections(follower, parseInt(page), parseInt(limit));
 
     if (render) {
-      let users = connections.map(connection => { return { user: connection.user, connection_id: connection._id }; });
+      let users = connections.map(connection => { return { user: connection.user, _id: connection._id }; });
       return res.render('includes/display/users_display', { users, ownProfile });
     }
 
@@ -42,7 +42,7 @@ exports.findFollowers = async function (req, res) {
     const connections = await Connection.findFollowers(user, parseInt(page), parseInt(limit));
 
     if (render) {
-      let users = connections.map(connection => { return { user: connection.follower, connection_id: connection._id }; });
+      let users = connections.map(connection => { return { user: connection.follower, _id: connection._id }; });
       return res.render('includes/display/users_display', { users, ownProfile });
     }
 

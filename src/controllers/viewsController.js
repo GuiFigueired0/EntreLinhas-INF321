@@ -7,6 +7,7 @@ const User = require('../models/UserModel');
 const Activity = require('../models/ActivityModel');
 const ReadingHistory = require('../models/ReadingHistoryModel');
 const Bookshelf = require('../models/BookshelfModel');
+const Connection = require('../models/ConnectionModel');
 
 exports.db_playground = async(req, res) => {
   const user = req.session.user.id;
@@ -57,9 +58,11 @@ exports.profile = async(req, res) => {
       res.render('404', { number: 404, message: 'Profile not found.' });
     }
     const ownProfile = id == user;
+    const connection = await Connection.findConnection(user, profile._id);
     const feed = await Activity.getUserFeed(id);
     const last_read = await BookState.findUserState(id, 'Read', 1, 10);
     res.render('profile', { 
+      connection: connection.length > 0 ? connection[0] : undefined,
       ownProfile,
       last_read,
       nav_icon,

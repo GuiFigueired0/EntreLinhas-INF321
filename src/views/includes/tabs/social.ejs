@@ -51,21 +51,58 @@
         }
     }
 
-    document.querySelector('[target-selector=".tab.following"]').addEventListener("click", () => {
+    async function loadDeleteScript() {
+        document.querySelectorAll(".form-delete").forEach(form => {
+            form.addEventListener("submit", async function (event) {
+                event.preventDefault();
+                
+                const connectionId = this.querySelector("#id_connection").value;
+                const url = `/connections/delete/${connectionId}`;
+                console.log('URL:', url);
+                try {
+                    const response = await fetch(url, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    });
+
+                    if (!response.ok) {
+                        console.log(response);
+                        throw new Error("Error when trying to delete a connection.");
+                    }
+
+                    window.location.reload();
+                } catch (error) {
+                    console.error("Error in delete:", error);
+                }
+            });
+        });
+    }
+
+    document.querySelector('[target-selector=".tab.following"]').addEventListener("click", async () => {
         const tabSocial = document.getElementById("tabSocial");
 
         if (!tabSocial.dataset.loadedUser) {
             tabSocial.dataset.loadedUser = true;
-            loadConnections(false);
+            await loadConnections(false);
+            if (!tabFollowers.dataset.loadedFollowers) {
+                tabFollowers.dataset.loadedFollowers = true;
+                await loadConnections(true); 
+            }
+            await loadDeleteScript();
         }
     });
 
-    document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", () => {
+    document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", async () => {
         const tabFollowers = document.getElementById("tabFollowers");
 
         if (!tabFollowers.dataset.loadedFollowers) {
             tabFollowers.dataset.loadedFollowers = true;
-            loadConnections(true);
+            await loadConnections(true);
+            if (!tabSocial.dataset.loadedUser) {
+                tabSocial.dataset.loadedUser = true;
+                await loadConnections(false);
+            }
+            await loadDeleteScript();
         }
     });
 </script>

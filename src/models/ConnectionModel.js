@@ -43,6 +43,10 @@ class Connection {
     return await ConnectionModel.create(this.data);
   }
 
+  static async findConnection(follower, user) {
+    return await ConnectionModel.find({ follower, user });
+  }
+
   static async findUserConnections(follower, page = 1, limit = null) {
     if (limit) {
       const skip = (page - 1) * limit;
