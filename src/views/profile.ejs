@@ -1,5 +1,5 @@
 <%- include('includes/head') %>
-<body class="sb-expanded" data-user="<%= profile._id %>">
+<body class="sb-expanded" data-user="<%= profile._id %>" data-current_tab="<%= current_tab %>">
 <%- include('includes/nav') %>
 <div id="content">
 <%- include('includes/sidebars/profile') %>
@@ -13,19 +13,19 @@
             <h3 class="ms-2 me-5 mb-0 nav-id"><%= profile.username %></h3>
             <ul class="nav nav-tabs align-self-end">
                 <li class="nav-item">
-                  <a class="nav-link active sb-expanded custom" target-selector=".tab.profile">Profile</a>
+                  <a id="tab-profile" class="nav-link sb-expanded custom" target-selector=".tab.profile">Profile</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" target-selector=".tab.shelf">Bookshelves</a>
+                  <a id="tab-bookshelves" class="nav-link" target-selector=".tab.shelf">Bookshelves</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" target-selector=".tab.reviews">Reviews</a>
+                  <a id="tab-reviews" class="nav-link" target-selector=".tab.reviews">Reviews</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target-selector=".tab.following">Following</a>
+                    <a id="tab-following" class="nav-link" target-selector=".tab.following">Following</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" target-selector=".tab.followers">Followers</a>
+                    <a id="tab-followers" class="nav-link" target-selector=".tab.followers">Followers</a>
                 </li>
             </ul>
         </div>
