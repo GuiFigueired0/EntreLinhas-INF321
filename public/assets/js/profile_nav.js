@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
-
+  const current_tab = document.body.dataset.current_tab;
+  if(current_tab){
+    document.getElementById(`tab-${current_tab}`).classList.add('active');
+  }
   const navLinks = document.querySelectorAll('#profile-nav .nav-link');
   const tabDivs = document.querySelectorAll('.tab');
 
