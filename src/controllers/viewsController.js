@@ -53,6 +53,8 @@ exports.profile = async(req, res) => {
     const user = req.session.user.id;
     const nav_icon = req.session.user.user_data.image_url;
     let { id } = req.params;
+    const current_tab = req.query.current_tab || 'reviews';
+
     const profile = await User.findById(id);
     if (!profile) {
       res.render('404', { number: 404, message: 'Profile not found.' });
@@ -63,6 +65,7 @@ exports.profile = async(req, res) => {
     const last_read = await BookState.findUserState(id, 'Read', 1, 10);
     res.render('profile', { 
       connection: connection.length > 0 ? connection[0] : undefined,
+      current_tab,
       ownProfile,
       last_read,
       nav_icon,

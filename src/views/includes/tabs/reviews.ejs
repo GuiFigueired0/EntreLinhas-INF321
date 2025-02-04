@@ -90,13 +90,10 @@
       resultsContainer.innerHTML = `<p class="text-danger">Error loading reviews: ${error}.</p>`;
     }
   }
+  document.addEventListener("DOMContentLoaded", () => {
+    
+    loadReviews();
 
-  document.querySelector('[target-selector=".tab.reviews"]').addEventListener("click", () => {
-    const tabReviews = document.getElementById("tabReviews");
-
-    if (!tabReviews.dataset.loadedReviews) {
-      tabReviews.dataset.loadedReviews = true;
-      loadReviews();
-    }
   });
+
 </script>

@@ -6,7 +6,7 @@
 </div>
 
 <script>
-    async function loadBoolshelves() {
+    async function loadBookshelves() {
         const page = 1;
         const limit = 10;
 
@@ -33,12 +33,9 @@
         }
     }
 
-    document.querySelector('[target-selector=".tab.shelf"]').addEventListener("click", () => {
-        const tabShelf = document.getElementById("tabShelf");
-
-        if (!tabShelf.dataset.loadedBookshelves) {
-            tabShelf.dataset.loadedBookshelves = true;
-            loadBoolshelves();
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        loadBookshelves();
     });
+
+   
 </script>

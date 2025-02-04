@@ -21,7 +21,6 @@ body.tab-info{
   padding: 1rem;
   width: 0;  
   overflow: hidden; 
-  transition: width 0.5s ease-in-out, opacity 0.5s ease-in-out;
   opacity: 0; 
 }
 .sb-expanded .sidebar {
@@ -33,7 +32,6 @@ body.tab-info{
 }
 main{
   margin-left: 0;
-  transition: margin-left 0.5s ease-in-out;
   height: 100%;
 }
 .grey-bg{
@@ -112,7 +110,6 @@ main{
 
 #tabDiv{
   margin-left: var(--tab-info-width);
-  transition: margin-left 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
 .modalDiv {

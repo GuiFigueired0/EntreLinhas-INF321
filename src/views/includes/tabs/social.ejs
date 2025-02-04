@@ -78,31 +78,11 @@
         });
     }
 
-    document.querySelector('[target-selector=".tab.following"]').addEventListener("click", async () => {
-        const tabSocial = document.getElementById("tabSocial");
-
-        if (!tabSocial.dataset.loadedUser) {
-            tabSocial.dataset.loadedUser = true;
-            await loadConnections(false);
-            if (!tabFollowers.dataset.loadedFollowers) {
-                tabFollowers.dataset.loadedFollowers = true;
-                await loadConnections(true); 
-            }
-            await loadDeleteScript();
-        }
-    });
-
-    document.querySelector('[target-selector=".tab.followers"]').addEventListener("click", async () => {
-        const tabFollowers = document.getElementById("tabFollowers");
-
-        if (!tabFollowers.dataset.loadedFollowers) {
-            tabFollowers.dataset.loadedFollowers = true;
-            await loadConnections(true);
-            if (!tabSocial.dataset.loadedUser) {
-                tabSocial.dataset.loadedUser = true;
-                await loadConnections(false);
-            }
-            await loadDeleteScript();
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+        
+        loadConnections(false);
+    
+        loadConnections(true);
+    
     });
 </script>
