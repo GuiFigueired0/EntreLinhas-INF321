@@ -80,11 +80,17 @@ exports.search = async(req, res) => {
   try {
     const user = req.session.user.id;
     const nav_icon = req.session.user.user_data.image_url;
+
     const search_field = req.query.field || '';
+    const search_type = req.query.type || 'book';
+    const page = req.query.page || 1;
+
     res.render('search', { 
       search_field,
+      search_type,
       nav_icon,
-      user
+      page,
+      user,
     });
   } catch (error) {
     console.log('teste', error);
