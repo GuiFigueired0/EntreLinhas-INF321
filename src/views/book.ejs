@@ -7,16 +7,13 @@
         <img src=<%= book.image_url %> style="width: 18rem; height: 24rem;">
         <% if (typeof book_state != 'undefined') { %>
             <% if (book_state.state == 'Read' || book_state.state == 'Abandoned') { %>
-                <% if (typeof user_review != 'undefined') { %>
+                <div class="text-center">
                     <%- include('includes/rating_form', { review: user_review }) %>
-                    <a id="reviewModalBtn" class="btn btn-primary modalBtn" style="width: 12rem;" href="#reviewModal">Edit your review</a>
-                    <a id="reviewModalBtn" class="btn btn-danger modalBtn" style="width: 12rem;" href="#reviewModal">Delete your review</a>
-                <% } else { %>
-                    <div class="text-center">
-                        <%- include('includes/rating_form', { review: user_review }) %>
-                        <strong>Rate this book</strong>
-                    </div>
-                    <a id="reviewModalBtn" class="btn btn-primary modalBtn" href="#reviewModal">Write a review</a>
+                    <% if (typeof user_review == 'undefined') { %> <strong>Rate this book</strong> <% } %>
+                </div>
+                <a id="reviewModalBtn" class="btn btn-primary modalBtn" style="width: 12rem;" href="#reviewModal"><%= (typeof user_review == 'undefined') ? 'Write a review':'Edit your review' %></a>
+                <% if (typeof user_review != 'undefined') { %>
+                    <a id="deleteReviewBtn" class="btn btn-danger modalBtn" style="width: 12rem;" href="#">Delete your review</a>
                 <% } %>
             <% } else { %>
                 <%- include('includes/add_list', { isSmall: false }) %>
@@ -64,10 +61,9 @@
             </div>
         <% } %>
     </div>
-    <% if (false) { %>
-        <%- include('includes/modals/progress') %>
-        <%- include('includes/modals/review', { review: user_review, book: book }) %>
-    <% } %>
+    
+    <%- include('includes/modals/review', { review: user_review, book: book }) %>
+    
 </main>
 </div>
 <script src="/assets/js/collapsable.js"></script>
