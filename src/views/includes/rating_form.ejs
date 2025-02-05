@@ -1,7 +1,7 @@
-<form id="ratingForm" action="/submit-rating" method="POST">
-    <input type="hidden" id="ratingForm_User_id" value="<% user %>">
-    <input type="hidden" id="ratingForm_Book_id" value="<% book._id %>">
-    <div id="starContainer" >
+<form id="ratingForm">
+    <input type="hidden" id="ratingForm_User_id" value="<%= user %>">
+    <input type="hidden" id="ratingForm_Book_id" value="<%= book._id %>">
+    <div id="starContainer">
         <i class='d-inline bx bx-star bx-md' data-value="1"></i>
         <i class='d-inline bx bx-star bx-md' data-value="2"></i>
         <i class='d-inline bx bx-star bx-md' data-value="3"></i>
@@ -12,74 +12,69 @@
 </form>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
- 
-        const starContainer = document.getElementById('starContainer');
-        const stars = starContainer.querySelectorAll('.bx');
-        const ratingInput = document.getElementById('ratingInput');
-        const ratingForm = document.getElementById('ratingForm');
+document.addEventListener('DOMContentLoaded', () => {
+    const starContainer = document.getElementById('starContainer');
+    const stars = starContainer.querySelectorAll('.bx');
+    const ratingInput = document.getElementById('ratingInput');
+    const ratingForm = document.getElementById('ratingForm');
 
-        function highlightStars(value) {
-            stars.forEach(star => {
-                if (star.getAttribute('data-value') <= value) {
-                    star.classList.remove('bx-star');
-                    star.classList.add('bxs-star');
-                } else {
-                    star.classList.remove('bxs-star');
-                    star.classList.add('bx-star');
-                }
-            });
-        }
-        highlightStars(ratingInput.getAttribute('value'));
+    function highlightStars(value) {
         stars.forEach(star => {
-            star.addEventListener('mouseover', function () {
-                const value = this.getAttribute('data-value');
-                highlightStars(value);
-            });
-
-            star.addEventListener('mouseout', function () {
-                const value = ratingInput.getAttribute('value');
-                highlightStars(value);
-            });
-
-            star.addEventListener('click', function () {
-                const value = this.getAttribute('data-value');
-                ratingInput.value = value;
-                highlightStars(value);
-                ratingForm.submit();
-            });
+            if (star.getAttribute('data-value') <= value) {
+                star.classList.remove('bx-star');
+                star.classList.add('bxs-star');
+            } else {
+                star.classList.remove('bxs-star');
+                star.classList.add('bx-star');
+            }
         });
-        
-        starContainer.addEventListener('click', async (event) => {
-        if (event.target.classList.contains('bx')) {
-            const rating = event.target.getAttribute('data-value');
-            ratingInput.value = rating;
+    }
 
+    highlightStars(ratingInput.value);
 
-            // Automatically submit the form
+    stars.forEach(star => {
+        star.addEventListener('mouseover', function () {
+            highlightStars(this.getAttribute('data-value'));
+        });
+
+        star.addEventListener('mouseout', function () {
+            highlightStars(ratingInput.value);
+        });
+
+        star.addEventListener('click', async function () {
+            const value = this.getAttribute('data-value');
+            ratingInput.value = value;
+            highlightStars(value);
+
             const user_id = document.getElementById('ratingForm_User_id').value;
             const book_id = document.getElementById('ratingForm_Book_id').value;
 
+            const payload = {
+                user: user_id,
+                book: book_id,
+                rating: value
+            };
+
             try {
-            const response = await fetch('/submit-rating', {
-                method: 'POST',
-                headers: {
-                'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ user: user_id, book: book_id, rating }),
-            });
+                const response = await fetch('/reviews', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            if (!response.ok) {
-                const errorDetails = await response.json();
-                console.error('Error submitting rating:', errorDetails);
-                throw new Error(errorDetails.message || 'Failed to submit rating.');
-            }
+                if (!response.ok) {
+                    const errorDetails = await response.json();
+                    console.error('Erro ao salvar avaliação:', errorDetails);
+                    alert('Erro ao salvar sua avaliação. Tente novamente.');
+                    return;
+                }
 
-            messageContainer.innerHTML = '<p class="text-success">Rating submitted successfully!</p>';
+                window.location.reload();
             } catch (error) {
-            messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
+                console.error("Erro na requisição:", error);
+                alert('Erro ao conectar ao servidor.');
             }
-        }
         });
     });
+});
 </script>

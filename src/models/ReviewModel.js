@@ -14,8 +14,8 @@ const ReviewSchema = new mongoose.Schema({
     required: true 
   },
   rating: { type: Number, default: 0 },
-  title: { type: String, default: null },
-  text: { type: String, default: null },
+  title: { type: String, default: '' },
+  text: { type: String, default: '' },
   finished: { type: Boolean, default: true }, 
   last_alteration_day: { type: Number, default: null },
   last_alteration_month: { type: Number, default: null },

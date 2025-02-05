@@ -37,7 +37,6 @@ exports.index = async(req, res) => {
       return { book_state, reading_history, book: book_state.book };
     }));
     const bookshelves = await Bookshelf.getBookshelvesInfo(profile.bookshelves);
-    console.log(bookshelves)
     res.render('index', { 
       bookshelves,
       nav_icon,
@@ -67,6 +66,7 @@ exports.profile = async(req, res) => {
     const connection = await Connection.findConnection(user, profile._id);
     const feed = await Activity.getUserFeed(id);
     const last_read = await BookState.findUserState(id, 'Read', 1, 10);
+    console.log(feed )
     res.render('profile', { 
       connection: connection.length > 0 ? connection[0] : undefined,
       current_tab,

@@ -4,6 +4,12 @@ const Activity = require('../models/ActivityModel');
 exports.create = async function (req, res) {
   try {
     const review = new Review(req.body);
+    const old_review = await Review.findByIds(req.body.user, req.body.book);
+    if (old_review) {
+      const updatedReview = Review.updateById(old_review._id, req.body); 
+      return res.status(201).json(updatedReview);
+    }
+
     const createdReview = await review.create();
 
     if (createdReview) {
@@ -22,17 +28,18 @@ exports.create = async function (req, res) {
 };
 
 exports.update = async function (req, res) {
+  console.log("chegou no review")
   try {
     const { id } = req.params;
     const updatedData = req.body;
-
     const updatedReview = await Review.updateById(id, updatedData);
     if (!updatedReview) {
       return res.status(404).json({ message: 'Review not found.' });
     }
-
+    console.log(updatedData, 'review uptade')
     return res.json(updatedReview);
   } catch (e) {
+    console.log(e)
     return res.status(400).json({ error: e.message, message: 'Error updating review.' });
   }
 };
@@ -98,7 +105,7 @@ exports.delete = async function (req, res) {
 
     await Review.delete(id);
     await Activity.delete(id, 'Review');
-
+  
     res.status(200).json({ message: 'Review and activities deleted successfully' });
   } catch (error) {
     res.status(400).json({ error: error.message });

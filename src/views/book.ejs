@@ -13,7 +13,7 @@
                 </div>
                 <a id="reviewModalBtn" class="btn btn-primary modalBtn" style="width: 12rem;" href="#reviewModal"><%= (typeof user_review == 'undefined') ? 'Write a review':'Edit your review' %></a>
                 <% if (typeof user_review != 'undefined') { %>
-                    <a id="deleteReviewBtn" class="btn btn-danger modalBtn" style="width: 12rem;" href="#">Delete your review</a>
+                    <button id="deleteReviewBtn" class="btn btn-danger" style="width: 12rem;">Delete your review</button>
                 <% } %>
             <% } else { %>
                 <%- include('includes/add_list', { isSmall: false }) %>
@@ -66,6 +66,28 @@
     
 </main>
 </div>
+<script>
+    document.getElementById('deleteReviewBtn').addEventListener('click', async () => {
+        try {
+            const response = await fetch("/reviews/delete/<%= user_review._id %>", {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error('Error creating review:', errorDetails);
+                throw new Error(errorDetails.message || 'Failed to create review.');
+            }
+
+            window.location.reload();
+        } catch (error) {
+            console.log(error);
+        }
+    });
+</script>
 <script src="/assets/js/collapsable.js"></script>
 <script src="/assets/js/links.js"></script>
 <script src="/assets/js/modal.js"></script>

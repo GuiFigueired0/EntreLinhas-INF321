@@ -1,53 +1,56 @@
-  <!-- Modal -->
-  <div id="reviewModal" class="modalDiv">
+<!-- Modal -->
+<div id="reviewModal" class="modalDiv">
 
     <!-- Modal content -->
     <div class="modalContent rounded w-50 p-4">
-      <form id="createReviewForm">
-        <input type="hidden" id="createReview_User_id" value="<%= user %>">
-        <input type="hidden" id="createReview_Book_id" value="<%= book._id %>">
-        <div class="mb-3">
-          <label for="createReview_Title" class="form-label">Title for the review:</label>
-          <input type="text" class="form-control" id="createReview_Title" placeholder="(optional)" aria-describedby="bookTitleHelp" value="<%= typeof review == 'undefined' ? '' : review.title %>">
-        </div>
-        <div class="mb-3">
-          <label for="createReview_Text" class="form-label"><strong>Write your opinion on the book:</strong></label>
-          <textarea class="form-control" id="createReview_Text" rows="7" required><%= typeof review == 'undefined' ? '' : review.text %></textarea>
-        </div>
-        <button type="button" id="createReviewBtn" class="btn btn-primary">Submit Review</button>
-      </form>
-      <div id="createReviewMessage"></div>
+        <form id="createReviewForm">
+            <input type="hidden" id="createReview_User_id" value="<%= user %>">
+            <input type="hidden" id="createReview_Book_id" value="<%= book._id %>">
+            <div class="mb-3">
+                <label for="createReview_Title" class="form-label">Title for the review:</label>
+                <input type="text" class="form-control" id="createReview_Title" placeholder="(optional)"
+                    aria-describedby="bookTitleHelp" value="<%= typeof review == 'undefined' ? '' : review.title %>">
+            </div>
+            <div class="mb-3">
+                <label for="createReview_Text" class="form-label"><strong>Write your opinion on the
+                        book:</strong></label>
+                <textarea class="form-control" id="createReview_Text" rows="7"
+                    required><%= typeof review == 'undefined' ? '' : review.text %></textarea>
+            </div>
+            <button type="button" id="createReviewBtn" class="btn btn-primary">Submit Review</button>
+        </form>
+        <div id="createReviewMessage"></div>
     </div>
-  
-  </div>
 
-  <script>
+</div>
+
+<script>
     document.getElementById('createReviewBtn').addEventListener('click', async () => {
-      const user_id = document.getElementById('createReview_User_id').value;
-      const book_id = document.getElementById('createReview_Book_id').value;
-      const rating = 0;
-      const title = document.getElementById('createReview_Title').value;
-      const text = document.getElementById('createReview_Text').value;
-      const messageContainer = document.getElementById('createReviewMessage');
-  
-      try {
-        const response = await fetch('/reviews', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ user: user_id, book: book_id, rating, title, text }),
-        });
-  
-        if (!response.ok) {
-          const errorDetails = await response.json();
-          console.error('Error creating review:', errorDetails);
-          throw new Error(errorDetails.message || 'Failed to create review.');
+        const user_id = document.getElementById('createReview_User_id').value;
+        const book_id = document.getElementById('createReview_Book_id').value;
+        const title = document.getElementById('createReview_Title').value;
+        const text = document.getElementById('createReview_Text').value;
+        const rating = document.getElementById('ratingInput').value;
+        const messageContainer = document.getElementById('createReviewMessage');
+
+        try {
+            const response = await fetch('/reviews', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ user: user_id, book: book_id, title, text }),
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error('Error creating review:', errorDetails);
+                throw new Error(errorDetails.message || 'Failed to create review.');
+            }
+
+            window.location.reload();
+        } catch (error) {
+            messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
         }
-  
-        messageContainer.innerHTML = '<p class="text-success">Review created successfully!</p>';
-      } catch (error) {
-        messageContainer.innerHTML = `<p class="text-danger">${error.message}</p>`;
-      }
     });
-  </script>
+</script>

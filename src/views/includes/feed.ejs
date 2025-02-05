@@ -2,6 +2,7 @@
 <div class="container-fluid p-0">
     <% if (feed.length > 0) { %>
     <% feed.forEach(activity => { %>
+        <% if (!activity.data) {  } else %>
         <% if (activity.activity.type == 'Review') { %>
             <% if (activity.data.text) { %>
                 <div class="card shadow-sm activity review mt-3">
