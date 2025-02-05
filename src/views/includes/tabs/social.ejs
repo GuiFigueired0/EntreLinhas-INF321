@@ -78,11 +78,11 @@
         });
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
         
-        loadConnections(false);
-    
-        loadConnections(true);
+        await loadConnections(false);
+        await loadConnections(true);
+        await loadDeleteScript();
     
     });
 </script>

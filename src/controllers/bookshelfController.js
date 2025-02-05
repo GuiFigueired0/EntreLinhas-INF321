@@ -87,12 +87,13 @@ exports.saveBookshelf = async function (req, res) {
 
 exports.findByOwner = async function (req, res) {
   const render = req.query.render === "true";
+  const ownProfile = req.query.ownProfile === "true";
   try {
     const { owner } = req.params;
     const bookshelves = await Bookshelf.findByOwner(owner);
 
     if (render) {
-      return res.render('includes/display/shelf_display', { bookshelves });
+      return res.render('includes/display/shelf_display', { bookshelves, ownProfile });
     }
 
     res.json(bookshelves);

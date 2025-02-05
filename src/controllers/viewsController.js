@@ -66,7 +66,6 @@ exports.profile = async(req, res) => {
     const connection = await Connection.findConnection(user, profile._id);
     const feed = await Activity.getUserFeed(id);
     const last_read = await BookState.findUserState(id, 'Read', 1, 10);
-    console.log(feed )
     res.render('profile', { 
       connection: connection.length > 0 ? connection[0] : undefined,
       current_tab,

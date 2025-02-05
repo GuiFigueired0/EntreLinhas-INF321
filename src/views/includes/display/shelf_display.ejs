@@ -5,6 +5,12 @@
             <a href="/bookshelf/view/<%= shelf._id %>"><h5 class="card-title m-0"><%= shelf.name %></h5></a>
             <p class="card-text m-0"><strong>Number of books:</strong> <%= shelf.length %></p>
             <p class="card-text m-0"><strong>Owner:</strong> <%= shelf.owner.username %></p>
+            <% if (typeof ownProfile=='undefined' ? false : ownProfile) { %>
+                <form class="form-delete-shelf">
+                    <input type="hidden" id="id_shelf" name="id" value="<%= shelf._id %>">
+                    <button class="btn btn-danger" type="submit" id="deleteBtn"><i class='bx bx-trash'></i></button>
+                </form> 
+            <% } %>
         </div>
     <% }) %>
 </div>
