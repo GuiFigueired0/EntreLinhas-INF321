@@ -243,12 +243,15 @@ exports.book = async(req, res) => {
     const reviews = await Review.findBookReviews(book._id, 1, 5);
     const user_review = await Review.findByIds(user, book._id);
     const book_state = await BookState.findBookState(user, book._id);
+    const profile = await User.findById(user);
+    const bookshelves = await Bookshelf.getBookshelvesInfo(profile.bookshelves);
     res.render('book', { 
       user_review: user_review == null ? 'undefined' : user_review, 
       book_state: book_state == null ? 'undefined' : book_state,
       series_url: `/series/view/${book.series_id}`,
       author_url: `/author/view/${book.author_id}`,
       similar_books, 
+      bookshelves,
       nav_icon,
       reviews, 
       book, 

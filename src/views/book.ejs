@@ -15,10 +15,9 @@
                 <% if (typeof user_review != 'undefined') { %>
                     <button id="deleteReviewBtn" class="btn btn-danger" style="width: 12rem;">Delete your review</button>
                 <% } %>
-            <% } else { %>
-                <%- include('includes/add_list', { isSmall: false }) %>
             <% } %>
         <% } %>
+        <%- include('includes/add_list', { isSmall: false }) %>
     </div>
     <div id="book-info" class="px-5 py-4">
         <% if (book.series_id) { %>

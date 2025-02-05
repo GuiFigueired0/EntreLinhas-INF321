@@ -1,35 +1,95 @@
 <div class="w-25 btn-group text-light">
+    <div class="btn-group">
+        <button class="btn btn-sm btn-success dropdown-toggle" type="button" id="dropdownAdd" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            <i class='bx bx-folder-plus'></i>
+        </button>
 
-    <button class="btn btn-sm btn-success" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class='bx bx-folder-plus' ></i>
-    </button>
-    <button class="btn btn-sm btn-danger" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class='bx bx-trash'></i>
-    </button>
-    
-    <ul class="dropdown-menu dropdown-menu-end p-1">
-        <div class="border-bottom">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Book
-                </label>
+        <ul class="dropdown-menu p-2" aria-labelledby="dropdownAdd">
+            <div class="border-bottom mb-2">
+                <p class="fw-bold mb-1">Reading Status</p>
+                <% ['Read', 'Currently Reading' , 'Want to Read' ].forEach(state=> { %>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="bookState" id="state-<%= state %>" <% if
+                            (book_state && book_state.state===state) { %> checked <% } %>
+                            onchange="markBookState('<%= book._id %>', '<%= state %>')">
+                                    <label class="form-check-label" for="state-<%= state %>">
+                                        <%= state %>
+                                    </label>
+                    </div>
+                    <% }) %>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                Series
-                </label>
+            <div>
+                <p class="fw-bold mb-1">Bookshelves</p>
+                <% bookshelves.forEach(shelf=> { %>
+                    <a href="#" class="d-block text-decoration-none py-1"
+                        onclick="toggleBookInShelf('<%= shelf._id %>', '<%= book.book_id %>')">
+                        <%= shelf.name %>
+                    </a>
+                    <% }) %>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                <label class="form-check-label" for="flexRadioDefault1">
-                Author
-                </label>
-            </div>
-        </div>
-        <div>
-            <a href="#">List 1</a>
-        </div>
-    </ul>
+        </ul>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-sm btn-danger dropdown-toggle" type="button" id="dropdownRemove"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <i class='bx bx-trash'></i>
+        </button>
+
+        <ul class="dropdown-menu p-2" id="dropdownRemove">
+            <% if (book_state) { %>
+                <button class="btn btn-sm btn-outline-danger w-100 mb-2"
+                    onclick="deleteBookState('<%= book_state._id %>')">
+                    Remove Reading State
+                </button>
+                <% } %>
+                    <p class="fw-bold mb-1">Remove from Bookshelf:</p>
+                    <% bookshelves.forEach(shelf=> { %>
+                        <a href="#" class="d-block text-decoration-none py-1"
+                            onclick="removeBookFromShelf('<%= shelf._id %>', '<%= book.book_id %>')">
+                            <%= shelf.name %>
+                        </a>
+                        <% }) %>
+        </ul>
+    </div>
 </div>
+
+<script>
+    function toggleBookInShelf(bookshelfId, bookId) {
+        fetch('/bookshelves/add-book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookshelf_id: bookshelfId, book_id: bookId })
+        }).then(response => response.json())
+            .then(data => { window.location.assign(`/bookshelf/view/${bookshelfId}`); })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function removeBookFromShelf(bookshelfId, bookId) {
+        fetch('/bookshelves/remove-book', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bookshelf_id: bookshelfId, book_id: bookId })
+        }).then(response => response.json())
+            .then(data => { window.location.assign(`/bookshelf/view/${bookshelfId}`); })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function markBookState(bookId, state) {
+        fetch('/book-states/mark', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user: '<%= user %>', book: bookId, state: state })
+        }).then(response => response.json())
+            .then(data => { window.location.assign(`/bookstate/view/${state}/<%= user %>`); })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function deleteBookState(bookStateId) {
+        fetch(`/book-states/delete/${bookStateId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => { window.location.reload(); })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
