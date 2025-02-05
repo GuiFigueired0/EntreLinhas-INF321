@@ -1,11 +1,48 @@
 <div id="tabShelf" class="d-none tab shelf container"
     data-own-profile="<%= typeof ownProfile == undefined ? false : ownProfile %>">
+
+    <div class="mb-3">
+        <form id="createBookshelfForm" class="d-flex gap-2">
+            <input type="text" id="bookshelfName" class="form-control" placeholder="Enter bookshelf name" required>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+
     <div class="row">
         <!-- Script will add things here -->
     </div>
 </div>
 
 <script>
+    async function createBookshelf(event) {
+        event.preventDefault();
+
+        const bookshelfName = document.getElementById('bookshelfName').value.trim();
+        if (!bookshelfName) return;
+
+        const owner = "<%= user %>";
+
+        try {
+            const response = await fetch('/bookshelves', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: bookshelfName, owner })
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.json();
+                console.error("Error creating bookshelf:", errorDetails);
+                alert("Failed to create bookshelf: " + (errorDetails.error || "Unknown error"));
+                return;
+            }
+
+            window.location.reload();
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error creating bookshelf.");
+        }
+    }
+
     async function loadBookshelves() {
         const page = 1;
         const limit = 10;
@@ -61,6 +98,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", async () => {
+        document.getElementById("createBookshelfForm").addEventListener("submit", createBookshelf);
+
         await loadBookshelves();
         await loadDeleteShelfScript();
     });
